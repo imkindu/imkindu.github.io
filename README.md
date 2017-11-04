@@ -1,0 +1,2 @@
+# imkindu.github.io
+hexo
