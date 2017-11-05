@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="tomcat,java," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Tomcat是Apache 软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun 和其他一些公司及个人共同开发而成。由于有了Sun 的参与和支持，最新的Servlet 和JSP 规范总是能在Tomcat 中得到体现，Tomcat 5支持最新的Servlet 2.4 和JSP 2.0 规范。因为Tomcat 技术先进、性">
+<meta name="keywords" content="tomcat,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tomcat">
+<meta property="og:url" content="http://yoursite.com/2017/11/04/java/tomcat/index.html">
+<meta property="og:site_name" content="阿杜-开发博客">
+<meta property="og:description" content="Tomcat是Apache 软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun 和其他一些公司及个人共同开发而成。由于有了Sun 的参与和支持，最新的Servlet 和JSP 规范总是能在Tomcat 中得到体现，Tomcat 5支持最新的Servlet 2.4 和JSP 2.0 规范。因为Tomcat 技术先进、性">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/java/02.jpg">
+<meta property="og:image" content="http://yoursite.com/images/java/21.png">
+<meta property="og:image" content="http://yoursite.com/images/java/08.png">
+<meta property="og:image" content="http://yoursite.com/images/java/20.png">
+<meta property="og:image" content="http://yoursite.com/images/java/22.png">
+<meta property="og:image" content="http://yoursite.com/images/java/bangzhu.png">
+<meta property="og:image" content="http://yoursite.com/images/java/25.png">
+<meta property="og:image" content="http://yoursite.com/images/java/26.png">
+<meta property="og:updated_time" content="2017-11-05T02:54:45.206Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tomcat">
+<meta name="twitter:description" content="Tomcat是Apache 软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun 和其他一些公司及个人共同开发而成。由于有了Sun 的参与和支持，最新的Servlet 和JSP 规范总是能在Tomcat 中得到体现，Tomcat 5支持最新的Servlet 2.4 和JSP 2.0 规范。因为Tomcat 技术先进、性">
+<meta name="twitter:image" content="http://yoursite.com/images/java/02.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/04/java/tomcat/"/>
+
+
+
+
+
+  <title>tomcat | 阿杜-开发博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">阿杜-开发博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-tags" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/04/java/tomcat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="imkindu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿杜-开发博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">tomcat</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-04T09:00:00+08:00">
+                2017-11-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　Tomcat是Apache 软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun 和其他一些公司及个人共同开发而成。由于有了Sun 的参与和支持，最新的Servlet 和JSP 规范总是能在Tomcat 中得到体现，Tomcat 5支持最新的Servlet 2.4 和JSP 2.0 规范。因为Tomcat 技术先进、性能稳定，而且免费，因而深受Java 爱好者的喜爱并得到了部分软件开发商的认可，成为目前比较流行的Web 应用服务器。</p>
+<a id="more"></a>
+<h2 id="java简介"><a href="#java简介" class="headerlink" title="java简介"></a>java简介</h2><p>　　Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向对象编程语言的代表，极好地实现了面向对象理论，允许程序员以优雅的思维方式进行复杂的编程。</p>
+<p>　　java 现在主要分为三大分支:<code>J2SE</code>、<code>J2EE</code>、<code>J2ME</code>，Java可以编写桌面应用程序、Web应用程序、分布式系统和嵌入式系统应用程序等。从java概念图可以看出，java是一个较为庞大的体系，包含了JDK 和 JVM等等。</p>
+<div align="center"><br><img src="/images/java/02.jpg" alt=""><br></div>
+
+
+<h2 id="servlet"><a href="#servlet" class="headerlink" title="servlet"></a>servlet</h2><p>　　Servlet（Server Applet）是Java Servlet的简称, 是运行在 Web 服务器或应用服务器上的程序，它是作为来自 Web 浏览器或其他 HTTP 客户端的请求和 HTTP 服务器上的数据库或应用程序之间的中间层。</p>
+<h3 id="servlet架构"><a href="#servlet架构" class="headerlink" title="servlet架构"></a>servlet架构</h3><p>　　下图显示servlet在web应用程序中的位置</p>
+<div align="center"><br><img src="/images/java/21.png" alt=""><br></div>
+
+
+<h3 id="Servlet-任务"><a href="#Servlet-任务" class="headerlink" title="Servlet 任务"></a>Servlet 任务</h3><p>　　Servlet 执行以下主要任务：</p>
+<ul>
+<li>读取客户端（浏览器）发送的显式的数据。这包括网页上的 HTML 表单，或者也可以是来自 applet 或自定义的 HTTP 客户端程序的表单。</li>
+<li>读取客户端（浏览器）发送的隐式的 HTTP 请求数据。这包括 cookies、媒体类型和浏览器能理解的压缩格式等等。</li>
+<li>处理数据并生成结果。这个过程可能需要访问数据库，执行 RMI 或 CORBA 调用，调用 Web 服务，或者直接计算得出对应的响应。</li>
+<li>发送显式的数据（即文档）到客户端（浏览器）。该文档的格式可以是多种多样的，包括文本文件（HTML 或 XML）、二进制文件（GIF 图像）、Excel 等。</li>
+<li>发送隐式的 HTTP 响应到客户端（浏览器）。这包括告诉浏览器或其他客户端被返回的文档类型（例如 HTML），设置 cookies 和缓存参数，以及其他类似的任务。</li>
+</ul>
+<div align="center"><br><img src="/images/java/08.png" alt=""><br></div>
+
+<h2 id="tomcat"><a href="#tomcat" class="headerlink" title="tomcat"></a>tomcat</h2><p>　　Tomcat是由Apache软件基金会下属的Jakarta项目开发的一个Servlet容器，按照Sun Microsystems提供的技术规范，实现了对Servlet和JavaServer Page（JSP）的支持，并提供了作为Web服务器的一些特有功能，如Tomcat管理和控制平台、安全域管理和Tomcat阀等。由于Tomcat本身也内含了一个HTTP服务器，它也可以被视作一个单独的Web服务器。但是，不能将 Tomcat 和 Apache Web 服务器混淆，Apache Web Server 是一个用 C 语言实现的 HTTP web server；这两个 HTTP web server 不是捆绑在一起的。Apache Tomcat 包含了一个配置管理工具，也可以通过编辑 XML 格式的配置文件来进行配置。Apache，nginx，tomcat并称为网页服务三剑客，可见其应用度之广泛。</p>
+<h3 id="tomcat架构体系"><a href="#tomcat架构体系" class="headerlink" title="tomcat架构体系"></a>tomcat架构体系</h3><p>　　tomcat架构体系</p>
+<div align="center"><br><img src="/images/java/20.png" alt=""><br></div>
+
+
+<p>　　Container的体系结构</p>
+<div align="center"><br><img src="/images/java/22.png" alt=""><br></div>
+
+<h3 id="tomcat核心组件"><a href="#tomcat核心组件" class="headerlink" title="tomcat核心组件"></a>tomcat核心组件</h3><p>tomcat was released with <code>Catalina</code>(a servlet container), <code>`Coyote</code>(an HTTP connector) and <code>Jasper</code>(a JSP engine)</p>
+<blockquote>
+<p><code>Catalina</code> ： servlet container 容器<br><code>Coyote</code> : http connection 连接器<br><code>Jasper</code> : JSP engine JSP的翻译器，将jsp文件翻译为java文件</p>
+</blockquote>
+<h3 id="tomcat组件"><a href="#tomcat组件" class="headerlink" title="tomcat组件"></a>tomcat组件</h3><p><strong>组件分类</strong></p>
+<p>每个组件都由“类”来实现，有些组件的实现还不止一种</p>
+<blockquote>
+<p>顶级类组件    ：    位于配置层次的顶级，并且彼此间有着严格的对应关系    server、 service<br>连接器组件    ：    连接客户端（可以是浏览器或Web服务器）请求至Servlet容器    connector<br>容器类组件    ：    包含一组其它组件，即可以部署webapp的组件 engine、host、context<br>被嵌套类组件    ：    nested 位于一个容器当中，但不能包含其它组件 valve、logger、realm</p>
+</blockquote>
+<h2 id="组件说明"><a href="#组件说明" class="headerlink" title="组件说明"></a>组件说明</h2><h3 id="顶级类组件"><a href="#顶级类组件" class="headerlink" title="顶级类组件"></a>顶级类组件</h3><p>1、服务器(server)：Tomcat的一个实例，通常一个JVM只能包含一个Tomcat实例；因此，一台物理服务器上可以在启动多个JVM的情况下在每一个JVM中启动一个Tomcat实例，每个实例分属于一个独立的管理端口。这是一个顶级组件。</p>
+<p>2、服务(service)：一个服务组件通常包含一个引擎和与此引擎相关联的一个或多个连接器。给服务命名可以方便管理员在日志文件中识别不同服务产生的日志。一个server可以包含多个service组件，但通常情下只为一个service指派一个server。</p>
+<h3 id="连接器类组件"><a href="#连接器类组件" class="headerlink" title="连接器类组件"></a>连接器类组件</h3><p>3、连接器(connectors)：负责连接客户端（可以是浏览器或Web服务器）请求至Servlet容器内的Web应用程序，通常指的是接收客户发来请求的位置及服务器端分配的端口。默认端口通常是HTTP协议的8080，管理员也可以根据自己的需要改变此端口。一个引擎可以配置多个连接器，但这些连接器必须使用不同的端口。默认的连接器是基于HTTP/1.1的Coyote。同时，Tomcat也支持AJP、JServ和JK2连接器。</p>
+<h3 id="容器类组件"><a href="#容器类组件" class="headerlink" title="容器类组件"></a>容器类组件</h3><p>4、引擎(Engine)：引擎通是指处理请求的Servlet引擎组件，即Catalina Servlet引擎，它检查每一个请求的HTTP首部信息以辨别此请求应该发往哪个host或context，并将请求处理后的结果返回的相应的客户端。严格意义上来说，容器不必非得通过引擎来实现，它也可以是只是一个容器。如果Tomcat被配置成为独立服务器，默认引擎就是已经定义好的引擎。而如果Tomcat被配置为Apache Web服务器的提供Servlet功能的后端，默认引擎将被忽略，因为Web服务器自身就能确定将用户请求发往何处。一个引擎可以包含多个host组件。</p>
+<p>5、主机(Host)：主机组件类似于Apache中的虚拟主机，但在Tomcat中只支持基于FQDN的“虚拟主机”。一个引擎至少要包含一个主机组件。</p>
+<p>6、上下文(Context)：Context组件是最内层次的组件，它表示Web应用程序本身。配置一个Context最主要的是指定Web应用程序的根目录，以便Servlet容器能够将用户请求发往正确的位置。Context组件也可包含自定义的错误页，以实现在用户访问发生错误时提供友好的提示信息。</p>
+<h3 id="被嵌套类组件"><a href="#被嵌套类组件" class="headerlink" title="被嵌套类组件"></a>被嵌套类组件</h3><p>这类组件通常包含于容器类组件中以提供具有管理功能的服务，它们不能包含其它组件，但有些却可以由不同层次的容器各自配置。</p>
+<p>7、阀门(Valve)：用来拦截请求并在将其转至目标之前进行某种处理操作，类似于Servlet规范中定义的过滤器。Valve可以定义在任何容器类的组件中。Valve常被用来记录客户端请求、客户端IP地址和服务器等信息，这种处理技术通常被称作请求转储(request dumping)。请求转储valve记录请求客户端请求数据包中的HTTP首部信息和cookie信息文件中，响应转储valve则记录响应数据包首部信息和cookie信息至文件中。</p>
+<p>8、日志记录器(Logger)：用于记录组件内部的状态信息，可被用于除Context之外的任何容器中。日志记录的功能可被继承，因此，一个引擎级别的Logger将会记录引擎内部所有组件相关的信息，除非某内部组件定义了自己的Logger组件。</p>
+<p>9、领域(Realm)：用于用户的认证和授权；在配置一个应用程序时，管理员可以为每个资源或资源组定义角色及权限，而这些访问控制功能的生效需要通过Realm来实现。Realm的认证可以基于文本文件、数据库表、LDAP服务等来实现。Realm的效用会遍及整个引擎或顶级容器，因此，一个容器内的所有应用程序将共享用户资源。同时，Realm可以被其所在组件的子组件继承，也可以被子组件中定义的Realm所覆盖。</p>
+<h2 id="连接器协议"><a href="#连接器协议" class="headerlink" title="连接器协议"></a>连接器协议</h2><p>Tomcat的Web服务器连接器支持两种协议：<code>AJP</code>和<code>HTTP</code>，它们均定义了以二进制格式在Web服务器和Tomcat之间进行数据传输，并提供相应的控制命令。</p>
+<blockquote>
+<p>AJP(Apache JServ Protocol)协议</p>
+</blockquote>
+<p>目前正在使用的AJP协议的版本是通过JK和JK2连接器提供支持的AJP13，它基于二进制的格式在Web服务器和Tomcat之间传输数据，而此前的版本AJP10和AJP11则使用文本格式传输数据。</p>
+<blockquote>
+<p>HTTP(HyperText Transfer Protocol)超文本传输协议</p>
+</blockquote>
+<p>HTTP协议：诚如其名称所表示，其是使用HTTP或HTTPS协议在Web服务器和Tomcat之间建立通信，此时，Tomcat就是一个完全功能的HTTP服务器，它需要监听在某端口上以接收来自于商前服务器的请求。</p>
+<h2 id="安装jdk和tomcat"><a href="#安装jdk和tomcat" class="headerlink" title="安装jdk和tomcat"></a>安装jdk和tomcat</h2><h3 id="rpm安装jdk"><a href="#rpm安装jdk" class="headerlink" title="rpm安装jdk"></a>rpm安装jdk</h3><p>　　yum源自带的有jdk，可以通过yum安装，官网也提供了rpm包，可以通过rpm包安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[ root@centos51 tools ]# rpm -ivh jdk-7u67-linux-x64.rpm </div><div class="line">Preparing...                ########################################### [100%]</div><div class="line">   1:jdk                    ########################################### [100%]</div><div class="line">Unpacking JAR files...</div><div class="line"></div><div class="line">	rt.jar...</div><div class="line">	jsse.jar...</div><div class="line">	charsets.jar...</div><div class="line">	tools.jar...</div><div class="line">	localedata.jar...</div><div class="line">	jfxrt.jar...</div></pre></td></tr></table></figure>
+<h3 id="安装二进制版本tomcat"><a href="#安装二进制版本tomcat" class="headerlink" title="安装二进制版本tomcat"></a>安装二进制版本tomcat</h3><p>　　教室yum源提供了tomcat包，官网提供了二进制包，可以直接二进制包安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[ root@centos51 tools ]# tar -xvf apache-tomcat-8.0.23.tar.gz -C /usr/local/</div><div class="line">[ root@centos51 local ]# ln -sv apache-tomcat-8.0.23/ tomcat</div></pre></td></tr></table></figure>
+<h3 id="添加环境变量"><a href="#添加环境变量" class="headerlink" title="添加环境变量"></a>添加环境变量</h3><p>　　java环境依赖于JAVA_HOME这个变量，如果是手动安装的，需要添加路径变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">export JAVA_HOME=/usr/java/latest</div><div class="line">export PATH=$JAVA_HOME/bin:$PATH</div><div class="line">export CATALINA_HOME=/usr/local/tomcat</div><div class="line">export PATH=$CATALINA_HOME/bin:$PATH</div></pre></td></tr></table></figure>
+<h2 id="docs帮助文档"><a href="#docs帮助文档" class="headerlink" title="docs帮助文档"></a>docs帮助文档</h2><p>　　tomcat自带的有帮助文档</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@centos52 docs] yum install tomcat-docs-webapp</div><div class="line">[ root@centos51 webapps ]# ll /usr/share/tomcat/webapps/</div><div class="line">total 16</div><div class="line">drwxr-xr-x 14 root root   4096 Oct 21 20:25 docs                    # 帮助文档</div><div class="line">drwxr-xr-x  5 root tomcat 4096 Oct 21 20:17 host-manager</div><div class="line">drwxr-xr-x  5 root tomcat 4096 Oct 21 20:17 manager</div><div class="line">drwxr-xr-x  2 root root   4096 Oct 21 06:44 ROOT</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/java/bangzhu.png" alt=""><br></div>
+
+
+
+<h2 id="Tomcat的配置文件"><a href="#Tomcat的配置文件" class="headerlink" title="Tomcat的配置文件"></a>Tomcat的配置文件</h2><p>Tomcat的配置文件默认存放在$CATALINA_HOME/conf目录中，主要有以下几个：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[ root@centos51 conf ]<span class="comment"># ll</span></div><div class="line">total <span class="number">220</span></div><div class="line">drwxrwxr-x <span class="number">3</span> root   tomcat   <span class="number">4096</span> Oct <span class="number">21</span> <span class="number">06</span>:<span class="number">32</span> Catalina</div><div class="line">-rw-rw-r-- <span class="number">1</span> tomcat tomcat  <span class="number">13332</span> Dec  <span class="number">1</span>  <span class="number">2016</span> catalina.policy</div><div class="line">-rw-rw-r-- <span class="number">1</span> tomcat tomcat   <span class="number">6322</span> Dec  <span class="number">1</span>  <span class="number">2016</span> catalina.properties</div><div class="line">-rw-rw-r-- <span class="number">1</span> tomcat tomcat   <span class="number">1394</span> Dec  <span class="number">1</span>  <span class="number">2016</span> context.xml</div><div class="line">-rw-rw-r-- <span class="number">1</span> tomcat tomcat    <span class="number">547</span> Dec  <span class="number">1</span>  <span class="number">2016</span> log4j.properties</div><div class="line">-rw-rw-r-- <span class="number">1</span> tomcat tomcat   <span class="number">3288</span> Dec  <span class="number">1</span>  <span class="number">2016</span> logging.properties</div><div class="line">-rw-rw-r-- <span class="number">1</span> tomcat tomcat   <span class="number">6633</span> Oct <span class="number">21</span> <span class="number">07</span>:<span class="number">16</span> server.xml</div><div class="line">-rw-rw-r-- <span class="number">1</span> tomcat tomcat   <span class="number">1534</span> Dec  <span class="number">1</span>  <span class="number">2016</span> tomcat.conf</div><div class="line">-rw-rw---- <span class="number">1</span> tomcat tomcat   <span class="number">2425</span> Dec  <span class="number">1</span>  <span class="number">2016</span> tomcat-users.xml</div><div class="line">-rw-rw-r-- <span class="number">1</span> tomcat tomcat <span class="number">167655</span> Dec  <span class="number">1</span>  <span class="number">2016</span> web.xml</div></pre></td></tr></table></figure>
+<blockquote>
+<p><code>server.xml</code>: Tomcat的主配置文件，包含Service, Connector, Engine, Realm, Valve, Hosts主组件的相关配置信息；<br><code>web.xml</code>：遵循Servlet规范标准的配置文件，用于配置servlet，并为所有的Web应用程序提供包括MIME映射等默认配置信息；<br><code>tomcat-user.xml</code>：Realm认证时用到的相关角色、用户和密码等信息；Tomcat自带的manager默认情况下会用到此文件；在Tomcat中添加/删除用户，为用户指定角色等将通过编辑此文件实现；<br><code>catalina.policy</code>：Java相关的安全策略配置文件，在系统资源级别上提供访问控制的能力；<br><code>catalina.properties</code>：Tomcat内部package的定义及访问相关的控制，也包括对通过类装载器装载的内容的控制；Tomcat6在启动时会事先读取此文件的相关设置；<br><code>logging.properties</code>: Tomcat6通过自己内部实现的JAVA日志记录器来记录操作相关的日志，此文件即为日志记录器相关的配置信息，可以用来定义日志记录的组件级别以及日志文件的存在位置等；<br><code>context.xml</code>：所有host的默认配置信息；</p>
+</blockquote>
+<h2 id="server-xml"><a href="#server-xml" class="headerlink" title="server.xml"></a>server.xml</h2><p>　　Tomcat以面向对象的方式运行，它可以在运行时动态加载配置文件中定义的对象结构，这有点类似于apache的httpd模块的调用方式。server.xml中定义的每个主元素都会被创建为对象，并以某特定的层次结构将这些对象组织在一起。</p>
+<p>　　server.xml配置结构和tomcat架构类似，包含server、service、connector、engine、host等组件信息。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version='1.0' encoding='utf-8'?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">Server</span> <span class="attr">port</span>=<span class="string">"8005"</span> <span class="attr">shutdown</span>=<span class="string">"SHUTDOWN"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.startup.VersionLoggerListener"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.AprLifecycleListener"</span> <span class="attr">SSLEngine</span>=<span class="string">"on"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.JreMemoryLeakPreventionListener"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.ThreadLocalLeakPreventionListener"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">GlobalNamingResources</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Resource</span> <span class="attr">name</span>=<span class="string">"UserDatabase"</span> <span class="attr">auth</span>=<span class="string">"Container"</span></span></div><div class="line"><span class="tag">              <span class="attr">type</span>=<span class="string">"org.apache.catalina.UserDatabase"</span></span></div><div class="line"><span class="tag">              <span class="attr">description</span>=<span class="string">"User database that can be updated and saved"</span></span></div><div class="line"><span class="tag">              <span class="attr">factory</span>=<span class="string">"org.apache.catalina.users.MemoryUserDatabaseFactory"</span></span></div><div class="line"><span class="tag">              <span class="attr">pathname</span>=<span class="string">"conf/tomcat-users.xml"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">GlobalNamingResources</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Service</span> <span class="attr">name</span>=<span class="string">"Catalina"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></div><div class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></div><div class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8009"</span> <span class="attr">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Engine</span> <span class="attr">name</span>=<span class="string">"Catalina"</span> <span class="attr">defaultHost</span>=<span class="string">"localhost"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.LockOutRealm"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.UserDatabaseRealm"</span></span></div><div class="line"><span class="tag">               <span class="attr">resourceName</span>=<span class="string">"UserDatabase"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">Realm</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span></span></div><div class="line"><span class="tag">            <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attr">directory</span>=<span class="string">"logs"</span></span></div><div class="line"><span class="tag">               <span class="attr">prefix</span>=<span class="string">"localhost_access_log"</span> <span class="attr">suffix</span>=<span class="string">".txt"</span></span></div><div class="line"><span class="tag">               <span class="attr">pattern</span>=<span class="string">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> /&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">Engine</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">Service</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Server</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>server.xml文件中可定义的元素非常多，包括Server, Service, Connector, Engine, Cluster, Host, Alias, Context, Realm, Valve, Manager, Listener, Resources, Resource, ResourceEnvRef, ResourceLink, WatchedResource, GlobalNameingResources, Store, Transaction, Channel, Membership, Transport, Member, ClusterListener等。</p>
+<p>下面简单介绍几个常用组件：</p>
+<h3 id="Server组件"><a href="#Server组件" class="headerlink" title="Server组件"></a>Server组件</h3><p>如上面示例文件中定义的：</p>
+<server port="”8005”" shutdown="”SHUTDOWN”">
+
+<p>这会让Tomcat6启动一个server实例（即一个JVM），它监听在8005端口以接收shutdown命令。各Server的定义不能使用同一个端口，这意味着如果在同一个物理机上启动了多个Server实例，必须配置它们使用不同的端口。这个端口的定义用于为管理员提供一个关闭此实例的便捷途径，因此，管理员可以直接telnet至此端口使用SHUTDOWN命令关闭此实例。不过，基于安全角度的考虑，这通常不允许远程进行。</p>
+<p>Server的相关属性：<br><code>className</code>: 用于实现此Server容器的完全限定类的名称，默认为org.apache.catalina.core.StandardServer；<br><code>port</code>: 接收shutdown指令的端口，默认仅允许通过本机访问，默认为8005；<br><code>shutdown</code>：发往此Server用于实现关闭tomcat实例的命令字符串，默认为SHUTDOWN；</p>
+<h3 id="Service组件"><a href="#Service组件" class="headerlink" title="Service组件"></a>Service组件</h3><p>Service主要用于关联一个引擎和与此引擎相关的连接器，每个连接器通过一个特定的端口和协议接收入站请求交将其转发至关联的引擎进行处理。困此，Service要包含一个引擎、一个或多个连接器。</p>
+<p>如上面示例中的定义：</p>
+<service name="”Catalina”">
+
+<p>这定义了一个名为Catalina的Service，此名字也会在产生相关的日志信息时记录在日志文件当中。</p>
+<p>Service相关的属性：</p>
+<p><code>className</code>： 用于实现service的类名，一般都是org.apache.catalina.core.StandardService。<br><code>name</code>：此服务的名称，默认为Catalina；</p>
+<h3 id="Connector组件"><a href="#Connector组件" class="headerlink" title="Connector组件"></a>Connector组件</h3><p>进入Tomcat的请求可以根据Tomcat的工作模式分为如下两类：</p>
+<p>Tomcat作为应用程序服务器：请求来自于前端的web服务器，这可能是Apache, IIS, Nginx等；<br>Tomcat作为独立服务器：请求来自于web浏览器；</p>
+<p>Tomcat应该考虑工作情形并为相应情形下的请求分别定义好需要的连接器才能正确接收来自于客户端的请求。一个引擎可以有一个或多个连接器，以适应多种请求方式。</p>
+<p>定义连接器可以使用多种属性，有些属性也只适用于某特定的连接器类型。一般说来，常见于server.xml中的连接器类型通常有4种：</p>
+<blockquote>
+<p>1) HTTP连接器<br>2) SSL连接器<br>3) AJP 1.3连接器<br>4) proxy连接器</p>
+</blockquote>
+<p>如上面示例server.xml中定义的HTTP连接器：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></div><div class="line"><span class="tag">      <span class="attr">maxThreads</span>=<span class="string">"150"</span> <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></div><div class="line"><span class="tag">      <span class="attr">redirectPort</span>=<span class="string">"8443"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
+<p>定义连接器时可以配置的属性非常多，但通常定义HTTP连接器时必须定义的属性只有“port”，定义AJP连接器时必须定义的属性只有”protocol”，因为默认的协议为HTTP。以下为常用属性的说明：</p>
+<blockquote>
+<p>1) <code>address</code>：指定连接器监听的地址，默认为所有地址，即0.0.0.0；<br>2) <code>maxThreads</code>：支持的最大并发连接数，默认为200；<br>3) <code>port</code>：监听的端口，默认为0；<br>4) <code>protocol</code>：连接器使用的协议，默认为HTTP/1.1，定义AJP协议时通常为AJP/1.3；<br>5) <code>redirectPort</code>：如果某连接器支持的协议是HTTP，当接收客户端发来的HTTPS请求时，则转发至此属性定义的端口；<br>6) <code>connectionTimeout</code>：等待客户端发送请求的超时时间，单位为毫秒，默认为60000，即1分钟；<br>7) <code>enableLookups</code>：是否通过request.getRemoteHost()进行DNS查询以获取客户端的主机名；默认为true；<br>8) <code>acceptCount</code>：设置等待队列的最大长度；通常在tomcat所有处理线程均处于繁忙状态时，新发来的请求将被放置于等待队列中；</p>
+</blockquote>
+<p>下面是一个定义了多个属性的SSL连接器：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8443"</span></span></div><div class="line"><span class="tag">    <span class="attr">maxThreads</span>=<span class="string">"150"</span> <span class="attr">minSpareThreads</span>=<span class="string">"25"</span> <span class="attr">maxSpareThreads</span>=<span class="string">"75"</span></span></div><div class="line"><span class="tag">    <span class="attr">enableLookups</span>=<span class="string">"false"</span> <span class="attr">acceptCount</span>=<span class="string">"100"</span> <span class="attr">debug</span>=<span class="string">"0"</span> <span class="attr">scheme</span>=<span class="string">"https"</span> <span class="attr">secure</span>=<span class="string">"true"</span></span></div><div class="line"><span class="tag">    <span class="attr">clientAuth</span>=<span class="string">"false"</span> <span class="attr">sslProtocol</span>=<span class="string">"TLS"</span> /&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="Engine组件"><a href="#Engine组件" class="headerlink" title="Engine组件"></a>Engine组件</h3><p>Engine是Servlet处理器的一个实例，即servlet引擎，默认为定义在server.xml中的Catalina。Engine需要defaultHost属性来为其定义一个接收所有发往非明确定义虚拟主机的请求的host组件。如前面示例中定义的：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Engine</span> <span class="attr">name</span>=<span class="string">"Catalina"</span> <span class="attr">defaultHost</span>=<span class="string">"localhost"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>常用的属性定义：</p>
+<blockquote>
+<p><code>defaultHost</code>：Tomcat支持基于FQDN的虚拟主机，这些虚拟主机可以通过在Engine容器中定义多个不同的Host组件来实现；但如果此引擎的连接器收到一个发往非非明确定义虚拟主机的请求时则需要将此请求发往一个默认的虚拟主机进行处理，因此，在Engine中定义的多个虚拟主机的主机名称中至少要有一个跟defaultHost定义的主机名称同名；<br>name：Engine组件的名称，用于日志和错误信息记录时区别不同的引擎；</p>
+</blockquote>
+<p>Engine容器中可以包含Realm、Host、Listener和Valve子容器。</p>
+<h3 id="Host组件"><a href="#Host组件" class="headerlink" title="Host组件"></a>Host组件</h3><p>位于Engine容器中用于接收请求并进行相应处理的主机或虚拟主机，如前面示例中的定义：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span> <span class="attr">appBase</span>=<span class="string">"webapps"</span></span></div><div class="line"><span class="tag">  <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span></span></div><div class="line"><span class="tag">  <span class="attr">xmlValidation</span>=<span class="string">"false"</span> <span class="attr">xmlNamespaceAware</span>=<span class="string">"false"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>1) <code>appBase</code>：此Host的webapps目录，即存放非归档的web应用程序的目录或归档后的WAR文件的目录路径；可以使用基于$CATALINA_HOME的相对路径；<br>2) <code>autoDeploy</code>：在Tomcat处于运行状态时放置于appBase目录中的应用程序文件是否自动进行deploy；默认为true；<br>3) <code>unpackWars</code>：在启用此webapps时是否对WAR格式的归档文件先进行展开；默认为true；</p>
+</blockquote>
+<p>虚拟主机定义示例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Engine</span> <span class="attr">name</span>=<span class="string">"Catalina"</span> <span class="attr">defaultHost</span>=<span class="string">"localhost"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span> <span class="attr">appBase</span>=<span class="string">"webapps"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">""</span> <span class="attr">docBase</span>=<span class="string">"ROOT"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/bbs"</span> <span class="attr">docBase</span>=<span class="string">"/web/bss"</span></span></div><div class="line"><span class="tag">      <span class="attr">reloadable</span>=<span class="string">"true"</span> <span class="attr">crossContext</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div><div class="line">  </div><div class="line">  <span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"mail.magedu.com"</span> <span class="attr">appBase</span>=<span class="string">"/web/mail"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/"</span> <span class="attr">docBase</span>=<span class="string">"ROOT"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Engine</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>主机别名定义：<br>如果一个主机有两个或两个以上的主机名，额外的名称均可以以别名的形式进行定义，如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"www.magedu.com"</span> <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Alias</span>&gt;</span>magedu.com<span class="tag">&lt;/<span class="name">Alias</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="Context组件"><a href="#Context组件" class="headerlink" title="Context组件"></a>Context组件</h3><p>Context在某些意义上类似于apache中的路径别名，一个Context定义用于标识tomcat实例中的一个Web应用程序；如下面的定义：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- Tomcat Root Context --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">""</span> <span class="attr">docBase</span>=<span class="string">"/web/webapps"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- buzzin webapp --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/bbs"</span></span></div><div class="line"><span class="tag">  <span class="attr">docBase</span>=<span class="string">"/web/threads/bbs"</span></span></div><div class="line"><span class="tag">  <span class="attr">reloadable</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- chat server --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/chat"</span> <span class="attr">docBase</span>=<span class="string">"/web/chat"</span>/&gt;</span></div><div class="line">  </div><div class="line"><span class="comment">&lt;!-- darian web --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/darian"</span> <span class="attr">docBase</span>=<span class="string">"darian"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<p>在Tomcat6中，每一个context定义也可以使用一个单独的XML文件进行，其文件的目录为$CATALINA_HOME/conf/<engine name="">/<host name="">。可以用于Context中的XML元素有Loader，Manager，Realm，Resources和WatchedResource。</host></engine></p>
+<p>常用的属性定义有：</p>
+<blockquote>
+<p>1) <code>docBase</code>：相应的Web应用程序的存放位置；也可以使用相对路径，起始路径为此Context所属Host中appBase定义的路径；切记，docBase的路径名不能与相应的Host中appBase中定义的路径名有包含关系，比如，如果appBase为deploy，而docBase绝不能为deploy-bbs类的名字；<br>2) <code>path</code> ：相对于Web服务器根路径而言的URI；如果为空“”，则表示为此webapp的根路径；如果context定义在一个单独的xml文件中，此属性不需要定义；<br>3) <code>reloadable</code>：是否允许重新加载此context相关的Web应用程序的类；默认为false；</p>
+</blockquote>
+<h3 id="Realm组件"><a href="#Realm组件" class="headerlink" title="Realm组件"></a>Realm组件</h3><p>一个Realm表示一个安全上下文，它是一个授权访问某个给定Context的用户列表和某用户所允许切换的角色相关定义的列表。因此，Realm就像是一个用户和组相关的数据库。定义Realm时惟一必须要提供的属性是classname，它是Realm的多个不同实现，用于表示此Realm认证的用户及角色等认证信息的存放位置。</p>
+<blockquote>
+<p><code>JAASRealm</code>：基于Java Authintication and Authorization Service实现用户认证；<br><code>JDBCRealm</code>：通过JDBC访问某关系型数据库表实现用户认证；<br><code>JNDIRealm</code>：基于JNDI使用目录服务实现认证信息的获取；<br><code>MemoryRealm</code>：查找tomcat-user.xml文件实现用户信息的获取；<br><code>UserDatabaseRealm</code>：基于UserDatabase文件(通常是tomcat-user.xml)实现用户认证，它实现是一个完全可更新和持久有效的MemoryRealm，因此能够跟标准的MemoryRealm兼容；它通过JNDI实现；</p>
+</blockquote>
+<p>下面是一个常见的使用UserDatabase的配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">”org.apache.catalina.realm.UserDatabaseRealm”</span></span></div><div class="line"><span class="tag">  <span class="attr">resourceName</span>=<span class="string">”UserDatabase”/</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>下面是一个使用JDBC方式获取用户认证信息的配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.JDBCRealm"</span> <span class="attr">debug</span>=<span class="string">"99"</span></span></div><div class="line"><span class="tag">  <span class="attr">driverName</span>=<span class="string">"org.gjt.mm.mysql.Driver"</span></span></div><div class="line"><span class="tag">  <span class="attr">connectionURL</span>=<span class="string">"jdbc:mysql://localhost/authority"</span></span></div><div class="line"><span class="tag">  <span class="attr">connectionName</span>=<span class="string">"test"</span> <span class="attr">connectionPassword</span>=<span class="string">"test"</span></span></div><div class="line"><span class="tag">  <span class="attr">userTable</span>=<span class="string">"users"</span> <span class="attr">userNameCol</span>=<span class="string">"user_name"</span></span></div><div class="line"><span class="tag">  <span class="attr">userCredCol</span>=<span class="string">"user_pass"</span></span></div><div class="line"><span class="tag">  <span class="attr">userRoleTable</span>=<span class="string">"user_roles"</span> <span class="attr">roleNameCol</span>=<span class="string">"role_name"</span> /&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="Valve组件"><a href="#Valve组件" class="headerlink" title="Valve组件"></a>Valve组件</h3><p>Valve类似于过滤器，它可以工作于Engine和Host/Context之间、Host和Context之间以及Context和Web应用程序的某资源之间。一个容器内可以建立多个Valve，而且Valve定义的次序也决定了它们生效的次序。</p>
+<p>Tomcat6中实现了多种不同的Valve：</p>
+<blockquote>
+<p><code>AccessLogValve</code>：访问日志Valve<br><code>ExtendedAccessValve</code>：扩展功能的访问日志Valve<br><code>JDBCAccessLogValve</code>：通过JDBC将访问日志信息发送到数据库中；<br><code>RequestDumperValve</code>：请求转储Valve；<br><code>RemoteAddrValve</code>：基于远程地址的访问控制；<br><code>RemoteHostValve</code>：基于远程主机名称的访问控制；<br><code>SemaphoreValve</code>：用于控制Tomcat主机上任何容器上的并发访问数量；<br><code>JvmRouteBinderValve</code>：在配置多个Tomcat为以Apache通过mod_proxy或mod_jk作为前端的集群架构中，当期望停止某节点时，可以通过此Valve将用记请求定向至备用节点；使用此Valve，必须使用JvmRouteSessionIDBinderListener；<br><code>ReplicationValve</code>：专用于Tomcat集群架构中，可以在某个请求的session信息发生更改时触发session数据在各节点间进行复制；<br><code>SingleSignOn</code>：将两个或多个需要对用户进行认证webapp在认证用户时连接在一起，即一次认证即可访问所有连接在一起的webapp；<br><code>ClusterSingleSingOn</code>：对SingleSignOn的扩展，专用于Tomcat集群当中，需要结合ClusterSingleSignOnListener进行工作；</p>
+</blockquote>
+<p>RemoteHostValve和RemoteAddrValve可以分别用来实现基于主机名称和基于IP地址的访问控制，控制本身可以通过allow或deny来进行定义，这有点类似于Apache的访问控制功能；如下面的Valve则实现了仅允许本机访问/probe：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/probe"</span> <span class="attr">docBase</span>=<span class="string">"probe"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.RemoteAddrValve"</span></span></div><div class="line"><span class="tag">  <span class="attr">allow</span>=<span class="string">"127\.0\.0\.1"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>其中相关属性定义有:</p>
+<blockquote>
+<p>1) <code>className</code>：相关的java实现的类名，相应于分别应该为org.apache.catalina.valves.RemoteHostValve或org.apache.catalina.valves.RemoteAddrValve；<br>2) <code>allow</code>：以逗号分开的允许访问的IP地址列表，支持正则表达式，因此，点号“.”用于IP地址时需要转义；仅定义allow项时，非明确allow的地址均被deny；<br>3) <code>deny</code>: 以逗号分开的禁止访问的IP地址列表，支持正则表达式；使用方式同allow；</p>
+</blockquote>
+<h3 id="GlobalNamingResources"><a href="#GlobalNamingResources" class="headerlink" title="GlobalNamingResources"></a>GlobalNamingResources</h3><p>应用于整个服务器的JNDI映射，此可以避免每个Web应用程序都需要在各自的web.xml创建，这在web应用程序以WAR的形式存在时尤为有用。它通常可以包含三个子元素：</p>
+<blockquote>
+<p>1) Environment;<br>2) Resource;<br>3) ResourceEnvRef;</p>
+</blockquote>
+<h3 id="WatchedResource"><a href="#WatchedResource" class="headerlink" title="WatchedResource"></a>WatchedResource</h3><p>WatchedResource可以用于Context中监视指定的webapp程序文件的改变，并且能够在监视到文件内容发生改变时重新装载此文件。</p>
+<h3 id="Listener"><a href="#Listener" class="headerlink" title="Listener"></a>Listener</h3><p>Listener用于创建和配置LifecycleListener对象，而LifecycleListener通常被开发人员用来创建和删除容器。</p>
+<h3 id="Loader"><a href="#Loader" class="headerlink" title="Loader"></a>Loader</h3><p>Java的动态装载功能是其语言功能强大表现之一，Servlet容器使用此功能在运行时动态装载servlet和它们所依赖的类。Loader可以用于Context中控制java类的加载。</p>
+<h3 id="Manager"><a href="#Manager" class="headerlink" title="Manager"></a>Manager</h3><p>Manger对象用于实现HTTP会话管理的功能，Tomcat6中有5种Manger的实现：</p>
+<blockquote>
+<p>1) <code>StandardManager</code>Tomcat6的默认会话管理器，用于非集群环境中对单个处于运行状态的Tomcat实例会话进行管理。当Tomcat关闭时，这些会话相关的数据会被写入磁盘上的一个名叫SESSION.ser的文件，并在Tomcat下次启动时读取此文件。<br>2) <code>PersistentManager</code> 当一个会话长时间处于空闲状态时会被写入到swap会话对象，这对于内存资源比较吃紧的应用环境来说比较有用。<br>3) <code>DeltaManager</code>用于Tomcat集群的会话管理器，它通过将改变了会话数据同步给集群中的其它节点实现会话复制。这种实现会将所有会话的改变同步给集群中的每一个节点，也是在集群环境中用得最多的一种实现方式。<br>4) <code>`BackupManager</code>用于Tomcat集群的会话管理器，与DeltaManager不同的是，某节点会话的改变只会同步给集群中的另一个而非所有节点。<br>5) <code>SimpleTcpReplicationManager</code> Tomcat4时用到的版本，过于老旧了。</p>
+</blockquote>
+<h3 id="Stores"><a href="#Stores" class="headerlink" title="Stores"></a>Stores</h3><p>PersistentManager必须包含一个Store元素以指定将会话数据存储至何处。这通常有两种实现方式：FileStore和JDBCStore。</p>
+<h3 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h3><p>经常用于实现在Context中指定需要装载的但不在Tomcat本地磁盘上的应用资源，如Java类，HTML页面，JSP文件等。</p>
+<h3 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h3><p>专用于配置Tomcat集群的元素，可用于Engine和Host容器中。在用于Engine容器中时，Engine中的所有Host均支持集群功能。在Cluster元素中，需要直接定义一个Manager元素，这个Manager元素有一个其值为org.apache.catalina.ha.session.DeltaManager或org.apache.catalina.ha.session.BackupManager的className属性。同时，Cluster中还需要分别定义一个Channel和ClusterListener元素。</p>
+<p><strong>15.1、Channel</strong><br>用于Cluster中给集群中同一组中的节点定义通信“信道”。Channel中需要至少定义Membership、Receiver和Sender三个元素，此外还有一个可选元素Interceptor。</p>
+<p><strong>15.2、Membership</strong><br>用于Channel中配置同一通信信道上节点集群组中的成员情况，即监控加入当前集群组中的节点并在各节点间传递心跳信息，而且可以在接收不到某成员的心跳信息时将其从集群节点中移除。Tomcat6中Membership的实现是org.apache.catalina.tribes.membership.McastService。</p>
+<p><strong>15.3、Sender</strong><br>用于Channel中配置“复制信息”的发送器，实现发送需要同步给其它节点的数据至集群中的其它节点。发送器不需要属性的定义，但可以在其内部定义一个Transport元素。</p>
+<p><strong>15.4 Transport</strong><br>用于Sender内部，配置数据如何发送至集群中的其它节点。Tomcat6有两种Transport的实现：</p>
+<blockquote>
+<p>1) <code>PooledMultiSender</code>基于Java阻塞式IO，可以将一次将多个信息并发发送至其它节点，但一次只能传送给一个节点。<br>2)<code>PooledParallelSener</code>基于Java非阻塞式IO，即NIO，可以一次发送多个信息至一个或多个节点。</p>
+</blockquote>
+<p><strong>15.5 Receiver</strong></p>
+<p>用于Channel定义某节点如何从其它节点的Sender接收复制数据，Tomcat6中实现的接收方式有两种BioReceiver和NioReceiver。</p>
+<h2 id="web-xml文件"><a href="#web-xml文件" class="headerlink" title="web.xml文件"></a>web.xml文件</h2><p>　　web.xml基于Java Servlet规范，可被用于每一个Java servlet容器，通常有两个存放位置，$CATALINA_BASE/conf和每个Web应用程序（通常是WEB-INF/web.xml）。Tomcat在deploy一个应用程序时(包括重启或重新载入)，它首先读取conf/web.xml，而后读取WEB-INF/web.xml。这个文件一般不用修改。</p>
+<h2 id="tomcat-users-xml"><a href="#tomcat-users-xml" class="headerlink" title="tomcat-users.xml"></a>tomcat-users.xml</h2><p>　　关于用户角色、管理员的信息都在这个配置文件中。登录用户默认是注释掉的，把 <!--  -->去掉才能生效。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">[ root@centos51 conf ]# cat tomcat-users.xml </div><div class="line">&lt;?xml version='1.0' encoding='utf-8'?&gt;</div><div class="line"><span class="comment">&lt;!--</span></div><div class="line"><span class="comment">  Licensed to the Apache Software Foundation (ASF) under one or more</span></div><div class="line"><span class="comment">  contributor license agreements.  See the NOTICE file distributed with</span></div><div class="line"><span class="comment">  this work for additional information regarding copyright ownership.</span></div><div class="line"><span class="comment">  The ASF licenses this file to You under the Apache License, Version 2.0</span></div><div class="line"><span class="comment">  (the "License"); you may not use this file except in compliance with</span></div><div class="line"><span class="comment">  the License.  You may obtain a copy of the License at</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment">      http://www.apache.org/licenses/LICENSE-2.0</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment">  Unless required by applicable law or agreed to in writing, software</span></div><div class="line"><span class="comment">  distributed under the License is distributed on an "AS IS" BASIS,</span></div><div class="line"><span class="comment">  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div><div class="line"><span class="comment">  See the License for the specific language governing permissions and</span></div><div class="line"><span class="comment">  limitations under the License.</span></div><div class="line"><span class="comment">--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tomcat-users</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--</span></div><div class="line"><span class="comment">  <span class="doctag">NOTE:</span>  By default, no user is included in the "manager-gui" role required</span></div><div class="line"><span class="comment">  to operate the "/manager/html" web application.  If you wish to use this app,</span></div><div class="line"><span class="comment">  you must define such a user - the username and password are arbitrary. It is</span></div><div class="line"><span class="comment">  strongly recommended that you do NOT use one of the users in the commented out</span></div><div class="line"><span class="comment">  section below since they are intended for use with the examples web</span></div><div class="line"><span class="comment">  application.</span></div><div class="line"><span class="comment">--&gt;</span></div><div class="line"><span class="comment">&lt;!--</span></div><div class="line"><span class="comment">  <span class="doctag">NOTE:</span>  The sample user and role entries below are intended for use with the</span></div><div class="line"><span class="comment">  examples web application. They are wrapped in a comment and thus are ignored</span></div><div class="line"><span class="comment">  when reading this file. If you wish to configure these users for use with the</span></div><div class="line"><span class="comment">  examples web application, do not forget to remove the &lt;!.. ..&gt; that surrounds</span></div><div class="line"><span class="comment">  them. You will also need to set the passwords to something appropriate.</span></div><div class="line"><span class="comment">--&gt;</span></div><div class="line"><span class="comment">&lt;!--</span></div><div class="line"><span class="comment">  &lt;role rolename="tomcat"/&gt;</span></div><div class="line"><span class="comment">  &lt;role rolename="role1"/&gt;</span></div><div class="line"><span class="comment">  &lt;user username="tomcat" password="&lt;must-be-changed&gt;" roles="tomcat"/&gt;</span></div><div class="line"><span class="comment">  &lt;user username="both" password="&lt;must-be-changed&gt;" roles="tomcat,role1"/&gt;</span></div><div class="line"><span class="comment">  &lt;user username="role1" password="&lt;must-be-changed&gt;" roles="role1"/&gt;</span></div><div class="line"><span class="comment">--&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- &lt;role rolename="admin"/&gt; --&gt;</span></div><div class="line"><span class="comment">&lt;!-- &lt;role rolename="admin-gui"/&gt; --&gt;</span>                           # 定义了角色role和user，需要根据情况相应配置</div><div class="line"><span class="comment">&lt;!-- &lt;role rolename="admin-script"/&gt; --&gt;</span></div><div class="line"><span class="comment">&lt;!-- &lt;role rolename="manager"/&gt; --&gt;</span></div><div class="line"><span class="comment">&lt;!-- &lt;role rolename="manager-gui"/&gt; --&gt;</span></div><div class="line"><span class="comment">&lt;!-- &lt;role rolename="manager-script"/&gt; --&gt;</span></div><div class="line"><span class="comment">&lt;!-- &lt;role rolename="manager-jmx"/&gt; --&gt;</span></div><div class="line"><span class="comment">&lt;!-- &lt;role rolename="manager-status"/&gt; --&gt;</span></div><div class="line"><span class="comment">&lt;!-- &lt;user name="admin" password="&lt;must-be-changed&gt;" roles="admin,manager,admin-gui,admin-script,manager-gui,manager-script,manager-jmx,manager-status" /&gt; --&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tomcat-users</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="manager"><a href="#manager" class="headerlink" title="manager"></a>manager</h2><p>　　tomcat自带的有一套web管理界面，如果是Yum安装的话需要单独安装</p>
+<h3 id="安装manager"><a href="#安装manager" class="headerlink" title="安装manager"></a>安装manager</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@centos52 docs] yum install tomcat-admin-webapps</div><div class="line">[ root@centos51 webapps ]# ll /usr/share/tomcat/webapps/</div><div class="line">total 16</div><div class="line">drwxr-xr-x 14 root root   4096 Oct 21 20:25 docs                    </div><div class="line">drwxr-xr-x  5 root tomcat 4096 Oct 21 20:17 host-manager</div><div class="line">drwxr-xr-x  5 root tomcat 4096 Oct 21 20:17 manager                     # manager 管理</div><div class="line">drwxr-xr-x  2 root root   4096 Oct 21 06:44 ROOT</div></pre></td></tr></table></figure>
+<h3 id="配置管理用户"><a href="#配置管理用户" class="headerlink" title="配置管理用户"></a>配置管理用户</h3><p>　　进入后台管理，需要配置响应角色和账号，不过未配置，登录时会有提示信息</p>
+<div align="center"><br><img src="/images/java/25.png" alt=""><br></div>
+
+<p>　　编辑tomcat-users.xml</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[ root@centos51 tomcat ] vim conf/tomcat-users.xml</div><div class="line">&lt;role rolename="manager-gui" /&gt;</div><div class="line">&lt;user username="manager" password="123456" roles="manager-gui"/&gt;</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/java/26.png" alt=""><br></div>
+
+<h2 id="配置虚拟主机"><a href="#配置虚拟主机" class="headerlink" title="配置虚拟主机"></a>配置虚拟主机</h2><p>　　在server.xml介绍中，已经介绍了Host虚拟主机的配置，详细参数可查看帮助文档 <a href="http://tomcat.apache.org/tomcat-8.0-doc/virtual-hosting-howto.html" target="_blank" rel="external">http://tomcat.apache.org/tomcat-8.0-doc/virtual-hosting-howto.html</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"local.tomcat.cn"</span> <span class="attr">appBase</span>=<span class="string">"webapps/local"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/"</span> <span class="attr">docBase</span>=<span class="string">"ROOT"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root@centos52 webapps]# tree local/</div><div class="line">local/</div><div class="line">└── ROOT</div><div class="line">    └── index.jsp</div><div class="line"></div><div class="line">1 directory, 1 file</div></pre></td></tr></table></figure>
+</service></server>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/tomcat/" rel="tag"># tomcat</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/04/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">imkindu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java简介"><span class="nav-number">1.</span> <span class="nav-text">java简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#servlet"><span class="nav-number">2.</span> <span class="nav-text">servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#servlet架构"><span class="nav-number">2.1.</span> <span class="nav-text">servlet架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet-任务"><span class="nav-number">2.2.</span> <span class="nav-text">Servlet 任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat"><span class="nav-number">3.</span> <span class="nav-text">tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat架构体系"><span class="nav-number">3.1.</span> <span class="nav-text">tomcat架构体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat核心组件"><span class="nav-number">3.2.</span> <span class="nav-text">tomcat核心组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat组件"><span class="nav-number">3.3.</span> <span class="nav-text">tomcat组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件说明"><span class="nav-number">4.</span> <span class="nav-text">组件说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#顶级类组件"><span class="nav-number">4.1.</span> <span class="nav-text">顶级类组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接器类组件"><span class="nav-number">4.2.</span> <span class="nav-text">连接器类组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器类组件"><span class="nav-number">4.3.</span> <span class="nav-text">容器类组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#被嵌套类组件"><span class="nav-number">4.4.</span> <span class="nav-text">被嵌套类组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接器协议"><span class="nav-number">5.</span> <span class="nav-text">连接器协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装jdk和tomcat"><span class="nav-number">6.</span> <span class="nav-text">安装jdk和tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rpm安装jdk"><span class="nav-number">6.1.</span> <span class="nav-text">rpm安装jdk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装二进制版本tomcat"><span class="nav-number">6.2.</span> <span class="nav-text">安装二进制版本tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加环境变量"><span class="nav-number">6.3.</span> <span class="nav-text">添加环境变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docs帮助文档"><span class="nav-number">7.</span> <span class="nav-text">docs帮助文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat的配置文件"><span class="nav-number">8.</span> <span class="nav-text">Tomcat的配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#server-xml"><span class="nav-number">9.</span> <span class="nav-text">server.xml</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Server组件"><span class="nav-number">9.1.</span> <span class="nav-text">Server组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service组件"><span class="nav-number">9.2.</span> <span class="nav-text">Service组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connector组件"><span class="nav-number">9.3.</span> <span class="nav-text">Connector组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Engine组件"><span class="nav-number">9.4.</span> <span class="nav-text">Engine组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Host组件"><span class="nav-number">9.5.</span> <span class="nav-text">Host组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Context组件"><span class="nav-number">9.6.</span> <span class="nav-text">Context组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Realm组件"><span class="nav-number">9.7.</span> <span class="nav-text">Realm组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Valve组件"><span class="nav-number">9.8.</span> <span class="nav-text">Valve组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GlobalNamingResources"><span class="nav-number">9.9.</span> <span class="nav-text">GlobalNamingResources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WatchedResource"><span class="nav-number">9.10.</span> <span class="nav-text">WatchedResource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Listener"><span class="nav-number">9.11.</span> <span class="nav-text">Listener</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loader"><span class="nav-number">9.12.</span> <span class="nav-text">Loader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Manager"><span class="nav-number">9.13.</span> <span class="nav-text">Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stores"><span class="nav-number">9.14.</span> <span class="nav-text">Stores</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resources"><span class="nav-number">9.15.</span> <span class="nav-text">Resources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster"><span class="nav-number">9.16.</span> <span class="nav-text">Cluster</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web-xml文件"><span class="nav-number">10.</span> <span class="nav-text">web.xml文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat-users-xml"><span class="nav-number">11.</span> <span class="nav-text">tomcat-users.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#manager"><span class="nav-number">12.</span> <span class="nav-text">manager</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装manager"><span class="nav-number">12.1.</span> <span class="nav-text">安装manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置管理用户"><span class="nav-number">12.2.</span> <span class="nav-text">配置管理用户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置虚拟主机"><span class="nav-number">13.</span> <span class="nav-text">配置虚拟主机</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">imkindu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
