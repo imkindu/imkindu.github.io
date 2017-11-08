@@ -1,0 +1,49 @@
+
+
+分布式文件系统
+
+    ceph
+    glusterfs
+    fastdfs
+    tfs
+
+
+搜索引擎
+
+    els
+
+
+
+
+
+mysql配置文件生效次序
+
+    [root@centos55 mysql]# my_print_defaults 
+    Default options are read from the following files in the given order:
+    /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf 
+
+    Variables (--variable-name=value)
+    and boolean options {FALSE|TRUE}  Value (after reading options)
+    --------------------------------- ----------------------------------------
+    config-file                       my
+    defaults-file                     my
+    defaults-extra-file               (No default value)
+    defaults-group-suffix             (No default value)
+    extra-file                        (No default value)
+    mysqld                            FALSE
+
+    Example usage:
+    my_print_defaults --defaults-file=example.cnf client client-server mysql
+
+
+
+事务
+    ACID
+
+
+
+
+索引
+    balance tree 二叉树索引
+    左前缀索引
+        前70个

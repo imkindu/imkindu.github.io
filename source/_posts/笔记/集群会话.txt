@@ -1,0 +1,32 @@
+
+
+
+会话保持
+    session sticky  会话绑定
+        source_ip
+            nginx : ip_hash
+            haproxy : source
+            lvs : sh
+        cookie 
+            nginx : hash 
+            haproxy : cookie 
+
+    session cluster 会话集群
+
+        tomcat deltamanager
+
+            httpd + tomcat cluster
+                httpd : mod_proxy, mod_proxy_http, mod_proxy_balancer
+
+            httpd + tomcat cluster
+                httpd : mod_proxy, mod_proxy_ajp, mod_proxy_balancer
+
+            httpd + tomcat cluster
+                httpd : mod_jk
+
+            nginx + tomcat cluster
+            
+    session server
+
+
+

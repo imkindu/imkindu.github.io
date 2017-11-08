@@ -89,6 +89,12 @@ menu:
   #tags: /tags/ || tags
   #categories: /categories/ || th
   archives: /archives/ || archive
+  linux : /categories/linux/
+  php : /categories/php/ || heartbeat
+  java : /categories/java/ || calendar
+  mysql : /categories/mysql/ || sitemap
+  git : /categories/git/
+  nginx : /categories/nginx/ || heartbeat
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
@@ -104,9 +110,9 @@ menu_icons:
 
 # Schemes
 # scheme: Muse
-#scheme: Mist
-scheme: Pisces
-#scheme: Gemini
+# scheme: Mist
+# scheme: Pisces
+scheme: Gemini
 
 
 # ---------------------------------------------------------------
@@ -605,6 +611,12 @@ local_search:
   top_n_per_article: 1
 
 
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
 # ---------------------------------------------------------------
 # Tags Settings
 # ---------------------------------------------------------------
@@ -689,6 +701,8 @@ pace_theme: pace-theme-minimal
 
 # Canvas-nest
 canvas_nest: false
+
+use_motion: false # 关闭动画效果
 
 # three_waves
 three_waves: false

@@ -1,6 +1,6 @@
 title: tomcat
 author : imkindu
-date : 2017-11-04 09:00:00
+date : 2017-11-04 19:00:00
 layout: post 
 type: "tags"
 categories: java
@@ -51,6 +51,13 @@ tags:
 <div align="center">
 ![](/images/java/08.png)
 </div>
+
+
+## jsp编译过程
+
+
+> jsp --> jasper(jsp->java) --> servlet(处理html) --> complie(编译器) --> bytecodes --> jvm
+
 
 ## tomcat
 
@@ -169,12 +176,49 @@ Unpacking JAR files...
 　　java环境依赖于JAVA_HOME这个变量，如果是手动安装的，需要添加路径变量
 
 ```
+# 二进制安装和rpm安装jdk配置路径
 export JAVA_HOME=/usr/java/latest
 export PATH=$JAVA_HOME/bin:$PATH
 export CATALINA_HOME=/usr/local/tomcat
 export PATH=$CATALINA_HOME/bin:$PATH
+# yum安装jdk和tomcat配置路径
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.121-1.b13.el6.x86_64
+export CATALINA_HOME=/usr/share/tomcat
+export PATH=$JAVA_HOME/bin:$CATALINA_HOME/bin:$PATH
 ```
 
+### openjdk-devel安装
+
+　　在使用过程中，需要使用到`jar`等java常用命令，经查找，这些工具在`openjdk-devel`包中
+
+``` shell
+[ root@centos51 bin ]# yum install java-1.8.0-openjdk-devel
+```
+
+## tomcat目录结构
+
+``` shell
+[root@centos52 share]# ll tomcat/
+total 4
+bin                                         # 脚本及启动时用到的类
+conf -> /etc/tomcat                         # 配置文件
+lib -> /usr/share/java/tomcat               # 核心类库
+logs -> /var/log/tomcat                     # 日志
+temp -> /var/cache/tomcat/temp              # 临时文件目录
+webapps -> /var/lib/tomcat/webapps          # 应用程序代码目录
+work -> /var/cache/tomcat/work              # 工作目录（编译后的.java和.class）
+```
+
+## webapps目录结构
+
+　　每个应用程序webapp目录都有自己的组织结构，主要包含了jsp文件、类文件、主页文件、部署描述符等。
+
+> `/` ： webapp的根目录
+`WEB-INF/` ： 当前webapp的私有资源目录，通常存放当前webapp的web.xml
+`META-INF/` ：当前webapp的私有资源目录，通常存放当前webapp的context.xml
+`classes/` ：当前webapp的私有类文件
+`lib/` ： 私有类，或被打包为jar格式类
+`index.jsp`：webapp的主页
 
 
 ## docs帮助文档
@@ -668,5 +712,28 @@ local/
 
 1 directory, 1 file
 ```
+
+
+## 部署deployment
+
+　　deploy ：tomcat的应用文件和php不同，php文件只要放入到服务器对应位置就可以访问，但是tomcat需要deploy部署才能访问，也可以单独设置某个应用下线不能访问，这一点比较实用。部署的具体实现暂时还不清楚，大致过程是：将webapp的源文件旋转与目标目录、配置tomcat服务器能基于context.xml文件中定义的路径来访问此webapp，将其特有类通过class loader装载至tomcat。
+
+tomcat部署有两种方式：
+
+> `自动部署` ： auto deploy
+`手动部署` ：
+>> `冷部署` : 把webapp复制到指定目录，重启tomcat
+`热部署` ：在不停止tomcat的情况下进行部署
+
+
+`deploy` ： 部署
+`undeploy` ： 反部署，停止webapp
+`start` ： 启动处理停止状态的webapp
+`stop` ：停止应用，不在提供用户服务
+`redeploy` ：重新部署
+
+
+
+
 
 
