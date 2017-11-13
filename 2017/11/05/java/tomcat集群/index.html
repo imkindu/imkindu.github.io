@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="tomcat,java," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="tomcat默认使用普通用户启动，而非管理员，启动端口是8080，在企业中，一般不直接对外提供服务，前端使用apache或者nginx做代理。">
+<meta name="keywords" content="tomcat,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tomcat集群">
+<meta property="og:url" content="http://yoursite.com/2017/11/05/java/tomcat集群/index.html">
+<meta property="og:site_name" content="阿杜-开发博客">
+<meta property="og:description" content="tomcat默认使用普通用户启动，而非管理员，启动端口是8080，在企业中，一般不直接对外提供服务，前端使用apache或者nginx做代理。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/java/100.png">
+<meta property="og:image" content="http://yoursite.com/images/java/solo.png">
+<meta property="og:image" content="http://yoursite.com/images/java/006.png">
+<meta property="og:image" content="http://yoursite.com/images/java/manager.png">
+<meta property="og:image" content="http://yoursite.com/images/java/010.png">
+<meta property="og:image" content="http://yoursite.com/images/java/200.png">
+<meta property="og:image" content="http://yoursite.com/images/java/melta.png">
+<meta property="og:image" content="http://yoursite.com/images/java/51.png">
+<meta property="og:image" content="http://yoursite.com/images/java/52.png">
+<meta property="og:image" content="http://yoursite.com/images/java/mem.png">
+<meta property="og:image" content="http://yoursite.com/images/java/wiki.png">
+<meta property="og:image" content="http://yoursite.com/images/java/msm.png">
+<meta property="og:image" content="http://yoursite.com/images/java/jar.png">
+<meta property="og:updated_time" content="2017-11-08T12:06:15.329Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tomcat集群">
+<meta name="twitter:description" content="tomcat默认使用普通用户启动，而非管理员，启动端口是8080，在企业中，一般不直接对外提供服务，前端使用apache或者nginx做代理。">
+<meta name="twitter:image" content="http://yoursite.com/images/java/100.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/05/java/tomcat集群/"/>
+
+
+
+
+
+  <title>tomcat集群 | 阿杜-开发博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">阿杜-开发博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-linux">
+          <a href="/categories/linux/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            linux
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-php">
+          <a href="/categories/php/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            php
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-java">
+          <a href="/categories/java/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            java
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mysql">
+          <a href="/categories/mysql/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            mysql
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-git">
+          <a href="/categories/git/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            git
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-nginx">
+          <a href="/categories/nginx/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            nginx
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-个人简介">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            个人简介
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/05/java/tomcat集群/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="imkindu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿杜-开发博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">tomcat集群</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-05T09:00:00+08:00">
+                2017-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　tomcat默认使用普通用户启动，而非管理员，启动端口是<code>8080</code>，在企业中，一般不直接对外提供服务，前端使用apache或者nginx做代理。</p>
+<a id="more"></a>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>　　为做tomcat集群环境，特先准备好两台tomcat服务器和一台apache、nginx服务器</p>
+<p><img src="/images/java/100.png" alt=""></p>
+<h2 id="安装solo"><a href="#安装solo" class="headerlink" title="安装solo"></a>安装solo</h2><p>　　Solo 是款专业、简约、稳定、极速的 Java 开源博客系统，<a href="http://b3log.org/" target="_blank" rel="external">http://b3log.org/</a></p>
+<h3 id="tomcat-solo虚拟机"><a href="#tomcat-solo虚拟机" class="headerlink" title="tomcat-solo虚拟机"></a>tomcat-solo虚拟机</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"solo.imkindu.cn"</span> <span class="attr">appBase</span>=<span class="string">"webapps/solo"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/"</span> <span class="attr">docBase</span>=<span class="string">"ROOT"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="latke-properties"><a href="#latke-properties" class="headerlink" title="latke.properties"></a>latke.properties</h3><p>　　配置solo时，需要修改latke.properties对用浏览器使用地址，否则容易出现样式等问题。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>### Server ####</div><div class="line"><span class="meta">#</span> Browser visit protocol</div><div class="line">serverScheme=http</div><div class="line"><span class="meta">#</span> Browser visit domain name</div><div class="line">serverHost=solo.imkindu.cn</div><div class="line"><span class="meta">#</span> Browser visit port, 80 as usual, THIS IS NOT SERVER LISTEN PORT!</div><div class="line">serverPort=80</div></pre></td></tr></table></figure>
+<h3 id="local-properties"><a href="#local-properties" class="headerlink" title="local.properties"></a>local.properties</h3><p>　　solo默认使用H2数据库，但是个人不是很熟悉，特配置改成存入mariadb</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>### MySQL runtime ####</div><div class="line">runtimeDatabase=MYSQL</div><div class="line">jdbc.username=root</div><div class="line">jdbc.password=root</div><div class="line">jdbc.driver=com.mysql.jdbc.Driver</div><div class="line">jdbc.URL=jdbc:mysql://192.168.56.55:3306/solo?useUnicode=yes&amp;characterEncoding=utf8</div><div class="line">jdbc.pool=druid</div></pre></td></tr></table></figure>
+<div aling="center"><br><img src="/images/java/solo.png" alt=""><br></div>
+
+
+
+
+
+<h2 id="session集群"><a href="#session集群" class="headerlink" title="session集群"></a>session集群</h2><p>　　利用solo做集群会话保持之前，先来聊聊session集群的几种模式。</p>
+<p>session会话保持主要有三种模式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">session sticky  会话绑定</div><div class="line">	source_ip</div><div class="line">		nginx : ip_hash</div><div class="line">		haproxy : source</div><div class="line">		lvs : sh</div><div class="line">	cookie </div><div class="line">		nginx : hash </div><div class="line">		haproxy : cookie </div><div class="line"></div><div class="line">session cluster 会话集群</div><div class="line">	tomcat deltamanager</div><div class="line">		httpd + tomcat cluster</div><div class="line">			httpd : mod_proxy, mod_proxy_http, mod_proxy_balancer</div><div class="line">		httpd + tomcat cluster</div><div class="line">			httpd : mod_proxy, mod_proxy_ajp, mod_proxy_balancer</div><div class="line">		httpd + tomcat cluster</div><div class="line">			httpd : mod_jk</div><div class="line">		nginx + tomcat cluster</div><div class="line">		</div><div class="line">session server 会话服务器</div><div class="line">	memcached, redis</div></pre></td></tr></table></figure>
+<h2 id="apache代理"><a href="#apache代理" class="headerlink" title="apache代理"></a>apache代理</h2><p>　　使用apache代理，主要使用到了httpd的<code>proxy_module</code>、<code>proxy_httpd_module</code>、<code>proxy_ajp_module</code>、<code>proxy_balacer_module</code>几个模块 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[root@centos71 conf.d]# httpd -M | egrep proxy</div><div class="line"> proxy_module (shared)</div><div class="line"> proxy_ajp_module (shared)</div><div class="line"> proxy_balancer_module (shared)</div><div class="line"> proxy_connect_module (shared)</div><div class="line"> proxy_express_module (shared)</div><div class="line"> proxy_fcgi_module (shared)</div><div class="line"> proxy_fdpass_module (shared)</div><div class="line"> proxy_ftp_module (shared)</div><div class="line"> proxy_http_module (shared)</div><div class="line"> proxy_scgi_module (shared)</div><div class="line"> proxy_wstunnel_module (shared)</div></pre></td></tr></table></figure>
+<h3 id="apache指令说明"><a href="#apache指令说明" class="headerlink" title="apache指令说明"></a>apache指令说明</h3><p>关于如上apache指令的说明：</p>
+<ul>
+<li><code>ProxyPreserveHost {On|Off}</code> ：如果启用此功能，代理会将用户请求报文中的Host:行发送给后端的服务器，而不再使用ProxyPass指定的服务器地址。如果想在反向代理中支持虚拟主机，则需要开启此项，否则就无需打开此功能。</li>
+</ul>
+<ul>
+<li><code>ProxyVia  {On|Off|Full|Block}</code> ：用于控制在http首部是否使用Via:，主要用于在多级代理中控制代理请求的流向。默认为Off，即不启用此功能；<code>On</code>表示每个请求和响应报文均添加Via:；<code>Full</code>表示每个Via:行都会添加当前apache服务器的版本号信息；<code>Block</code>表示每个代理请求报文中的Via：都会被移除。</li>
+</ul>
+<ul>
+<li><code>ProxyRequests {On|Off}</code> ：是否开启apache正向代理的功能；启用此项时为了代理http协议必须启用mod_proxy_http模块。同时，如果为apache设置了ProxyPass，则必须将ProxyRequests设置为Off。</li>
+</ul>
+<ul>
+<li><code>ProxyPass  [path]  !|url  [key=value key=value ...]]</code> ：将后端服务器某URL与当前服务器的某虚拟路径关联起来作为提供服务的路径，path为当前服务器上的某虚拟路径，url为后端服务器上某URL路径。使用此指令时必须将ProxyRequests的值设置为Off。需要注意的是，如果path以“/”结尾，则对应的url也必须以“/”结尾，反之亦然。</li>
+</ul>
+<ul>
+<li><code>ProxyPassReverse</code> ：用于让apache调整HTTP重定向响应报文中的Location、Content-Location及URI标签所对应的URL，在反向代理环境中必须使用此指令避免重定向报文绕过proxy服务器。</li>
+</ul>
+<p>另外，mod_proxy模块在httpd2.1的版本之后支持与后端服务器的连接池功能，连接在按需创建在可以保存至连接池中以备进一步使用。连接池大小或其它设定可以通过在ProxyPass中使用key=value的方式定义。常用的key如下所示：</p>
+<blockquote>
+<p>◇ min：连接池的最小容量，此值与实际连接个数无关，仅表示连接池最小要初始化的空间大小。<br>◇ max：连接池的最大容量，每个MPM都有自己独立的容量；都值与MPM本身有关，如Prefork的总是为1，而其它的则取决于ThreadsPerChild指令的值。<br>◇ loadfactor：用于负载均衡集群配置中，定义对应后端服务器的权重，取值范围为1-100。<br>◇ retry：当apache将请求发送至后端服务器得到错误响应时等待多长时间以后再重试。单位是秒钟。</p>
+</blockquote>
+<p><strong><code>如果Proxy指定是以balancer://开头，即用于负载均衡集群时</code></strong></p>
+<p>其还可以接受一些特殊的参数，如下所示：</p>
+<blockquote>
+<p>◇lbmethod：apache实现负载均衡的调度方法，默认是byrequests，即基于权重将统计请求个数进行调度，bytraffic则执行基于权重的流量计数调度，bybusyness通过考量每个后端服务器的当前负载进行调度。<br>◇ maxattempts：放弃请求之前实现故障转移的次数，默认为1，其最大值不应该大于总的节点数。<br>◇ nofailover：取值为On或Off，设置为On时表示后端服务器故障时，用户的session将损坏；因此，在后端服务器不支持session复制时可将其设置为On。<br>◇ stickysession：调度器的sticky session的名字，根据web程序语言的不同，其值为JSESSIONID或PHPSESSIONID。</p>
+</blockquote>
+<p>上述指令除了能在banlancer://或ProxyPass中设定之外，也可使用ProxySet指令直接进行设置，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;Proxy balancer://hotcluster&gt;</div><div class="line">BalancerMember  http://www1.magedu.com:8080 loadfactor=1</div><div class="line">BalancerMember  http://www2.magedu.com:8080 loadfactor=2</div><div class="line">ProxySet  lbmethod=bytraffic</div><div class="line">&lt;/Proxy&gt;</div></pre></td></tr></table></figure>
+<h3 id="使用http协议直接代理tomcat"><a href="#使用http协议直接代理tomcat" class="headerlink" title="使用http协议直接代理tomcat"></a><strong>使用http协议直接代理tomcat</strong></h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;VirtualHost *:<span class="number">80</span>&gt;</div><div class="line">	ServerName solo.imkindu.cn</div><div class="line">	ProxyVia On</div><div class="line">	ProxyRequests Off			      <span class="comment"># 关闭正向代理</span></div><div class="line">	ProxyPreserveHost On			      <span class="comment"># host主机名</span></div><div class="line">	&lt;Proxy *&gt;</div><div class="line">		Require all granted</div><div class="line">	&lt;/Proxy&gt;</div><div class="line">	ProxyPass / http://<span class="number">192.168</span><span class="number">.56</span><span class="number">.52</span>:<span class="number">8080</span>/</div><div class="line">	ProxyPassReverse / http://<span class="number">192.168</span><span class="number">.56</span><span class="number">.52</span>:<span class="number">8080</span>/	</div><div class="line">	&lt;Location /&gt;</div><div class="line">		Require all granted</div><div class="line">	&lt;/Location&gt;</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/java/006.png" alt=""><br></div>
+
+
+
+<h3 id="使用ajp协议代理tomcat"><a href="#使用ajp协议代理tomcat" class="headerlink" title="使用ajp协议代理tomcat"></a><strong>使用ajp协议代理tomcat</strong></h3><p>　　使用apache2.4和ajp协议代理tomcat需要使用到httpd的 <code>proxy_ajp_module</code></p>
+<p>使用<code>httpd -M</code>查看是否编译了proxy_ajp_module</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@centos71 conf.d]# httpd -M | grep --color proxy_ajp_module </div><div class="line"> proxy_ajp_module (shared)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">	ServerName solo.imkindu.cn</div><div class="line">	ProxyVia On</div><div class="line">	ProxyRequests Off		    # 关闭正向代理</div><div class="line">	ProxyPreserveHost On		    # host主机名</div><div class="line">	&lt;Proxy *&gt;</div><div class="line">		Require all granted</div><div class="line">	&lt;/Proxy&gt;</div><div class="line">	ProxyPass / ajp://172.18.56.52:8009/ 	# tomcat ajp默认使用8009端口</div><div class="line">	ProxyPassReverse / ajp://172.18.56.52:8009/	</div><div class="line">	&lt;Location /&gt;</div><div class="line">		Require all granted</div><div class="line">	&lt;/Location&gt;</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="apache负载均衡tomcat"><a href="#apache负载均衡tomcat" class="headerlink" title="apache负载均衡tomcat"></a>apache负载均衡tomcat</h3><p>　　使用apache 负载调度tomcat 需要使用到 <code>mod_proxy_balacer</code>模块</p>
+<p>　　详细手册查看 ： <a href="http://httpd.apache.org/docs/2.4/mod/mod_proxy_balancer.html" target="_blank" rel="external">http://httpd.apache.org/docs/2.4/mod/mod_proxy_balancer.html</a></p>
+<p><strong>参数详解</strong></p>
+<ul>
+<li><code>&lt;proxy&gt;</code> 应用于代理资源的指令的容器</li>
+</ul>
+<p>如果Proxy指定是以balancer://开头，即用于负载均衡集群</p>
+<blockquote>
+<p>Description:    Container for directives applied to proxied resources<br>Syntax:    Proxy wildcard-url …  Proxy<br>Context:    server config, virtual host<br>Status:    Extension<br>Module:    mod_proxy</p>
+</blockquote>
+<ul>
+<li><code>BalancerMember</code> Add a member to a load balancing group 添加成员</li>
+</ul>
+<blockquote>
+<p>Syntax:    BalancerMember [balancerurl] url [key=value [key=value …]] 可以添加额外参数<br>参数详解 ： <a href="http://httpd.apache.org/docs/2.4/mod/mod_proxy.html#proxypass" target="_blank" rel="external">http://httpd.apache.org/docs/2.4/mod/mod_proxy.html#proxypass</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>loadfactor</td>
+<td>权重 1-100</td>
+</tr>
+<tr>
+<td>route</td>
+<td>Route of the worker when used inside load balancer. The route is a value appended to session id.后台tomcat的engine 可以添加一个 jvmRoute=”Tomcat52” 与之对应 <code>Engine name=&quot;Catalina&quot; defaultHost=&quot;localhost&quot; jvmRoute=&quot;Tomcat52&quot;</code></td>
+</tr>
+</tbody>
+</table>
+<p>其还可以接受一些特殊的参数，如下所示：</p>
+<blockquote>
+<p>◇ <code>lbmethod</code> ：apache实现负载均衡的调度方法，默认是byrequests，即基于权重将统计请求个数进行调度，bytraffic则执行基于权重的流量计数调度，bybusyness通过考量每个后端服务器的当前负载进行调度。<br>◇ <code>maxattempts</code> ：放弃请求之前实现故障转移的次数，默认为1，其最大值不应该大于总的节点数。<br>◇ <code>nofailover</code>：取值为On或Off，设置为On时表示后端服务器故障时，用户的session将损坏；因此，在后端服务器不支持session复制时可将其设置为On。<br>◇ <code>stickysession</code>：调度器的sticky session的名字，根据web程序语言的不同，其值为JSESSIONID或PHPSESSIONID。</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;proxy balancer://tomcat&gt;</div><div class="line">        BalancerMember http://<span class="number">192.168</span><span class="number">.56</span><span class="number">.51</span>:<span class="number">8080</span> loadfactor=<span class="number">1</span> route=Tomcat51</div><div class="line">        BalancerMember http://<span class="number">192.168</span><span class="number">.56</span><span class="number">.52</span>:<span class="number">8080</span> loadfactor=<span class="number">1</span> route=Tomcat52</div><div class="line">        ProxySet  lbmethod=byrequests 								 		<span class="comment"># 添加调度算法 </span></div><div class="line">&lt;/proxy&gt;</div><div class="line"></div><div class="line">&lt;VirtualHost *:<span class="number">80</span>&gt;</div><div class="line">        <span class="comment">#ServerName solo.imkindu.cn</span></div><div class="line">        ServerName <span class="number">172.18</span><span class="number">.56</span><span class="number">.71</span></div><div class="line">        ProxyVia On</div><div class="line">        ProxyRequests Off               <span class="comment"># 关闭反代</span></div><div class="line">        ProxyPreserveHost On            <span class="comment"># host主机名</span></div><div class="line">        &lt;Proxy *&gt;</div><div class="line">                Require all granted</div><div class="line">        &lt;/Proxy&gt;</div><div class="line">        ProxyPass / balancer://tomcat/</div><div class="line">        ProxyPassReverse / balance://tomcat/</div><div class="line">        &lt;Location /&gt;</div><div class="line">                Require all granted</div><div class="line">        &lt;/Location&gt;</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<h3 id="负载tomcat并保持会话"><a href="#负载tomcat并保持会话" class="headerlink" title="负载tomcat并保持会话"></a>负载tomcat并保持会话</h3><p>　　<code>stickysession</code>：调度器的sticky session的名字，根据web程序语言的不同，其值为JSESSIONID或PHPSESSIONID。利用<code>stickysession</code>和route保持会话。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 注释</span></div><div class="line">Header add Set-Cookie <span class="string">"ROUTEID=.%&#123;BALANCER_WORKER_ROUTE&#125;e; path=/"</span> env=BALANCER_ROUTE_CHANGED</div><div class="line">&lt;proxy balancer://tomcat&gt;</div><div class="line">	BalancerMember http://<span class="number">192.168</span><span class="number">.56</span><span class="number">.51</span>:<span class="number">8080</span> loadfactor=<span class="number">1</span> route=Tomcat51</div><div class="line">	BalancerMember http://<span class="number">192.168</span><span class="number">.56</span><span class="number">.52</span>:<span class="number">8080</span> loadfactor=<span class="number">1</span> route=Tomcat52	</div><div class="line">	ProxySet stickysession=ROUTEID  							<span class="comment"># stickysession 利用route标识保持session会话</span></div><div class="line">&lt;/proxy&gt;</div><div class="line"></div><div class="line">&lt;VirtualHost *:<span class="number">80</span>&gt;</div><div class="line">	<span class="comment">#ServerName solo.imkindu.cn</span></div><div class="line">	ServerName <span class="number">172.18</span><span class="number">.56</span><span class="number">.71</span></div><div class="line">	ProxyVia On</div><div class="line">	ProxyRequests Off		<span class="comment"># 关闭反代</span></div><div class="line">	ProxyPreserveHost On		<span class="comment"># host主机名</span></div><div class="line">	&lt;Proxy *&gt;</div><div class="line">		Require all granted</div><div class="line">	&lt;/Proxy&gt;</div><div class="line">	ProxyPass / balancer://tomcat/</div><div class="line">	ProxyPassReverse / balance://tomcat/	</div><div class="line">	&lt;Location /&gt;</div><div class="line">		Require all granted</div><div class="line">	&lt;/Location&gt;</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<h3 id="balancer管理页面"><a href="#balancer管理页面" class="headerlink" title="balancer管理页面"></a>balancer管理页面</h3><p>　　httpd2.4负载均衡模块balancer自带了一个<code>balancer-manager</code>管理界面，可以通过此界面查看负载情况，并设置单个后台backend等。</p>
+<p>详细参考查看httpd官方proxy_balancer模块 ： <a href="http://httpd.apache.org/docs/2.4/mod/mod_proxy_balancer.html" target="_blank" rel="external">http://httpd.apache.org/docs/2.4/mod/mod_proxy_balancer.html</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">Header add Set-Cookie "ROUTEID=.%&#123;BALANCER_WORKER_ROUTE&#125;e; path=/" env=BALANCER_ROUTE_CHANGED</div><div class="line">&lt;proxy balancer://tomcat&gt;</div><div class="line">	BalancerMember http://192.168.56.51:8080 loadfactor=1 route=Tomcat51</div><div class="line">	BalancerMember http://192.168.56.52:8080 loadfactor=1 route=Tomcat52	</div><div class="line">	ProxySet stickysession=ROUTEID</div><div class="line">&lt;/proxy&gt;</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">	ServerName solo.imkindu.cn</div><div class="line">	ProxyVia On</div><div class="line">	ProxyRequests Off		</div><div class="line">	ProxyPreserveHost On		# host主机名</div><div class="line">	&lt;Proxy *&gt;</div><div class="line">		Require all granted</div><div class="line">	&lt;/Proxy&gt;</div><div class="line">	ProxyPass / balancer://tomcat/</div><div class="line">	ProxyPassReverse / balance://tomcat/	</div><div class="line">	&lt;Location /&gt;</div><div class="line">		Require all granted</div><div class="line">	&lt;/Location&gt;</div><div class="line">	&lt;Location "/balancer-manager"&gt;			# balancer-manager</div><div class="line">    		SetHandler balancer-manager		# </div><div class="line">		ProxyPass ! 						# 不使用代理</div><div class="line">	   	Require all granted</div><div class="line">	&lt;/Location&gt;</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<p><img src="/images/java/manager.png" alt=""></p>
+<hr>
+<h2 id="nginx代理tomcat"><a href="#nginx代理tomcat" class="headerlink" title="nginx代理tomcat"></a>nginx代理tomcat</h2><p>　　一般真正使用的还是nginx前端负载均衡，后端在tomcat服务器上再次使用Nginx代理到本机的tomcat，这样充分发挥调度器、nginx的动静分离、Tomcat只处理jsp，保证了各自模块的高效性能。</p>
+<h3 id="nginx直接代理到tomcat8080"><a href="#nginx直接代理到tomcat8080" class="headerlink" title="nginx直接代理到tomcat8080"></a>nginx直接代理到tomcat8080</h3><p>nginx代理服务器配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">	listen 80;</div><div class="line">	server_name solo.imkindu.cn;</div><div class="line">	location / &#123;</div><div class="line">		proxy_pass http://192.168.56.52:8080/;</div><div class="line">		proxy_set_header Host $host:$server_port;</div><div class="line">		proxy_set_header X-Real_IP $remote_addr;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="nginx代理本机tomcat"><a href="#nginx代理本机tomcat" class="headerlink" title="nginx代理本机tomcat"></a>nginx代理本机tomcat</h3><p>　　通过nginx代理服务器代理到 tomcat服务器上的nginx，再次转发到tomcat</p>
+<p>tomcat上nginx配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">upstream solo &#123;</div><div class="line">	server localhost:8080 ;</div><div class="line">&#125;</div><div class="line"></div><div class="line">server &#123;</div><div class="line">	listen 80;</div><div class="line">	server_name solo.imkindu.cn;</div><div class="line">	location / &#123;</div><div class="line">		proxy_pass http://solo$request_uri;</div><div class="line">		proxy_set_header Host $host:$server_port;</div><div class="line">		proxy_set_header X-Real_IP $remote_addr;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="session-cluster"><a href="#session-cluster" class="headerlink" title="session cluster"></a>session cluster</h2><p>　　session 集群，其主要工作原理是：将多台后端数据服务器作为一个session集群，常用的有<code>deltamanager</code>这种将任意一节点的会话信息同步到其他所有节点，保证不论前台调度器将请求调度到哪台服务器都可以获取会话信息，<code>BackupManager</code>模式：将多台服务器分为多个小组，其中小组之间的多个服务器同步会话信息，不用同步到所有节点，当小组任意节点挂了之后，去其他小组节点获取会话信息。</p>
+<h3 id="deltaManager"><a href="#deltaManager" class="headerlink" title="deltaManager"></a>deltaManager</h3><p>　　tomcat默认的集群会话管理器——DeltaManager。它主要用于集群中各个节点之间会话状态的同步维护。DeltaManager的职责是<code>将某节点的会话该变同步到集群内其他成员节点上</code>，它属于全节点复制模式，所谓全节点复制是指集群中某个节点的状态变化后需要同步到集群中剩余的节点，非全节点方式可能只是同步到其中某个或若干节点。</p>
+<div align="center"><br><img src="/images/java/010.png" alt=""><br></div>
+
+
+
+<p>查看帮助：<code>Clustering</code> <a href="http://tomcat.apache.org/tomcat-7.0-doc/cluster-howto.html" target="_blank" rel="external">http://tomcat.apache.org/tomcat-7.0-doc/cluster-howto.html</a></p>
+<p>　　1、使用deltamanager这种session集群模式，需要在<code>server.xml</code>中配置对应多播地址、监听端口等，deltamanager可以配置在 <code>&lt;Engine&gt;</code> or  <code>&lt;Host&gt;</code>中。</p>
+<div align="center"><br><img src="/images/java/200.png" alt=""><br></div>
+
+
+<p><strong>注意</strong> ：官方文档配置文件中 <code>ClusterListener</code> 两行没有闭合标签”<code>/</code>“</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Cluster</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.tcp.SimpleTcpCluster"</span></span></div><div class="line"><span class="tag">				<span class="attr">channelSendOptions</span>=<span class="string">"8"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">Manager</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.session.DeltaManager"</span></span></div><div class="line"><span class="tag">				<span class="attr">expireSessionsOnShutdown</span>=<span class="string">"false"</span></span></div><div class="line"><span class="tag">				<span class="attr">notifyListenersOnReplication</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">Channel</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.group.GroupChannel"</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">Membership</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.membership.McastService"</span></span></div><div class="line"><span class="tag">						<span class="attr">address</span>=<span class="string">"228.0.56.71"</span></span></div><div class="line"><span class="tag">						<span class="attr">port</span>=<span class="string">"45564"</span></span></div><div class="line"><span class="tag">						<span class="attr">frequency</span>=<span class="string">"500"</span></span></div><div class="line"><span class="tag">						<span class="attr">dropTime</span>=<span class="string">"3000"</span>/&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">Receiver</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.transport.nio.NioReceiver"</span></span></div><div class="line"><span class="tag">						<span class="attr">address</span>=<span class="string">"192.168.56.51"</span></span></div><div class="line"><span class="tag">						<span class="attr">port</span>=<span class="string">"4000"</span></span></div><div class="line"><span class="tag">						<span class="attr">autoBind</span>=<span class="string">"100"</span></span></div><div class="line"><span class="tag">						<span class="attr">selectorTimeout</span>=<span class="string">"5000"</span></span></div><div class="line"><span class="tag">						<span class="attr">maxThreads</span>=<span class="string">"6"</span>/&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">Sender</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.transport.ReplicationTransmitter"</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">Transport</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.transport.nio.PooledParallelSender"</span>/&gt;</span></div><div class="line">				<span class="tag">&lt;/<span class="name">Sender</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">Interceptor</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.group.interceptors.TcpFailureDetector"</span>/&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">Interceptor</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.group.interceptors.MessageDispatch15Interceptor"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">Channel</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.tcp.ReplicationValve"</span></span></div><div class="line"><span class="tag">				<span class="attr">filter</span>=<span class="string">""</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.session.JvmRouteBinderValve"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">Deployer</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.deploy.FarmWarDeployer"</span></span></div><div class="line"><span class="tag">				<span class="attr">tempDir</span>=<span class="string">"/tmp/war-temp/"</span></span></div><div class="line"><span class="tag">				<span class="attr">deployDir</span>=<span class="string">"/tmp/war-deploy/"</span></span></div><div class="line"><span class="tag">				<span class="attr">watchDir</span>=<span class="string">"/tmp/war-listen/"</span></span></div><div class="line"><span class="tag">				<span class="attr">watchEnabled</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">ClusterListener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.session.JvmRouteSessionIDBinderListener"</span> /&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">ClusterListener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.session.ClusterSessionListener"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Cluster</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>选项解释：</p>
+<p><code>Membership</code> ：MemberShip组件自动检索发现集群里的新节点或已经停止工作的节点，并发出相应的通知。默认使用组播（Multicast）实现。 </p>
+<p><code>Receiver</code> ：负责监听接收其他节点传送过来的数据。默认使用non-blocking TCP Server sockets。</p>
+<p><code>Sender</code> ： 发送数据给其他节点。管理从一个节点发送到另外一个节点的出站连接和数据信息，允许信息并行发送。默认使用TCP Client Sockets。 </p>
+<p>　　2、确保web.xml有<code>&lt;distributable/&gt;</code>标签 Make sure your web.xml has the <distributable> element </distributable></p>
+<div align="center"><br><img src="/images/java/melta.png" alt=""><br></div>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">"http://java.sun.com/xml/ns/javaee"</span></span></div><div class="line"><span class="tag">  <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></div><div class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://java.sun.com/xml/ns/javaee</span></span></div><div class="line"><span class="tag"><span class="string">                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"</span></span></div><div class="line"><span class="tag">  <span class="attr">version</span>=<span class="string">"3.0"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">distributable</span>/&gt;</span> 	# 添加这个标签即可</div></pre></td></tr></table></figure>
+<p>查看效果：</p>
+<p>　　无论请求调度到哪一台，每台服务器都保存了所有session会话信息。</p>
+<div align="center"><br><img src="/images/java/51.png" alt=""><br></div><br><div align="center"><br><img src="/images/java/52.png" alt=""><br></div>
+
+
+
+<h3 id="BackupManager"><a href="#BackupManager" class="headerlink" title="BackupManager"></a>BackupManager</h3><p>　　backupManager同deltaManager，只不过是将<code>Manager</code>换成了<code>BackupManager</code>，然后定义多个小组，每个小组节点使用同一个多播地址，虽然backupmanager比deltamanager效率上提高了，但是想想有一个问题，当前端调度器将请求调度到了另外一台小组成员外的节点，那不就是获取不到会话信息了。当集群中的节点数量很多并且部署着不同应用时，可以使用BackupManager，BackManager仅向部署了当前应用的节点拷贝Session。但是到目前为止BackupManager并未经过大规模测试，可靠性不及DeltaManager。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Cluster</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.tcp.SimpleTcpCluster"</span></span></div><div class="line"><span class="tag">			<span class="attr">channelSendOptions</span>=<span class="string">"8"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Manager</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.session.BackupManager"</span> # 注意这里更换为<span class="attr">BackupManager</span></span></div><div class="line"><span class="tag">			<span class="attr">expireSessionsOnShutdown</span>=<span class="string">"false"</span></span></div><div class="line"><span class="tag">			<span class="attr">notifyListenersOnReplication</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Channel</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.group.GroupChannel"</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">Membership</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.membership.McastService"</span></span></div><div class="line"><span class="tag">					<span class="attr">address</span>=<span class="string">"228.0.56.71"</span></span></div><div class="line"><span class="tag">					<span class="attr">port</span>=<span class="string">"45564"</span></span></div><div class="line"><span class="tag">					<span class="attr">frequency</span>=<span class="string">"500"</span></span></div><div class="line"><span class="tag">					<span class="attr">dropTime</span>=<span class="string">"3000"</span>/&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">Receiver</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.transport.nio.NioReceiver"</span></span></div><div class="line"><span class="tag">					<span class="attr">address</span>=<span class="string">"192.168.56.51"</span></span></div><div class="line"><span class="tag">					<span class="attr">port</span>=<span class="string">"4000"</span></span></div><div class="line"><span class="tag">					<span class="attr">autoBind</span>=<span class="string">"100"</span></span></div><div class="line"><span class="tag">					<span class="attr">selectorTimeout</span>=<span class="string">"5000"</span></span></div><div class="line"><span class="tag">					<span class="attr">maxThreads</span>=<span class="string">"6"</span>/&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">Sender</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.transport.ReplicationTransmitter"</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">Transport</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.transport.nio.PooledParallelSender"</span>/&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">Sender</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">Interceptor</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.group.interceptors.TcpFailureDetector"</span>/&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">Interceptor</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.tribes.group.interceptors.MessageDispatch15Interceptor"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">Channel</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.tcp.ReplicationValve"</span></span></div><div class="line"><span class="tag">			<span class="attr">filter</span>=<span class="string">""</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.session.JvmRouteBinderValve"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Deployer</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.deploy.FarmWarDeployer"</span></span></div><div class="line"><span class="tag">			<span class="attr">tempDir</span>=<span class="string">"/tmp/war-temp/"</span></span></div><div class="line"><span class="tag">			<span class="attr">deployDir</span>=<span class="string">"/tmp/war-deploy/"</span></span></div><div class="line"><span class="tag">			<span class="attr">watchDir</span>=<span class="string">"/tmp/war-listen/"</span></span></div><div class="line"><span class="tag">			<span class="attr">watchEnabled</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">ClusterListener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.session.JvmRouteSessionIDBinderListener"</span> /&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">ClusterListener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.ha.session.ClusterSessionListener"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Cluster</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="session-server"><a href="#session-server" class="headerlink" title="session server"></a>session server</h2><p>　　在企业中用的最多的应该还是session server服务器这种模式吧，配置也将为简单，其原理就是：将多个节点的会话信息同一保存至一台session服务器，常见的有将多个节点session保存至同一台memcached中，这样前台调度器和backend server都不会做任何配置了。而且memcached是基于内存缓存的，非常高效。</p>
+<div align="center"><br><img src="/images/java/mem.png" alt=""><br></div>
+
+
+<h3 id="MSM"><a href="#MSM" class="headerlink" title="MSM"></a>MSM</h3><p>　　tomcat会话存入memcached需要依赖于第三方类库，在github上有第三方提供，使用量最高的是<code>magro/memcached-session-manager</code>。</p>
+<p>　　<a href="https://github.com/magro/memcached-session-manager" target="_blank" rel="external">https://github.com/magro/memcached-session-manager</a></p>
+<p>　　MSM(memcached-session-manager)支持tomcat6和tomcat7 ，利用Value（Tomcat 阀对Request进行跟踪。Request请求到来时，从memcached加载session，Request请求结束时，将tomcat session更新至memcached，以达到session共享之目的，支持sticky和 non-sticky 模式。</p>
+<p>　　<code>Sticky 模式</code>：tomcat session为主session， memcached为备session。Request请求到来时， 从memcached加载备session到tomcat (仅当tomcat jvmroute发生变化时，否则直接取tomcat session)；Request请求结束时，将tomcat session更新至memcached，以达到主备同步之目的。</p>
+<p>　　<code>Non-Sticky模式</code>：tomcat session为中转session， memcached1为主session，memcached 2为备session。Request请求到来时，从memcached2加载备session到tomcat，当容器中还是没有session 则从memcached1加载主session到tomcat，这种情况是只有一个memcached节点，或者有memcached1出错时，Request请求结束时，将tomcat session更新至主memcached1和备memcached2，并且清除tomcat session 。以达到主备同步之目的。</p>
+<h3 id="SetupAndConfiguration-wiki-page"><a href="#SetupAndConfiguration-wiki-page" class="headerlink" title="SetupAndConfiguration wiki page"></a>SetupAndConfiguration wiki page</h3><p>　　MSM提供了wiki，示例解释了多样性将tomcat的session存入memcached或者redis。wiki page 地址 ：<a href="https://github.com/magro/memcached-session-manager/wiki/SetupAndConfiguration" target="_blank" rel="external">https://github.com/magro/memcached-session-manager/wiki/SetupAndConfiguration</a></p>
+<div align="center"><br><img src="/images/java/wiki.png" alt=""><br></div>
+
+
+<h3 id="Configure-tomcat"><a href="#Configure-tomcat" class="headerlink" title="Configure tomcat"></a>Configure tomcat</h3><p>　　The configuration of tomcat requires two things: <code>you need to drop some jars in your $CATALINA_HOME/lib/</code> and WEB-INF/lib/ directories and you have to configure the memcached session manager in the related <context> element (e.g. in META-INF/context.xml inside the application files).</context></p>
+<h3 id="Add-memcached-session-manager-jars-to-tomcat"><a href="#Add-memcached-session-manager-jars-to-tomcat" class="headerlink" title="Add memcached-session-manager jars to tomcat"></a>Add memcached-session-manager jars to tomcat</h3><div align="center"><br><img src="/images/java/msm.png" alt=""><br></div>
+
+<p>　　tomcat的lib目录如果是Yum安装的在<code>/usr/share/java/tomcat/</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[ root@centos51 conf ]# ll /usr/share/tomcat/</div><div class="line">total 8</div><div class="line">drwxr-xr-x 2 root   root   4096 Oct 21 06:32 bin</div><div class="line">lrwxrwxrwx 1 root   tomcat   11 Oct 21 06:32 conf -&gt; /etc/tomcat</div><div class="line">lrwxrwxrwx 1 root   tomcat   22 Oct 21 06:32 lib -&gt; /usr/share/java/tomcat # 类库目录</div><div class="line">lrwxrwxrwx 1 root   tomcat   15 Oct 21 06:32 logs -&gt; /var/log/tomcat</div><div class="line">-rw-r--r-- 1 tomcat tomcat 3952 Oct 22 19:39 solo.log</div><div class="line">lrwxrwxrwx 1 root   tomcat   22 Oct 21 06:32 temp -&gt; /var/cache/tomcat/temp</div><div class="line">lrwxrwxrwx 1 root   tomcat   23 Oct 21 06:32 webapps -&gt; /var/lib/tomcat/webapps</div><div class="line">lrwxrwxrwx 1 root   tomcat   22 Oct 21 06:32 work -&gt; /var/cache/tomcat/work</div></pre></td></tr></table></figure>
+<h3 id="Add-custom-serializers-to-your-webapp"><a href="#Add-custom-serializers-to-your-webapp" class="headerlink" title="Add custom serializers to your webapp"></a>Add custom serializers to your webapp</h3><p>　　因为memcached只支持字符串这种可流式化数据,对于session对象这种数据，需要一些序列化工具，类似于咱们php经常弄的json_encode一样，将对象转换成字符串。常用的序列化工具有：</p>
+<p><code>kryo-serializer</code>: <a href="http://repo1.maven.org/maven2/de/javakaffee/msm/msm-kryo-serializer/" target="_blank" rel="external">msm-kryo-serializer</a>, <a href="http://repo1.maven.org/maven2/de/javakaffee/kryo-serializers/" target="_blank" rel="external">kryo-serializers-0.34+</a>, <a href="http://repo1.maven.org/maven2/com/esotericsoftware/kryo/" target="_blank" rel="external">kryo-3.x</a>, <a href="http://repo1.maven.org/maven2/com/esotericsoftware/minlog/" target="_blank" rel="external">minlog</a>, <a href="http://repo1.maven.org/maven2/com/esotericsoftware/reflectasm/" target="_blank" rel="external">reflectasm</a>, <a href="http://repo1.maven.org/maven2/org/ow2/asm/asm/" target="_blank" rel="external">asm-5.x</a>, <a href="http://repo1.maven.org/maven2/org/objenesis/objenesis/" target="_blank" rel="external">objenesis-2.x</a><br><code>javolution-serializer</code>: msm-javolution-serializer, javolution-5.4.3.1<br><code>xstream-serializer</code>: msm-xstream-serializer, xstream, xmlpull, xpp3_min<br><code>flexjson-serializer</code>: msm-flexjson-serializer, flexjson</p>
+<div align="center"><br><img src="/images/java/jar.png" alt=""><br></div>
+
+
+<h3 id="Configure"><a href="#Configure" class="headerlink" title="Configure  "></a>Configure  <context></context></h3><p>　　<code>Update the &lt;Context&gt; element (in META-INF/context.xml</code> or what else you choose for context definition, please check the related tomcat documentation for this) so that it contains the Manager configuration for the memcached-session-manager, like in the examples below.</p>
+<p>　　github上提供了多个示例。</p>
+<p>　　<a href="http://mvnrepository.com/artifact/joda-time/joda-time/1.6.2" target="_blank" rel="external">http://mvnrepository.com/artifact/joda-time/joda-time/1.6.2</a></p>
+<p>　　<strong>javolution序列化工具</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> </span></div><div class="line"><span class="tag">		<span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span> &gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/"</span> <span class="attr">docBase</span>=<span class="string">"ROOT"</span> <span class="attr">reloadable</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">Manager</span> <span class="attr">className</span>=<span class="string">"de.javakaffee.web.msm.MemcachedBackupSessionManager"</span></span></div><div class="line"><span class="tag">			<span class="attr">memcachedNodes</span>=<span class="string">"n1:172.18.56.51:11211,n2:172.18.56.52:11211"</span></span></div><div class="line"><span class="tag">			<span class="attr">failoverNodes</span>=<span class="string">"n2"</span></span></div><div class="line"><span class="tag">			# <span class="attr">sticky</span>=<span class="string">"false"</span> 			# 这里需要特别注意，最好不好加</span></div><div class="line"><span class="tag">			<span class="attr">sessionBackupAsync</span>= <span class="string">"false"</span>   </span></div><div class="line"><span class="tag">			<span class="attr">sessionBackupTimeout</span>= <span class="string">"100"</span>  </span></div><div class="line"><span class="tag">			<span class="attr">copyCollectionsForSerialization</span>=<span class="string">"true"</span></span></div><div class="line"><span class="tag">			<span class="attr">requestUriIgnorePattern</span>=<span class="string">".*\.(ico|png|gif|jpg|css|js)$"</span></span></div><div class="line"><span class="tag">			<span class="attr">transcoderFactoryClass</span>=<span class="string">"de.javakaffee.web.msm.serializer.javolution.JavolutionTranscoderFactory"</span></span></div><div class="line"><span class="tag">		/&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">Context</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attr">directory</span>=<span class="string">"logs"</span></span></div><div class="line"><span class="tag">		<span class="attr">prefix</span>=<span class="string">"localhost_access_log."</span> <span class="attr">suffix</span>=<span class="string">".txt"</span></span></div><div class="line"><span class="tag">		<span class="attr">pattern</span>=<span class="string">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Example for non-sticky sessions + kryo</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Context</span>&gt;</span></div><div class="line">  ...</div><div class="line">  <span class="tag">&lt;<span class="name">Manager</span> <span class="attr">className</span>=<span class="string">"de.javakaffee.web.msm.MemcachedBackupSessionManager"</span></span></div><div class="line"><span class="tag">    <span class="attr">memcachedNodes</span>=<span class="string">"n1:host1.yourdomain.com:11211,n2:host2.yourdomain.com:11211"</span></span></div><div class="line"><span class="tag">    <span class="attr">sticky</span>=<span class="string">"false"</span></span></div><div class="line"><span class="tag">    <span class="attr">sessionBackupAsync</span>=<span class="string">"false"</span></span></div><div class="line"><span class="tag">    <span class="attr">lockingMode</span>=<span class="string">"uriPattern:/path1|/path2"</span></span></div><div class="line"><span class="tag">    <span class="attr">requestUriIgnorePattern</span>=<span class="string">".*\.(ico|png|gif|jpg|css|js)$"</span></span></div><div class="line"><span class="tag">    <span class="attr">transcoderFactoryClass</span>=<span class="string">"de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory"</span></span></div><div class="line"><span class="tag">    /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/tomcat/" rel="tag"># tomcat</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/04/java/tomcat/" rel="next" title="tomcat">
+                <i class="fa fa-chevron-left"></i> tomcat
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/06/memcached/memcached/" rel="prev" title="memcached简介">
+                memcached简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">imkindu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装solo"><span class="nav-number">2.</span> <span class="nav-text">安装solo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat-solo虚拟机"><span class="nav-number">2.1.</span> <span class="nav-text">tomcat-solo虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#latke-properties"><span class="nav-number">2.2.</span> <span class="nav-text">latke.properties</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#local-properties"><span class="nav-number">2.3.</span> <span class="nav-text">local.properties</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#session集群"><span class="nav-number">3.</span> <span class="nav-text">session集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache代理"><span class="nav-number">4.</span> <span class="nav-text">apache代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apache指令说明"><span class="nav-number">4.1.</span> <span class="nav-text">apache指令说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用http协议直接代理tomcat"><span class="nav-number">4.2.</span> <span class="nav-text">使用http协议直接代理tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ajp协议代理tomcat"><span class="nav-number">4.3.</span> <span class="nav-text">使用ajp协议代理tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apache负载均衡tomcat"><span class="nav-number">4.4.</span> <span class="nav-text">apache负载均衡tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载tomcat并保持会话"><span class="nav-number">4.5.</span> <span class="nav-text">负载tomcat并保持会话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#balancer管理页面"><span class="nav-number">4.6.</span> <span class="nav-text">balancer管理页面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx代理tomcat"><span class="nav-number">5.</span> <span class="nav-text">nginx代理tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx直接代理到tomcat8080"><span class="nav-number">5.1.</span> <span class="nav-text">nginx直接代理到tomcat8080</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx代理本机tomcat"><span class="nav-number">5.2.</span> <span class="nav-text">nginx代理本机tomcat</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#session-cluster"><span class="nav-number">6.</span> <span class="nav-text">session cluster</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#deltaManager"><span class="nav-number">6.1.</span> <span class="nav-text">deltaManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BackupManager"><span class="nav-number">6.2.</span> <span class="nav-text">BackupManager</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#session-server"><span class="nav-number">7.</span> <span class="nav-text">session server</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MSM"><span class="nav-number">7.1.</span> <span class="nav-text">MSM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SetupAndConfiguration-wiki-page"><span class="nav-number">7.2.</span> <span class="nav-text">SetupAndConfiguration wiki page</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-tomcat"><span class="nav-number">7.3.</span> <span class="nav-text">Configure tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Add-memcached-session-manager-jars-to-tomcat"><span class="nav-number">7.4.</span> <span class="nav-text">Add memcached-session-manager jars to tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Add-custom-serializers-to-your-webapp"><span class="nav-number">7.5.</span> <span class="nav-text">Add custom serializers to your webapp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure"><span class="nav-number">7.6.</span> <span class="nav-text">Configure  </span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">imkindu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

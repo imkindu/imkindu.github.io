@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CA," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="CA认证">
+<meta name="keywords" content="CA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安全和加密（三）：CA">
+<meta property="og:url" content="http://yoursite.com/2017/09/08/linux/CA/index.html">
+<meta property="og:site_name" content="阿杜-开发博客">
+<meta property="og:description" content="CA认证">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/linux/ca01.png">
+<meta property="og:image" content="http://yoursite.com/images/linux/ca02.png">
+<meta property="og:updated_time" content="2017-11-09T11:32:32.277Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安全和加密（三）：CA">
+<meta name="twitter:description" content="CA认证">
+<meta name="twitter:image" content="http://yoursite.com/images/linux/ca01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/08/linux/CA/"/>
+
+
+
+
+
+  <title>安全和加密（三）：CA | 阿杜-开发博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">阿杜-开发博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-linux">
+          <a href="/categories/linux/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            linux
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-php">
+          <a href="/categories/php/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            php
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-java">
+          <a href="/categories/java/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            java
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mysql">
+          <a href="/categories/mysql/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            mysql
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-git">
+          <a href="/categories/git/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            git
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-nginx">
+          <a href="/categories/nginx/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            nginx
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-个人简介">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            个人简介
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/08/linux/CA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="imkindu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿杜-开发博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">安全和加密（三）：CA</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-08T11:30:00+08:00">
+                2017-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>CA认证</p>
+<a id="more"></a>
+<hr>
+<h2 id="搭建私有CA"><a href="#搭建私有CA" class="headerlink" title="搭建私有CA"></a>搭建私有CA</h2><p>openssl 配置文件：/etc/pki/tls/openssl.cnf</p>
+<p>该配置文件中以 “[配置段]”,的形式配置相关信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 ~ ]# cat /etc/pki/tls/openssl.cnf </div><div class="line">####################################################################</div><div class="line">[ ca ]</div><div class="line">default_ca	= CA_default		# The default ca section            默认CA配置段</div><div class="line">####################################################################</div><div class="line">[ CA_default ]</div><div class="line">dir		= /etc/pki/CA		# Where everything is kept              CA工作目录</div><div class="line">certs		= $dir/certs		# Where the issued certs are kept   签发过的证书</div><div class="line">crl_dir		= $dir/crl		# Where the issued crl are kept         吊销列表</div><div class="line">database	= $dir/index.txt	# database index file.              数据库索引文件</div><div class="line">#unique_subject	= no			# Set to &apos;no&apos; to allow creation of  </div><div class="line">					# several ctificates with same subject.</div><div class="line">new_certs_dir	= $dir/newcerts		# default place for new certs.  新颁发的证书存放位置</div><div class="line"></div><div class="line">certificate	= $dir/cacert.pem 	# The CA certificate                CA自己的证书</div><div class="line">serial		= $dir/serial 		# The current serial number         CA证书序列号（颁发到第几个了）</div><div class="line">crlnumber	= $dir/crlnumber	# the current crl number            吊销证书序列号</div><div class="line">					# must be commented out to leave a V1 CRL</div><div class="line">crl		= $dir/crl.pem 		# The current CRL                       </div><div class="line">private_key	= $dir/private/cakey.pem# The private key               CA自己的私钥</div><div class="line">RANDFILE	= $dir/private/.rand	# private random number file</div><div class="line"></div><div class="line">x509_extensions	= usr_cert		# The extentions to add to the cert</div><div class="line"></div><div class="line"># Comment out the following two lines for the &quot;traditional&quot;</div><div class="line"># (and highly broken) format.</div><div class="line">name_opt 	= ca_default		# Subject Name options</div><div class="line">cert_opt 	= ca_default		# Certificate field options</div><div class="line"></div><div class="line"># Extension copying option: use with caution.</div><div class="line"># copy_extensions = copy</div><div class="line"></div><div class="line"># Extensions to add to a CRL. Note: Netscape communicator chokes on V2 CRLs</div><div class="line"># so this is commented out by default to leave a V1 CRL.</div><div class="line"># crlnumber must also be commented out to leave a V1 CRL.</div><div class="line"># crl_extensions	= crl_ext</div><div class="line">default_days	= 365			# how long to certify for           证书有限期</div><div class="line">default_crl_days= 30			# how long before next CRL          吊销列表的有限期限</div><div class="line">default_md	= default		# use public key default MD</div><div class="line">preserve	= no			# keep passed DN ordering</div><div class="line"># A few difference way of specifying how similar the request should look</div><div class="line"># For type CA, the listed attributes must be the same, and the optional</div><div class="line"># and supplied fields are just that :-)</div><div class="line">policy		= policy_match</div><div class="line"># For the CA policy</div><div class="line">[ policy_match ]</div><div class="line">countryName		= match</div><div class="line">stateOrProvinceName	= match</div><div class="line">organizationName	= match</div><div class="line">organizationalUnitName	= optional</div><div class="line">commonName		= supplied</div><div class="line">emailAddress		= optional</div><div class="line"></div><div class="line"># For the &apos;anything&apos; policy</div><div class="line"># At this point in time, you must list all acceptable &apos;object&apos;</div><div class="line"># types.</div><div class="line">[ policy_anything ]</div><div class="line">countryName		= optional</div><div class="line">stateOrProvinceName	= optional</div><div class="line">localityName		= optional</div><div class="line">organizationName	= optional</div><div class="line">organizationalUnitName	= optional</div><div class="line">commonName		= supplied</div><div class="line">emailAddress		= optional</div><div class="line"></div><div class="line">####################################################################</div></pre></td></tr></table></figure>
+<h3 id="创建所需要的文件"><a href="#创建所需要的文件" class="headerlink" title="创建所需要的文件"></a>创建所需要的文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 ~ ]# cd /etc/pki/CA/</div><div class="line">[ root@centos69 CA ]# ll</div><div class="line">total 16</div><div class="line">drwxr-xr-x. 2 root root 4096 Mar 23 05:46 certs</div><div class="line">drwxr-xr-x. 2 root root 4096 Mar 23 05:46 crl</div><div class="line">drwxr-xr-x. 2 root root 4096 Mar 23 05:46 newcerts</div><div class="line">drwx------. 2 root root 4096 Mar 23 05:46 private</div><div class="line"></div><div class="line"></div><div class="line">[ root@centos69 CA ]# touch index.txt       # 生成证书索引数据库文件</div><div class="line">[ root@centos69 CA ]# </div><div class="line">[ root@centos69 CA ]# echo 01 &gt; serial      # 指定第一个颁发证书的序列号</div><div class="line">[ root@centos69 CA ]# </div><div class="line">[ root@centos69 CA ]# ll</div><div class="line">total 20</div><div class="line">drwxr-xr-x. 2 root root 4096 Mar 23 05:46 certs</div><div class="line">drwxr-xr-x. 2 root root 4096 Mar 23 05:46 crl</div><div class="line">-rw-r--r--. 1 root root    0 Sep  1 14:26 index.txt</div><div class="line">drwxr-xr-x. 2 root root 4096 Mar 23 05:46 newcerts</div><div class="line">drwx------. 2 root root 4096 Mar 23 05:46 private</div><div class="line">-rw-r--r--. 1 root root    3 Sep  1 14:26 serial</div></pre></td></tr></table></figure>
+<h3 id="生成私钥"><a href="#生成私钥" class="headerlink" title="生成私钥"></a>生成私钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 CA ]# (umask 066; openssl genrsa -out private/cakey.pem 2048)</div><div class="line">Generating RSA private key, 2048 bit long modulus</div><div class="line">...................+++</div><div class="line">..................................................................................................+++</div><div class="line">e is 65537 (0x10001)</div><div class="line">[ root@centos69 CA ]# ll private/</div><div class="line">total 4</div><div class="line">-rw-------. 1 root root 1675 Sep  1 14:30 cakey.pem</div></pre></td></tr></table></figure>
+<h3 id="生成自签名证书"><a href="#生成自签名证书" class="headerlink" title="生成自签名证书"></a>生成自签名证书</h3><p><code>openssl req</code> 用于生成证书请求，以让第三方权威机构CA来签发，生成我们需要的证书。</p>
+<blockquote>
+<p>openssl req -new -x509 –key /etc/pki/CA/private/cakey.pem-days 7300 -out /etc/pki/CA/cacert.pem</p>
+</blockquote>
+<ul>
+<li>-new: 生成新证书签署请求</li>
+<li>-X509: 专用于CA生成自签证书</li>
+<li>-key: 生成请求时用到的私钥文件</li>
+<li>-days n：证书的有效期限</li>
+<li>-out /PATH/TO/SOMECERTFILE: 证书的保存路径</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 CA ]# openssl req -new -x509 -key private/cakey.pem -days 3650 -out cacert.pem </div><div class="line">You are about to be asked to enter information that will be incorporated</div><div class="line">into your certificate request.</div><div class="line">What you are about to enter is what is called a Distinguished Name or a DN.</div><div class="line">There are quite a few fields but you can leave some blank</div><div class="line">For some fields there will be a default value,</div><div class="line">If you enter &apos;.&apos;, the field will be left blank.</div><div class="line">-----</div><div class="line">Country Name (2 letter code) [XX]:CN                # 国家</div><div class="line">State or Province Name (full name) []:hubei         # 省名</div><div class="line">Locality Name (eg, city) [Default City]:wuhan       # 城市</div><div class="line">Organization Name (eg, company) [Default Company Ltd]:tianyu        # 公司</div><div class="line">Organizational Unit Name (eg, section) []:development               # 部门</div><div class="line">Common Name (eg, your name or your server&apos;s hostname) []:ca.imkindu.com     # 服务器名，要和自己的域名保持一次，这里是给自己颁的</div><div class="line">Email Address []:caadmin@imkindu.com                # 邮箱</div></pre></td></tr></table></figure>
+<h3 id="查看证书"><a href="#查看证书" class="headerlink" title="查看证书"></a>查看证书</h3><p>证书的文件名和配置文件相同</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 CA ]# cat cacert.pem </div><div class="line">-----BEGIN CERTIFICATE-----</div><div class="line">MIID9zCCAt+gAwIBAgIJAIWv3Pdkig3GMA0GCSqGSIb3DQEBBQUAMIGRMQswCQYD</div><div class="line">VQQGEwJDTjEOMAwGA1UECAwFaHViZWkxDjAMBgNVBAcMBXd1aGFuMQ8wDQYDVQQK</div><div class="line">DAZ0aWFueXUxFDASBgNVBAsMC2RldmVsb3BtZW50MRcwFQYDVQQDDA5jYS5pbWtp</div><div class="line">bmR1LmNvbTEiMCAGCSqGSIb3DQEJARYTY2FhZG1pbkBpbWtpbmR1LmNvbTAeFw0x</div><div class="line">NzA5MDEwNjQzNThaFw0yNzA4MzAwNjQzNThaMIGRMQswCQYDVQQGEwJDTjEOMAwG</div><div class="line">A1UECAwFaHViZWkxDjAMBgNVBAcMBXd1aGFuMQ8wDQYDVQQKDAZ0aWFueXUxFDAS</div><div class="line">BgNVBAsMC2RldmVsb3BtZW50MRcwFQYDVQQDDA5jYS5pbWtpbmR1LmNvbTEiMCAG</div><div class="line">CSqGSIb3DQEJARYTY2FhZG1pbkBpbWtpbmR1LmNvbTCCASIwDQYJKoZIhvcNAQEB</div><div class="line">BQADggEPADCCAQoCggEBANnYPqqf0TykyCgUm6Y2HYdrtRmiDLd1UZPMCniF+S95</div><div class="line">Vr4E9RFCXZ89q9jZG1wIPK05EF4v56KSNUH3jTjWx021l99r3iXxvipUm3fnDlCA</div><div class="line">yVh6CZqDRy0uPEI87lxZPQ0lYk1O3g/IGRTZJDBD1RBhE1A4sz87jabgmVhAmeFm</div><div class="line">iwfSSIcOz1gXVotcfTJYv3FCK85XqbpkKVt9jlPd0KsOaXdzR5h7IxksQaVJ7YBZ</div><div class="line">/bSK8BnCN3oUF4MrzKghYB+nrqwlA+f3Im8pJQzh1YQM09asEuj/O9PxfywiWn/9</div><div class="line">5kMnfn1CXtfw1BCrjj5bMjtBs9XJbO834OKAJ6vw//kCAwEAAaNQME4wHQYDVR0O</div><div class="line">BBYEFHYIkdBVCGVRzOHXk7XtOFYFto2ZMB8GA1UdIwQYMBaAFHYIkdBVCGVRzOHX</div><div class="line">k7XtOFYFto2ZMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBAD1inoC2</div><div class="line">bRbzm2xJ/Ev8oNn4oXtoS6taabHx6juCKWbN42XtsBHEpsxyDTBq4nzn6cHO6yzd</div><div class="line">c81+HTYMzywGzpNrSOemS7hnlWVr0bSJZFgVgblakt4vLQO+PB8CDnUd6Atao+sj</div><div class="line">FRnT5yyFnyrXILOxyKxraYatwj0VhvAqx0uYqftxsHYA8sARwuzrqfKEdM7I/re7</div><div class="line">A/TGSRgWBuK9fanoQ7hcuRAt4dt2ukly8a3+3RGCxnkCU99/cnzS8nANdBTb0QxR</div><div class="line">6+VLAaALuOFolqw5T3Ks8kQQpCFk287X4cTgFEME278nIMtAUtFsFoBHfoC36EKT</div><div class="line">evQ4wjERSJrOiWU=</div><div class="line">-----END CERTIFICATE-----</div></pre></td></tr></table></figure>
+<h3 id="cer查看"><a href="#cer查看" class="headerlink" title="cer查看"></a>cer查看</h3><p>导出到windows，注意后缀是cer可以查看证书内容</p>
+<div align="center"><br><img src="/images/linux/ca01.png" alt=""><br></div>
+
+<h2 id="申请CA"><a href="#申请CA" class="headerlink" title="申请CA"></a>申请CA</h2><h3 id="创建密钥对"><a href="#创建密钥对" class="headerlink" title="创建密钥对"></a>创建密钥对</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 CA ]# (umask 066; openssl genrsa -out imkindu.prikey 2048)</div><div class="line">Generating RSA private key, 2048 bit long modulus</div><div class="line">..................+++</div><div class="line">......................................+++</div><div class="line">e is 65537 (0x10001)</div><div class="line">[ root@centos69 CA ]# ll</div><div class="line">total 28</div><div class="line">-rw-r--r--. 1 root root 1436 Sep  1 14:43 cacert.pem</div><div class="line">drwxr-xr-x. 2 root root 4096 Mar 23 05:46 certs</div><div class="line">drwxr-xr-x. 2 root root 4096 Mar 23 05:46 crl</div><div class="line">-rw-------. 1 root root 1675 Sep  1 15:12 imkindu.prikey</div><div class="line">-rw-r--r--. 1 root root    0 Sep  1 14:26 index.txt</div><div class="line">drwxr-xr-x. 2 root root 4096 Mar 23 05:46 newcerts</div><div class="line">drwx------. 2 root root 4096 Sep  1 14:30 private</div><div class="line">-rw-r--r--. 1 root root    3 Sep  1 14:26 serial</div><div class="line"></div><div class="line">[ root@centos69 CA ]# cat imkindu.prikey</div><div class="line">-----BEGIN RSA PRIVATE KEY-----</div><div class="line">MIIEogIBAAKCAQEApwdAA2rKYkwmRbp3qOI/k1OdwrSVXARghdKuAId+LODMQ5lB</div><div class="line">mEZ8Ucw2n03vvZ4YAMgATdxA8n+xkgkCUMBqsjTnV4D+Ame3Wi0YcZmI71UW3pod</div><div class="line">75lpCUwkK5TD4UFvD5PchvfziWx0rh7doWOe0cD6/BaL+5BlGHebEF+8iemFS7Xj</div><div class="line">6tPNz9wuoYP5QkJ1wxnO6k6LyXWtHOk4bg4leFt/Oy7wSLLj4cM6frvYoV0r1t8s</div><div class="line">tpvLSWnsCt9/PT2kzcqNq03pCDwuQTotoWX176Y9Vcd7sZl7RXLjGmQ6zRF0o5Fx</div><div class="line">Jq2GfRJIn5NkDN/kXwwe3WuiG7tgrwogV4qb5QIDAQABAoIBAAasGXiJeZA3roe2</div><div class="line">jTUn5JZEDtdKU3Ubj6eI5P6MaxPr3v0MUDx/BFRYLg5rFJqkiBzv4GM72zRUuYk1</div><div class="line">5uvG4/w+dMdgFcWO0xo9Fu7izT+STJmT2oJJxJJkgkVjaffDn2Yl5/dUTFw/AuI5</div><div class="line">xWy/CAclCGGtnOXtvLwfewhKasOvieYPs2To9z/WtdbKwma9CsFTE0H+Mq+vqCok</div><div class="line">gyiVHf7CCpySxDp3OJqVCHErsBVq0BMrkr/9FnOCZY+Kd4Qcz2IlHDMER4f3+jS8</div><div class="line">pCJdjBOBf1qb9ENAFOCswsYe6g1fTItGGuxr9kmDBorTZSG5RdjCGArf/Eql9tsw</div><div class="line">ItPMkDkCgYEA1Y5WlCZywGVR6B8afyMQ5wjFWlluEfemFaiSXv66GHiXj5K02lnB</div><div class="line">2SV3bSyNR9taFZFK/+KBNVRPOQESbtHcmQoaSWmsb2nml7Tp/UDW+A8tn8yWw0kH</div><div class="line">AJK6eFUqGWKjJu8XuMv0H97BqV4So+rhde8CprB23bFeEjnKDoIn/ZsCgYEAyDmZ</div><div class="line">DsdHBrAqrHMZX2DDgGpb1HxlM20PKorDdWRZeGD1rCBr7SJuGgJYafO1lMW6lJxy</div><div class="line">J2U7ZfwP1qNR8qLjijRJwTZvvzeDVYyfHRzsPCkRqXSHE58aMRcVK7YAz9XcnNq+</div><div class="line">WHlXjAYIpblkl7x0NL3hGplMdrZqdUN6ixe+JH8CgYB9zMF3uEZ0y7q6MEhdiHyW</div><div class="line">fHY1SOUsNGRj8c93ojph2/f8HYHn9mPY1NdLOqlnIPIqLlKt9fIDRkz82YLQQVPf</div><div class="line">2zGs+VEYuJub1njYNO/tZJONxOky1LwJPGYYKKMKHS7a6pFgzNRcSc5vRPlaEi0K</div><div class="line">WeeH5f+/jJJLzjsW3NlN7QKBgFtfja3k21D+DDtuu2F/czijUQ0DR9vUJVuwv8pO</div><div class="line">5VW+Sd8nXJl3YO+VqmuPwIoIQkGXs7CuzhCYm1HEbp1gIJ7thcsa4JxO5SyhY+uR</div><div class="line">S22ZAGpot0wJC5bjhdHQ2UX/vxIF8V/G4GEST9fxZyqn4hA/pv7QfsieLq8dAEuB</div><div class="line">plBZAoGAdHnKQFlwSdy2oDCo9dWHiVWusHLBdZ218BU/hkfCzBMi/M1OrAWyeFU3</div><div class="line">/267deY+uKhEUJgUfrqQw5n+nmZyUOqzcYY1yMXMHbyiXhH1kEkwtPlEDAa7w9we</div><div class="line">+o59IxSMuUNtBTg5tl1oYLULoEwIj27RKVOn43UQvqPXfGKfXVw=</div><div class="line">-----END RSA PRIVATE KEY-----</div></pre></td></tr></table></figure>
+<h3 id="创建申请证书"><a href="#创建申请证书" class="headerlink" title="创建申请证书"></a>创建申请证书</h3><p>与CA自己认证不同的是，没有-x509，表示申请</p>
+<p>CSR是<code>Certificate Signing Request</code>的英文缩写，即证书请求文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 CA ]# openssl req -new -key imkindu.prikey -days 365 -out imkindu.csr</div><div class="line">You are about to be asked to enter information that will be incorporated</div><div class="line">into your certificate request.</div><div class="line">What you are about to enter is what is called a Distinguished Name or a DN.</div><div class="line">There are quite a few fields but you can leave some blank</div><div class="line">For some fields there will be a default value,</div><div class="line">If you enter &apos;.&apos;, the field will be left blank.</div><div class="line">-----</div><div class="line">Country Name (2 letter code) [XX]:CN                    国家</div><div class="line">State or Province Name (full name) []:hubei             省份</div><div class="line">Locality Name (eg, city) [Default City]:wuhan           城市</div><div class="line">Organization Name (eg, company) [Default Company Ltd]:douyu     公司</div><div class="line">Organizational Unit Name (eg, section) []:hr            部门</div><div class="line">Common Name (eg, your name or your server&apos;s hostname) []:www.douyu.tv   # 注意证书和网址域名</div><div class="line">Email Address []:douyu@email.com</div><div class="line"></div><div class="line">Please enter the following &apos;extra&apos; attributes</div><div class="line">to be sent with your certificate request</div><div class="line">A challenge password []:                                加密证书请求（证书会在网上传输）</div><div class="line">An optional company name []:</div></pre></td></tr></table></figure>
+<h3 id="请求发送给CA"><a href="#请求发送给CA" class="headerlink" title="请求发送给CA"></a>请求发送给CA</h3><blockquote>
+<p>scp 到CA服务器</p>
+</blockquote>
+<h3 id="CA签证"><a href="#CA签证" class="headerlink" title="CA签证"></a>CA签证</h3><p>openssl ca 命令就是用于签证证书</p>
+<blockquote>
+<p>openssl ca -in /file.csr -out /file -days 365</p>
+</blockquote>
+<ul>
+<li>in 申请</li>
+<li>out 签售之后证书存放位置</li>
+<li>days 签证期限</li>
+</ul>
+<p><code>crt</code>是标准的证书后缀</p>
+<p>签证时，需要确认证书信息，在openssl.cnf 中配置的有CA必须符合的标准，满足时才能签证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 CA ]# openssl ca -in imkindu.csr -out newcerts/imkindu.crt -days 365</div><div class="line">Using configuration from /etc/pki/tls/openssl.cnf</div><div class="line">Check that the request matches the signature</div><div class="line">Signature ok</div><div class="line">Certificate Details:</div><div class="line">        Serial Number: 1 (0x1)</div><div class="line">        Validity</div><div class="line">            Not Before: Sep  1 07:25:38 2017 GMT</div><div class="line">            Not After : Sep  1 07:25:38 2018 GMT</div><div class="line">        Subject:</div><div class="line">            countryName               = CN</div><div class="line">            stateOrProvinceName       = hubei</div><div class="line">            organizationName          = douyu</div><div class="line">            organizationalUnitName    = hr</div><div class="line">            commonName                = www.douyu.tv</div><div class="line">            emailAddress              = douyu@email.com</div><div class="line">        X509v3 extensions:</div><div class="line">            X509v3 Basic Constraints: </div><div class="line">                CA:FALSE</div><div class="line">            Netscape Comment: </div><div class="line">                OpenSSL Generated Certificate</div><div class="line">            X509v3 Subject Key Identifier: </div><div class="line">                98:BB:45:C4:12:7E:DE:75:29:70:DB:35:E1:19:2D:D5:3B:72:37:F2</div><div class="line">            X509v3 Authority Key Identifier: </div><div class="line">                keyid:76:08:91:D0:55:08:65:51:CC:E1:D7:93:B5:ED:38:56:05:B6:8D:99</div><div class="line"></div><div class="line">Certificate is to be certified until Sep  1 07:25:38 2018 GMT (365 days)</div><div class="line">Sign the certificate? [y/n]:y</div><div class="line"></div><div class="line"></div><div class="line">1 out of 1 certificate requests certified, commit? [y/n]y</div><div class="line">Write out database with 1 new entries</div><div class="line">Data Base Updated</div></pre></td></tr></table></figure>
+<p>数据库更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 CA ]# cat index.txt</div><div class="line">V	180901072538Z		01	unknown	/C=CN/ST=hubei/O=douyu/OU=hr/CN=www.douyu.tv/emailAddress=douyu@email.com</div></pre></td></tr></table></figure>
+<h3 id="查看证书-1"><a href="#查看证书-1" class="headerlink" title="查看证书"></a>查看证书</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 CA ]# cat newcerts/imkindu.crt </div><div class="line">Certificate:</div><div class="line">    Data:</div><div class="line">        Version: 3 (0x2)</div><div class="line">        Serial Number: 1 (0x1)</div><div class="line">    Signature Algorithm: sha1WithRSAEncryption</div><div class="line">        Issuer: C=CN, ST=hubei, L=wuhan, O=tianyu, OU=development, CN=ca.imkindu.com/emailAddress=caadmin@imkindu.com</div><div class="line">        Validity</div><div class="line">            Not Before: Sep  1 07:25:38 2017 GMT</div><div class="line">            Not After : Sep  1 07:25:38 2018 GMT</div><div class="line">        Subject: C=CN, ST=hubei, O=douyu, OU=hr, CN=www.douyu.tv/emailAddress=douyu@email.com</div><div class="line">        Subject Public Key Info:</div><div class="line">            Public Key Algorithm: rsaEncryption</div><div class="line">                Public-Key: (2048 bit)</div><div class="line">                Modulus:</div><div class="line">                    00:a7:07:40:03:6a:ca:62:4c:26:45:ba:77:a8:e2:</div><div class="line">                    3f:93:53:9d:c2:b4:95:5c:04:60:85:d2:ae:00:87:</div><div class="line">                    7e:2c:e0:cc:43:99:41:98:46:7c:51:cc:36:9f:4d:</div><div class="line">                    ef:bd:9e:18:00:c8:00:4d:dc:40:f2:7f:b1:92:09:</div><div class="line">                    02:50:c0:6a:b2:34:e7:57:80:fe:02:67:b7:5a:2d:</div><div class="line">                    18:71:99:88:ef:55:16:de:9a:1d:ef:99:69:09:4c:</div><div class="line">                    24:2b:94:c3:e1:41:6f:0f:93:dc:86:f7:f3:89:6c:</div><div class="line">                    74:ae:1e:dd:a1:63:9e:d1:c0:fa:fc:16:8b:fb:90:</div><div class="line">                    65:18:77:9b:10:5f:bc:89:e9:85:4b:b5:e3:ea:d3:</div><div class="line">                    cd:cf:dc:2e:a1:83:f9:42:42:75:c3:19:ce:ea:4e:</div><div class="line">                    8b:c9:75:ad:1c:e9:38:6e:0e:25:78:5b:7f:3b:2e:</div><div class="line">                    f0:48:b2:e3:e1:c3:3a:7e:bb:d8:a1:5d:2b:d6:df:</div><div class="line">                    2c:b6:9b:cb:49:69:ec:0a:df:7f:3d:3d:a4:cd:ca:</div><div class="line">                    8d:ab:4d:e9:08:3c:2e:41:3a:2d:a1:65:f5:ef:a6:</div><div class="line">                    3d:55:c7:7b:b1:99:7b:45:72:e3:1a:64:3a:cd:11:</div><div class="line">                    74:a3:91:71:26:ad:86:7d:12:48:9f:93:64:0c:df:</div><div class="line">                    e4:5f:0c:1e:dd:6b:a2:1b:bb:60:af:0a:20:57:8a:</div><div class="line">                    9b:e5</div><div class="line">                Exponent: 65537 (0x10001)</div><div class="line">        X509v3 extensions:</div><div class="line">            X509v3 Basic Constraints: </div><div class="line">                CA:FALSE</div><div class="line">            Netscape Comment: </div><div class="line">                OpenSSL Generated Certificate</div><div class="line">            X509v3 Subject Key Identifier: </div><div class="line">                98:BB:45:C4:12:7E:DE:75:29:70:DB:35:E1:19:2D:D5:3B:72:37:F2</div><div class="line">            X509v3 Authority Key Identifier: </div><div class="line">                keyid:76:08:91:D0:55:08:65:51:CC:E1:D7:93:B5:ED:38:56:05:B6:8D:99</div><div class="line"></div><div class="line">    Signature Algorithm: sha1WithRSAEncryption</div><div class="line">         3f:58:52:d6:c5:39:d8:df:12:2f:d6:9a:81:71:4e:ca:2c:25:</div><div class="line">         d5:04:fb:e8:f2:f7:20:92:7d:82:8a:6c:64:55:b9:4d:ff:05:</div><div class="line">         ff:5c:f7:ea:3d:e9:de:d9:1b:54:54:ab:37:db:2f:e9:48:57:</div><div class="line">         d0:47:d1:22:40:fc:e9:b8:dd:f9:b0:be:0c:f1:e1:72:b7:f1:</div><div class="line">         fc:bd:5c:00:17:a1:be:fb:28:33:2a:f6:c3:0b:6b:a8:bd:a6:</div><div class="line">         c2:ec:bf:7a:71:68:07:12:28:d2:69:a0:42:cf:21:c3:94:ef:</div><div class="line">         b7:a9:51:67:a1:b0:27:ef:de:d6:72:1f:4a:67:92:dd:a9:f8:</div><div class="line">         27:27:60:62:5d:32:ef:5e:02:5e:49:7c:24:79:f5:14:5a:65:</div><div class="line">         3c:d3:df:8b:03:09:5a:fe:05:36:cc:2c:7e:b0:89:aa:78:8a:</div><div class="line">         bc:9e:96:72:47:17:91:23:fc:54:9d:23:b6:1f:0f:8d:6d:55:</div><div class="line">         a5:6f:81:6f:ec:fd:2d:cc:75:3c:7f:27:c0:3c:d7:fd:ef:fb:</div><div class="line">         38:34:ab:f4:74:df:8a:d4:bb:a3:ad:81:f8:54:95:57:60:94:</div><div class="line">         bd:22:c6:a1:56:6b:c9:11:ba:00:96:44:62:98:1d:06:64:94:</div><div class="line">         7a:d3:46:83:bf:f6:3c:92:4d:60:7e:28:b2:c0:29:aa:07:0a:</div><div class="line">         2a:98:1d:2e</div><div class="line">-----BEGIN CERTIFICATE-----</div><div class="line">MIID+TCCAuGgAwIBAgIBATANBgkqhkiG9w0BAQUFADCBkTELMAkGA1UEBhMCQ04x</div><div class="line">DjAMBgNVBAgMBWh1YmVpMQ4wDAYDVQQHDAV3dWhhbjEPMA0GA1UECgwGdGlhbnl1</div><div class="line">MRQwEgYDVQQLDAtkZXZlbG9wbWVudDEXMBUGA1UEAwwOY2EuaW1raW5kdS5jb20x</div><div class="line">IjAgBgkqhkiG9w0BCQEWE2NhYWRtaW5AaW1raW5kdS5jb20wHhcNMTcwOTAxMDcy</div><div class="line">NTM4WhcNMTgwOTAxMDcyNTM4WjBxMQswCQYDVQQGEwJDTjEOMAwGA1UECAwFaHVi</div><div class="line">ZWkxDjAMBgNVBAoMBWRvdXl1MQswCQYDVQQLDAJocjEVMBMGA1UEAwwMd3d3LmRv</div><div class="line">dXl1LnR2MR4wHAYJKoZIhvcNAQkBFg9kb3V5dUBlbWFpbC5jb20wggEiMA0GCSqG</div><div class="line">SIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnB0ADaspiTCZFuneo4j+TU53CtJVcBGCF</div><div class="line">0q4Ah34s4MxDmUGYRnxRzDafTe+9nhgAyABN3EDyf7GSCQJQwGqyNOdXgP4CZ7da</div><div class="line">LRhxmYjvVRbemh3vmWkJTCQrlMPhQW8Pk9yG9/OJbHSuHt2hY57RwPr8Fov7kGUY</div><div class="line">d5sQX7yJ6YVLtePq083P3C6hg/lCQnXDGc7qTovJda0c6ThuDiV4W387LvBIsuPh</div><div class="line">wzp+u9ihXSvW3yy2m8tJaewK3389PaTNyo2rTekIPC5BOi2hZfXvpj1Vx3uxmXtF</div><div class="line">cuMaZDrNEXSjkXEmrYZ9Ekifk2QM3+RfDB7da6Ibu2CvCiBXipvlAgMBAAGjezB5</div><div class="line">MAkGA1UdEwQCMAAwLAYJYIZIAYb4QgENBB8WHU9wZW5TU0wgR2VuZXJhdGVkIENl</div><div class="line">cnRpZmljYXRlMB0GA1UdDgQWBBSYu0XEEn7edSlw2zXhGS3VO3I38jAfBgNVHSME</div><div class="line">GDAWgBR2CJHQVQhlUczh15O17ThWBbaNmTANBgkqhkiG9w0BAQUFAAOCAQEAP1hS</div><div class="line">1sU52N8SL9aagXFOyiwl1QT76PL3IJJ9gopsZFW5Tf8F/1z36j3p3tkbVFSrN9sv</div><div class="line">6UhX0EfRIkD86bjd+bC+DPHhcrfx/L1cABehvvsoMyr2wwtrqL2mwuy/enFoBxIo</div><div class="line">0mmgQs8hw5Tvt6lRZ6GwJ+/e1nIfSmeS3an4JydgYl0y714CXkl8JHn1FFplPNPf</div><div class="line">iwMJWv4FNswsfrCJqniKvJ6WckcXkSP8VJ0jth8PjW1VpW+Bb+z9Lcx1PH8nwDzX</div><div class="line">/e/7ODSr9HTfitS7o62B+FSVV2CUvSLGoVZryRG6AJZEYpgdBmSUetNGg7/2PJJN</div><div class="line">YH4ossApqgcKKpgdLg==</div><div class="line">-----END CERTIFICATE-----</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/linux/ca02.png" alt=""><br></div>
+
+<hr>
+<h2 id="证书吊销"><a href="#证书吊销" class="headerlink" title="证书吊销"></a>证书吊销</h2><blockquote>
+<p>1、获取要吊销证书的serial,客户端申请，服务端不能随便吊销</p>
+<p>2、CA根据客户端提交的serial与subject信息，对比检验与index.txt文件信息是否一致</p>
+<p>3、吊销证书<br>在签售证书时，会在newcerts目录下生成对应序列号的pem文件<br>openssl ca -revoke /etc/pki/CA/newcerts/SERIAL.pem</p>
+<p>4、生成吊销证书编号(第一次申请一个序列号)<br>echo 01 &gt; /etc/pki/CA/crlnumber</p>
+<p>5、更新证书的吊销列表<br>openssl ca -gencrl -out FILENAME.crl<br>查看crl文件<br>openssl crl -in /PATH/CRL_FILE.crl -noout -text</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CA/" rel="tag"># CA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/09/mysql/sphinx.conf/" rel="next" title="sphinx.conf">
+                <i class="fa fa-chevron-left"></i> sphinx.conf
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/13/linux/SSH端口转发/" rel="prev" title="SSH端口转发">
+                SSH端口转发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">imkindu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建私有CA"><span class="nav-number">1.</span> <span class="nav-text">搭建私有CA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建所需要的文件"><span class="nav-number">1.1.</span> <span class="nav-text">创建所需要的文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成私钥"><span class="nav-number">1.2.</span> <span class="nav-text">生成私钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成自签名证书"><span class="nav-number">1.3.</span> <span class="nav-text">生成自签名证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看证书"><span class="nav-number">1.4.</span> <span class="nav-text">查看证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cer查看"><span class="nav-number">1.5.</span> <span class="nav-text">cer查看</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#申请CA"><span class="nav-number">2.</span> <span class="nav-text">申请CA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建密钥对"><span class="nav-number">2.1.</span> <span class="nav-text">创建密钥对</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建申请证书"><span class="nav-number">2.2.</span> <span class="nav-text">创建申请证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#请求发送给CA"><span class="nav-number">2.3.</span> <span class="nav-text">请求发送给CA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CA签证"><span class="nav-number">2.4.</span> <span class="nav-text">CA签证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看证书-1"><span class="nav-number">2.5.</span> <span class="nav-text">查看证书</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书吊销"><span class="nav-number">3.</span> <span class="nav-text">证书吊销</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">imkindu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

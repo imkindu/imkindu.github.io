@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="DHCP," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="DHCP（Dynamic Host Configuration Protocol，动态主机配置协议）是一个局域网的网络协议，使用UDP协议工作， 主要有两个用途：给内部网络或网络服务供应商自动分配IP地址，给用户或者内部网络管理员作为对所有计算机作中央管理的手段。DHCP主要2个端口，其中UDP67为DHCP Server的服务端口，UDP68为DHCP Client的服务端口；">
+<meta name="keywords" content="DHCP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DHCP">
+<meta property="og:url" content="http://yoursite.com/2017/09/16/linux/DHCP/index.html">
+<meta property="og:site_name" content="阿杜-开发博客">
+<meta property="og:description" content="DHCP（Dynamic Host Configuration Protocol，动态主机配置协议）是一个局域网的网络协议，使用UDP协议工作， 主要有两个用途：给内部网络或网络服务供应商自动分配IP地址，给用户或者内部网络管理员作为对所有计算机作中央管理的手段。DHCP主要2个端口，其中UDP67为DHCP Server的服务端口，UDP68为DHCP Client的服务端口；">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/linux/dhcp02.png">
+<meta property="og:image" content="http://yoursite.com/images/linux/dhcp01.png">
+<meta property="og:updated_time" content="2017-11-09T11:35:12.919Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DHCP">
+<meta name="twitter:description" content="DHCP（Dynamic Host Configuration Protocol，动态主机配置协议）是一个局域网的网络协议，使用UDP协议工作， 主要有两个用途：给内部网络或网络服务供应商自动分配IP地址，给用户或者内部网络管理员作为对所有计算机作中央管理的手段。DHCP主要2个端口，其中UDP67为DHCP Server的服务端口，UDP68为DHCP Client的服务端口；">
+<meta name="twitter:image" content="http://yoursite.com/images/linux/dhcp02.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/16/linux/DHCP/"/>
+
+
+
+
+
+  <title>DHCP | 阿杜-开发博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">阿杜-开发博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-linux">
+          <a href="/categories/linux/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            linux
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-php">
+          <a href="/categories/php/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            php
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-java">
+          <a href="/categories/java/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            java
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mysql">
+          <a href="/categories/mysql/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            mysql
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-git">
+          <a href="/categories/git/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            git
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-nginx">
+          <a href="/categories/nginx/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            nginx
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-个人简介">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            个人简介
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/16/linux/DHCP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="imkindu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿杜-开发博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DHCP</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-16T09:00:00+08:00">
+                2017-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　<code>DHCP</code>（<code>Dynamic Host Configuration Protocol</code>，<code>动态主机配置协议</code>）是一个局域网的网络协议，使用UDP协议工作， 主要有两个用途：给内部网络或网络服务供应商自动分配IP地址，给用户或者内部网络管理员作为对所有计算机作中央管理的手段。DHCP主要2个端口，其中<code>UDP67</code>为DHCP Server的服务端口，<code>UDP68</code>为DHCP Client的服务端口；</p>
+<a id="more"></a>
+<hr>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>　　dhcp的前身是<code>bootp</code> ： BOOTP（Bootstrap Protocol，引导程序协议）是一种引导协议，基于IP/UDP协议，也称自举协议，是DHCP协议的前身。BOOTP用于无盘工作站的局域网中，可以让无盘工作站从一个中心服务器上获得IP地址。通过BOOTP协议可以为局域网中的无盘工作站分配动态IP地址，这样就不需要管理员去为每个用户去设置静态IP地址。</p>
+<p>　　BOOTP使用UDP报文传输，并使用保留端口号<code>67（BOOTP服务器）</code>和<code>68（BOOTP客户端）</code>工作。使用BOOTP协议的时候，一般包括Bootstrap Protocol Server（自举协议服务端）和Bootstrap Protocol Client（自举协议客户端）两部分。</p>
+<p><strong>BOOTP的一般工作流程就是BOOTP客户端和BOOTP服务器之间的交互，其流程如下：</strong></p>
+<blockquote>
+<ul>
+<li>由BOOTP启动代码来启动BOOTP客户端，这个时候BOOTP客户端还没有IP地址。</li>
+<li>BOOTP客户端使用广播形式的IP地址255.255.255.255向网络中发出IP地址查询要求。</li>
+<li>运行BOOTP协议的服务器接收到这个请求，会根据请求中提供的MAC地址找到BOOTP客户端，并发送一个含有IP地址、服务器IP地址、网关等信息的回应帧。</li>
+<li>BOOTP客户端会根据该回应帧来获得自己的IP地址并通过专用文件服务器（如TFTP服务器）下载启动镜像文件，模拟成磁盘来完成启动。</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="DHCP由来"><a href="#DHCP由来" class="headerlink" title="DHCP由来"></a>DHCP由来</h2><p>　　BOOTP实现了对于主机地址的静态配置，根据主机mac地址，分配一个静态ip。而DHCP实现了动态配置。</p>
+<p>　　我们熟知的DHCP协议是从BOOTP的基础上发展而来的，它们都是主机配置协议，都可以大大减少管理员的工作量。BOOTP可以看成是简单版的DHCP，是对主机的静态配置，而DHCP可以依据一些策略对主机进行动态配置。BOOTP用于无盘工作站的启动和配置，而DHCP更适用于客户端接入变化的网络，即客户端接入时间、接入地点不固定。</p>
+<p>　　在DHCP中为了实现动态配置引入了<code>租约</code>的概念，申请IP地址使用时长，时间到了续租或者重新分配。</p>
+<h2 id="DHCP"><a href="#DHCP" class="headerlink" title="DHCP"></a>DHCP</h2><p><code>RARP</code>：MAC-&gt;IP<br><code>ARP</code>：IP-&gt;MAC </p>
+<hr>
+<h3 id="八种报文"><a href="#八种报文" class="headerlink" title="八种报文"></a>八种报文</h3><p>DHCP共有八种报文</p>
+<blockquote>
+<p><code>DHCP DISCOVER</code>：客户端到服务器<br><code>DHCP OFFER</code> ：服务器到客户端<br><code>DHCP REQUEST</code>：客户端到服务器<br><code>DHCP ACK</code> ：服务器到客户端<br><code>DHCP NAK</code>：服务器到客户端,通知用户无法分配合适的IP地址<br><code>DHCP DECLINE</code> ：客户端到服务器，指示地址已被使用<br><code>DHCP RELEASE</code>：客户端到服务器，放弃网络地址和取消剩余的租约时间<br><code>DHCP INFORM</code>：客户端到服务器,客户端如果需要从DHCP服务器端获取更为详细的配置信息，则发送Inform报文向服务器进行请求</p>
+</blockquote>
+<h3 id="DHCP流程"><a href="#DHCP流程" class="headerlink" title="DHCP流程"></a>DHCP流程</h3><div align="center"><br><img src="/images/linux/dhcp02.png" alt=""><br></div>
+
+
+<blockquote>
+<p>1、<code>dhcp discover</code> 在本网络内询问谁是dhcp服务器，广播方式<br>2、<code>dhcp offer</code>：dhcp服务器 分配ip/netmask gateway给客户端<br>3、<code>dhcp request</code> 请求使用报文，广播告诉使用哪一台dhcp server提供的ip，其他的dhcp server回收ip</p>
+<blockquote>
+<p>多台dhcp服务器响应，先到先得，决定使用哪个<br>如果分配的ip已被使用</p>
+</blockquote>
+<p>4、<code>dhcp server ack</code> 确认，广播方式</p>
+</blockquote>
+<hr>
+<h3 id="续租"><a href="#续租" class="headerlink" title="续租"></a>续租</h3><blockquote>
+<p>client : <code>dhcp request</code> 单播<br>server : <code>dhcp ack</code>  继续租<br>server : <code>dhcp nak</code> 不继续给租了，就需要discover 广播重新找地址了</p>
+</blockquote>
+<h2 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h2><p>　　下面，来看看DHCP如何安装配置</p>
+<h3 id="包列表"><a href="#包列表" class="headerlink" title="包列表"></a>包列表</h3><p>　　查看一下dhcp包里包含哪里文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 ~ ]# rpm -ql dhcp</div><div class="line">/etc/dhcp</div><div class="line">/etc/dhcp/dhcpd.conf                    # dhcp 配置文件</div><div class="line">/etc/dhcp/dhcpd6.conf                   # ipv6 dhcp配置文件</div><div class="line">/etc/openldap/schema/dhcp.schema</div><div class="line">/etc/portreserve/dhcpd</div><div class="line">/etc/rc.d/init.d/dhcpd                  # 脚本</div><div class="line">/etc/rc.d/init.d/dhcpd6                 # IPV6 dhcp服务器服务脚本</div><div class="line">/etc/rc.d/init.d/dhcrelay               # 中继器服务脚本</div><div class="line">/etc/rc.d/init.d/dhcrelay6</div><div class="line">/etc/sysconfig/dhcpd</div><div class="line">/etc/sysconfig/dhcpd6</div><div class="line">/etc/sysconfig/dhcrelay</div><div class="line">/etc/sysconfig/dhcrelay6</div><div class="line">/usr/bin/omshell</div><div class="line">/usr/sbin/dhcpd                         # 服务器</div><div class="line">/usr/sbin/dhcrelay                      # 中继器</div><div class="line">/var/lib/dhcpd</div><div class="line">/var/lib/dhcpd/dhcpd.leases</div><div class="line">/var/lib/dhcpd/dhcpd6.leases</div></pre></td></tr></table></figure>
+<h3 id="配置文件示例"><a href="#配置文件示例" class="headerlink" title="配置文件示例"></a>配置文件示例</h3><p>　　配置 都要以 分号<code>&quot;;&quot;</code>结尾 否则语法错误</p>
+<p>　　subnet     地址池分配IP</p>
+<p>　　filename “vmunix.passacaglia”;         指明引导文件名称和路径</p>
+<p>　　next-server     # server-name 指明主机地址  从哪台主机加载引导文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 ~ ]# cat /usr/share/doc/dhcp*/dhcpd.conf.sample</div><div class="line"><span class="meta">#</span> 全局配置</div><div class="line">default-lease-time 600;                           # 默认租约期限 单位秒</div><div class="line">max-lease-time 7200;                              # 最大租约期限</div><div class="line">option domain-name "example.org";                 # 搜索域，ping www 自动补全</div><div class="line"><span class="meta">#</span> 可选项 可以定义在全局，也可以定义在subnet中，也可以放在Host中</div><div class="line"><span class="meta">#</span> 作用范围越小的，优先级越高</div><div class="line">option domain-name-servers ns1.example.org, ns2.example.org;    # 域名服务器</div><div class="line"><span class="meta">#</span> option domain-name-servers 172.18.0.1 写成ip地址</div><div class="line"><span class="meta">#</span> 地址池</div><div class="line"><span class="meta">#</span> 当前主机所在网络，</div><div class="line">subnet 10.254.239.32 netmask 255.255.255.224 &#123;</div><div class="line">  range dynamic-bootp 10.254.239.40 10.254.239.60;  # 地址池，起始地址，结束地址</div><div class="line">  option broadcast-address 10.254.239.31;           # 广播地址</div><div class="line">  option routers rtr-239-32-1.example.org;          # 网关，告诉客户端网关地址（IP地址）</div><div class="line">&#125;</div><div class="line"><span class="meta">#</span> 保留地址（某些主机固定分配地址）</div><div class="line">host passacaglia &#123;</div><div class="line">  hardware ethernet 0:0:c0:5d:bd:95;</div><div class="line">  filename "vmunix.passacaglia";                    # 指明引导文件名称和路径</div><div class="line">  server-name "toccata.fugue.com";</div><div class="line">&#125;</div><div class="line"><span class="meta">#</span> 超级“作用域”（多个作用域，一个服务器分配）</div><div class="line">shared-network 224-29 &#123;</div><div class="line">  subnet 10.17.224.0 netmask 255.255.255.0 &#123;</div><div class="line">    option routers rtr-224.example.org;</div><div class="line">  &#125;</div><div class="line">  subnet 10.0.29.0 netmask 255.255.255.0 &#123;</div><div class="line">    option routers rtr-29.example.org;</div><div class="line">  &#125;</div><div class="line">  pool &#123;</div><div class="line">    allow members of "foo";</div><div class="line">    range 10.17.224.10 10.17.224.250;</div><div class="line">  &#125;</div><div class="line">  pool &#123;</div><div class="line">    deny members of "foo";</div><div class="line">    range 10.0.29.10 10.0.29.230;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="dhclient"><a href="#dhclient" class="headerlink" title="dhclient"></a>dhclient</h2><blockquote>
+<p>dhclient - Dynamic Host Configuration Protocol Client</p>
+</blockquote>
+<p>能启动，只能启动一次</p>
+<p>dhclient -d  # 前台查看</p>
+<p>dhclient 监听在 udp 68号端口</p>
+<div align="center"><br><img src="/images/linux/dhcp01.png" alt=""><br></div>
+
+
+
+<h2 id="查看某个ip分配给谁了"><a href="#查看某个ip分配给谁了" class="headerlink" title="查看某个ip分配给谁了"></a>查看某个ip分配给谁了</h2><blockquote>
+<p>cat <code>/var/lib/dhcpd/dhcpd.leases</code>     * 租约文件，记录地址分配结果</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">[ imkindu@centos69x ~ ]$ cat /var/lib/dhcpd/dhcpd.leases</div><div class="line"><span class="meta">#</span> The format of this file is documented in the dhcpd.leases(5) manual page.</div><div class="line"><span class="meta">#</span> This lease file was written by isc-dhcp-4.1.1-P1</div><div class="line"></div><div class="line">server-duid "\000\001\000\001!P z\000\014)\374\276\323";</div><div class="line"></div><div class="line">lease 192.168.10.5 &#123;                        # 分配的IP</div><div class="line">  starts 6 2017/09/16 17:51:07;             # 开始时间</div><div class="line">  ends 0 2017/09/17 05:51:07;               # 到期时间</div><div class="line">  cltt 6 2017/09/16 17:51:07;</div><div class="line">  binding state active;</div><div class="line">  next binding state free;</div><div class="line">  hardware ethernet 00:0c:29:fc:3f:56;      # Mac地址</div><div class="line">&#125;</div><div class="line"></div><div class="line">lease 192.168.10.6 &#123;</div><div class="line">  starts 6 2017/09/16 18:06:13;</div><div class="line">  ends 0 2017/09/17 06:06:13;</div><div class="line">  cltt 6 2017/09/16 18:06:13;</div><div class="line">  binding state active;</div><div class="line">  next binding state free;</div><div class="line">  hardware ethernet 00:0c:29:fc:3f:56;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="检查语法"><a href="#检查语法" class="headerlink" title="检查语法"></a>检查语法</h2><blockquote>
+<p>service dhcpd configtest</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[ root@centos69x CentOS7 ]# service dhcpd configtest</div><div class="line">Syntax: OK</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="dnsmasq"><a href="#dnsmasq" class="headerlink" title="dnsmasq"></a>dnsmasq</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">[ root@centos69 ~ ]# yum info dnsmasq</div><div class="line">Loaded plugins: fastestmirror, security</div><div class="line">Loading mirror speeds from cached hostfile</div><div class="line">Installed Packages</div><div class="line">Name        : dnsmasq</div><div class="line">Arch        : x86_64</div><div class="line">Version     : 2.48</div><div class="line">Release     : 17.el6</div><div class="line">Size        : 293 k</div><div class="line">Repo        : installed</div><div class="line">From repo   : media</div><div class="line">Summary     : A lightweight DHCP/caching DNS server</div><div class="line">URL         : http://www.thekelleys.org.uk/dnsmasq/</div><div class="line">License     : GPLv2 or GPLv3</div><div class="line">Description : Dnsmasq is lightweight, easy to configure DNS forwarder and DHCP server.</div><div class="line">            : It is designed to provide DNS and, optionally, DHCP, to a small network.</div><div class="line">            : It can serve the names of local machines which are not in the global</div><div class="line">            : DNS. The DHCP server integrates with the DNS server and allows machines</div><div class="line">            : with DHCP-allocated addresses to appear in the DNS with names configured</div><div class="line">            : either in each host or in a central configuration file. Dnsmasq supports</div><div class="line">            : static and dynamic DHCP leases and BOOTP for network booting of diskless</div><div class="line">            : machines.</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DHCP/" rel="tag"># DHCP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/15/linux/自动化系统安装/" rel="next" title="运维自动化之系统安装">
+                <i class="fa fa-chevron-left"></i> 运维自动化之系统安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/21/mysql/存储引擎/" rel="prev" title="存储引擎">
+                存储引擎 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">imkindu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DHCP由来"><span class="nav-number">2.</span> <span class="nav-text">DHCP由来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DHCP"><span class="nav-number">3.</span> <span class="nav-text">DHCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#八种报文"><span class="nav-number">3.1.</span> <span class="nav-text">八种报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DHCP流程"><span class="nav-number">3.2.</span> <span class="nav-text">DHCP流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#续租"><span class="nav-number">3.3.</span> <span class="nav-text">续租</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装配置"><span class="nav-number">4.</span> <span class="nav-text">安装配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#包列表"><span class="nav-number">4.1.</span> <span class="nav-text">包列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件示例"><span class="nav-number">4.2.</span> <span class="nav-text">配置文件示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dhclient"><span class="nav-number">5.</span> <span class="nav-text">dhclient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看某个ip分配给谁了"><span class="nav-number">6.</span> <span class="nav-text">查看某个ip分配给谁了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查语法"><span class="nav-number">7.</span> <span class="nav-text">检查语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dnsmasq"><span class="nav-number">8.</span> <span class="nav-text">dnsmasq</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">imkindu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

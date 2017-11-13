@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://yoursite.com/images/java/bangzhu.png">
 <meta property="og:image" content="http://yoursite.com/images/java/25.png">
 <meta property="og:image" content="http://yoursite.com/images/java/26.png">
-<meta property="og:updated_time" content="2017-11-05T02:54:45.206Z">
+<meta property="og:updated_time" content="2017-11-06T11:47:00.686Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tomcat">
 <meta name="twitter:description" content="Tomcat是Apache 软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun 和其他一些公司及个人共同开发而成。由于有了Sun 的参与和支持，最新的Servlet 和JSP 规范总是能在Tomcat 中得到体现，Tomcat 5支持最新的Servlet 2.4 和JSP 2.0 规范。因为Tomcat 技术先进、性">
@@ -107,7 +107,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '5.1.3',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -209,6 +209,76 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-linux">
+          <a href="/categories/linux/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            linux
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-php">
+          <a href="/categories/php/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            php
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-java">
+          <a href="/categories/java/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            java
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mysql">
+          <a href="/categories/mysql/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            mysql
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-git">
+          <a href="/categories/git/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            git
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-nginx">
+          <a href="/categories/nginx/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            nginx
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-个人简介">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            个人简介
+          </a>
+        </li>
+      
 
       
         <li class="menu-item menu-item-search">
@@ -305,7 +375,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-04T09:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-04T19:00:00+08:00">
                 2017-11-04
               </time>
             
@@ -387,6 +457,10 @@
 </ul>
 <div align="center"><br><img src="/images/java/08.png" alt=""><br></div>
 
+
+<h2 id="jsp编译过程"><a href="#jsp编译过程" class="headerlink" title="jsp编译过程"></a>jsp编译过程</h2><blockquote>
+<p>jsp –&gt; jasper(jsp-&gt;java) –&gt; servlet(处理html) –&gt; complie(编译器) –&gt; bytecodes –&gt; jvm</p>
+</blockquote>
 <h2 id="tomcat"><a href="#tomcat" class="headerlink" title="tomcat"></a>tomcat</h2><p>　　Tomcat是由Apache软件基金会下属的Jakarta项目开发的一个Servlet容器，按照Sun Microsystems提供的技术规范，实现了对Servlet和JavaServer Page（JSP）的支持，并提供了作为Web服务器的一些特有功能，如Tomcat管理和控制平台、安全域管理和Tomcat阀等。由于Tomcat本身也内含了一个HTTP服务器，它也可以被视作一个单独的Web服务器。但是，不能将 Tomcat 和 Apache Web 服务器混淆，Apache Web Server 是一个用 C 语言实现的 HTTP web server；这两个 HTTP web server 不是捆绑在一起的。Apache Tomcat 包含了一个配置管理工具，也可以通过编辑 XML 格式的配置文件来进行配置。Apache，nginx，tomcat并称为网页服务三剑客，可见其应用度之广泛。</p>
 <h3 id="tomcat架构体系"><a href="#tomcat架构体系" class="headerlink" title="tomcat架构体系"></a>tomcat架构体系</h3><p>　　tomcat架构体系</p>
 <div align="center"><br><img src="/images/java/20.png" alt=""><br></div>
@@ -428,7 +502,14 @@
 <h3 id="安装二进制版本tomcat"><a href="#安装二进制版本tomcat" class="headerlink" title="安装二进制版本tomcat"></a>安装二进制版本tomcat</h3><p>　　教室yum源提供了tomcat包，官网提供了二进制包，可以直接二进制包安装</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[ root@centos51 tools ]# tar -xvf apache-tomcat-8.0.23.tar.gz -C /usr/local/</div><div class="line">[ root@centos51 local ]# ln -sv apache-tomcat-8.0.23/ tomcat</div></pre></td></tr></table></figure>
 <h3 id="添加环境变量"><a href="#添加环境变量" class="headerlink" title="添加环境变量"></a>添加环境变量</h3><p>　　java环境依赖于JAVA_HOME这个变量，如果是手动安装的，需要添加路径变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">export JAVA_HOME=/usr/java/latest</div><div class="line">export PATH=$JAVA_HOME/bin:$PATH</div><div class="line">export CATALINA_HOME=/usr/local/tomcat</div><div class="line">export PATH=$CATALINA_HOME/bin:$PATH</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># 二进制安装和rpm安装jdk配置路径</div><div class="line">export JAVA_HOME=/usr/java/latest</div><div class="line">export PATH=$JAVA_HOME/bin:$PATH</div><div class="line">export CATALINA_HOME=/usr/local/tomcat</div><div class="line">export PATH=$CATALINA_HOME/bin:$PATH</div><div class="line"># yum安装jdk和tomcat配置路径</div><div class="line">export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.121-1.b13.el6.x86_64</div><div class="line">export CATALINA_HOME=/usr/share/tomcat</div><div class="line">export PATH=$JAVA_HOME/bin:$CATALINA_HOME/bin:$PATH</div></pre></td></tr></table></figure>
+<h3 id="openjdk-devel安装"><a href="#openjdk-devel安装" class="headerlink" title="openjdk-devel安装"></a>openjdk-devel安装</h3><p>　　在使用过程中，需要使用到<code>jar</code>等java常用命令，经查找，这些工具在<code>openjdk-devel</code>包中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[ root@centos51 bin ]# yum install java-1.8.0-openjdk-devel</div></pre></td></tr></table></figure>
+<h2 id="tomcat目录结构"><a href="#tomcat目录结构" class="headerlink" title="tomcat目录结构"></a>tomcat目录结构</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[root@centos52 share]# ll tomcat/</div><div class="line">total 4</div><div class="line">bin                                         # 脚本及启动时用到的类</div><div class="line">conf -&gt; /etc/tomcat                         # 配置文件</div><div class="line">lib -&gt; /usr/share/java/tomcat               # 核心类库</div><div class="line">logs -&gt; /var/log/tomcat                     # 日志</div><div class="line">temp -&gt; /var/cache/tomcat/temp              # 临时文件目录</div><div class="line">webapps -&gt; /var/lib/tomcat/webapps          # 应用程序代码目录</div><div class="line">work -&gt; /var/cache/tomcat/work              # 工作目录（编译后的.java和.class）</div></pre></td></tr></table></figure>
+<h2 id="webapps目录结构"><a href="#webapps目录结构" class="headerlink" title="webapps目录结构"></a>webapps目录结构</h2><p>　　每个应用程序webapp目录都有自己的组织结构，主要包含了jsp文件、类文件、主页文件、部署描述符等。</p>
+<blockquote>
+<p><code>/</code> ： webapp的根目录<br><code>WEB-INF/</code> ： 当前webapp的私有资源目录，通常存放当前webapp的web.xml<br><code>META-INF/</code> ：当前webapp的私有资源目录，通常存放当前webapp的context.xml<br><code>classes/</code> ：当前webapp的私有类文件<br><code>lib/</code> ： 私有类，或被打包为jar格式类<br><code>index.jsp</code>：webapp的主页</p>
+</blockquote>
 <h2 id="docs帮助文档"><a href="#docs帮助文档" class="headerlink" title="docs帮助文档"></a>docs帮助文档</h2><p>　　tomcat自带的有帮助文档</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@centos52 docs] yum install tomcat-docs-webapp</div><div class="line">[ root@centos51 webapps ]# ll /usr/share/tomcat/webapps/</div><div class="line">total 16</div><div class="line">drwxr-xr-x 14 root root   4096 Oct 21 20:25 docs                    # 帮助文档</div><div class="line">drwxr-xr-x  5 root tomcat 4096 Oct 21 20:17 host-manager</div><div class="line">drwxr-xr-x  5 root tomcat 4096 Oct 21 20:17 manager</div><div class="line">drwxr-xr-x  2 root root   4096 Oct 21 06:44 ROOT</div></pre></td></tr></table></figure>
 <div align="center"><br><img src="/images/java/bangzhu.png" alt=""><br></div>
@@ -545,6 +626,15 @@
 <h2 id="配置虚拟主机"><a href="#配置虚拟主机" class="headerlink" title="配置虚拟主机"></a>配置虚拟主机</h2><p>　　在server.xml介绍中，已经介绍了Host虚拟主机的配置，详细参数可查看帮助文档 <a href="http://tomcat.apache.org/tomcat-8.0-doc/virtual-hosting-howto.html" target="_blank" rel="external">http://tomcat.apache.org/tomcat-8.0-doc/virtual-hosting-howto.html</a></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"local.tomcat.cn"</span> <span class="attr">appBase</span>=<span class="string">"webapps/local"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/"</span> <span class="attr">docBase</span>=<span class="string">"ROOT"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root@centos52 webapps]# tree local/</div><div class="line">local/</div><div class="line">└── ROOT</div><div class="line">    └── index.jsp</div><div class="line"></div><div class="line">1 directory, 1 file</div></pre></td></tr></table></figure>
+<h2 id="部署deployment"><a href="#部署deployment" class="headerlink" title="部署deployment"></a>部署deployment</h2><p>　　deploy ：tomcat的应用文件和php不同，php文件只要放入到服务器对应位置就可以访问，但是tomcat需要deploy部署才能访问，也可以单独设置某个应用下线不能访问，这一点比较实用。部署的具体实现暂时还不清楚，大致过程是：将webapp的源文件旋转与目标目录、配置tomcat服务器能基于context.xml文件中定义的路径来访问此webapp，将其特有类通过class loader装载至tomcat。</p>
+<p>tomcat部署有两种方式：</p>
+<blockquote>
+<p><code>自动部署</code> ： auto deploy<br><code>手动部署</code> ：</p>
+<blockquote>
+<p><code>冷部署</code> : 把webapp复制到指定目录，重启tomcat<br><code>热部署</code> ：在不停止tomcat的情况下进行部署</p>
+</blockquote>
+</blockquote>
+<p><code>deploy</code> ： 部署<br><code>undeploy</code> ： 反部署，停止webapp<br><code>start</code> ： 启动处理停止状态的webapp<br><code>stop</code> ：停止应用，不在提供用户服务<br><code>redeploy</code> ：重新部署</p>
 </service></server>
       
     </div>
@@ -577,14 +667,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/10/31/linux/varnish/" rel="next" title="varnish">
+                <i class="fa fa-chevron-left"></i> varnish
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/04/hello-world/" rel="prev" title="Hello World">
-                Hello World <i class="fa fa-chevron-right"></i>
+              <a href="/2017/11/05/java/tomcat集群/" rel="prev" title="tomcat集群">
+                tomcat集群 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -662,7 +756,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -673,7 +767,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -684,7 +778,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -719,7 +813,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java简介"><span class="nav-number">1.</span> <span class="nav-text">java简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#servlet"><span class="nav-number">2.</span> <span class="nav-text">servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#servlet架构"><span class="nav-number">2.1.</span> <span class="nav-text">servlet架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet-任务"><span class="nav-number">2.2.</span> <span class="nav-text">Servlet 任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat"><span class="nav-number">3.</span> <span class="nav-text">tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat架构体系"><span class="nav-number">3.1.</span> <span class="nav-text">tomcat架构体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat核心组件"><span class="nav-number">3.2.</span> <span class="nav-text">tomcat核心组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat组件"><span class="nav-number">3.3.</span> <span class="nav-text">tomcat组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件说明"><span class="nav-number">4.</span> <span class="nav-text">组件说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#顶级类组件"><span class="nav-number">4.1.</span> <span class="nav-text">顶级类组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接器类组件"><span class="nav-number">4.2.</span> <span class="nav-text">连接器类组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器类组件"><span class="nav-number">4.3.</span> <span class="nav-text">容器类组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#被嵌套类组件"><span class="nav-number">4.4.</span> <span class="nav-text">被嵌套类组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接器协议"><span class="nav-number">5.</span> <span class="nav-text">连接器协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装jdk和tomcat"><span class="nav-number">6.</span> <span class="nav-text">安装jdk和tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rpm安装jdk"><span class="nav-number">6.1.</span> <span class="nav-text">rpm安装jdk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装二进制版本tomcat"><span class="nav-number">6.2.</span> <span class="nav-text">安装二进制版本tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加环境变量"><span class="nav-number">6.3.</span> <span class="nav-text">添加环境变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docs帮助文档"><span class="nav-number">7.</span> <span class="nav-text">docs帮助文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat的配置文件"><span class="nav-number">8.</span> <span class="nav-text">Tomcat的配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#server-xml"><span class="nav-number">9.</span> <span class="nav-text">server.xml</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Server组件"><span class="nav-number">9.1.</span> <span class="nav-text">Server组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service组件"><span class="nav-number">9.2.</span> <span class="nav-text">Service组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connector组件"><span class="nav-number">9.3.</span> <span class="nav-text">Connector组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Engine组件"><span class="nav-number">9.4.</span> <span class="nav-text">Engine组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Host组件"><span class="nav-number">9.5.</span> <span class="nav-text">Host组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Context组件"><span class="nav-number">9.6.</span> <span class="nav-text">Context组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Realm组件"><span class="nav-number">9.7.</span> <span class="nav-text">Realm组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Valve组件"><span class="nav-number">9.8.</span> <span class="nav-text">Valve组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GlobalNamingResources"><span class="nav-number">9.9.</span> <span class="nav-text">GlobalNamingResources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WatchedResource"><span class="nav-number">9.10.</span> <span class="nav-text">WatchedResource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Listener"><span class="nav-number">9.11.</span> <span class="nav-text">Listener</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loader"><span class="nav-number">9.12.</span> <span class="nav-text">Loader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Manager"><span class="nav-number">9.13.</span> <span class="nav-text">Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stores"><span class="nav-number">9.14.</span> <span class="nav-text">Stores</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resources"><span class="nav-number">9.15.</span> <span class="nav-text">Resources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster"><span class="nav-number">9.16.</span> <span class="nav-text">Cluster</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web-xml文件"><span class="nav-number">10.</span> <span class="nav-text">web.xml文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat-users-xml"><span class="nav-number">11.</span> <span class="nav-text">tomcat-users.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#manager"><span class="nav-number">12.</span> <span class="nav-text">manager</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装manager"><span class="nav-number">12.1.</span> <span class="nav-text">安装manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置管理用户"><span class="nav-number">12.2.</span> <span class="nav-text">配置管理用户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置虚拟主机"><span class="nav-number">13.</span> <span class="nav-text">配置虚拟主机</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java简介"><span class="nav-number">1.</span> <span class="nav-text">java简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#servlet"><span class="nav-number">2.</span> <span class="nav-text">servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#servlet架构"><span class="nav-number">2.1.</span> <span class="nav-text">servlet架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet-任务"><span class="nav-number">2.2.</span> <span class="nav-text">Servlet 任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jsp编译过程"><span class="nav-number">3.</span> <span class="nav-text">jsp编译过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat"><span class="nav-number">4.</span> <span class="nav-text">tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat架构体系"><span class="nav-number">4.1.</span> <span class="nav-text">tomcat架构体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat核心组件"><span class="nav-number">4.2.</span> <span class="nav-text">tomcat核心组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat组件"><span class="nav-number">4.3.</span> <span class="nav-text">tomcat组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件说明"><span class="nav-number">5.</span> <span class="nav-text">组件说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#顶级类组件"><span class="nav-number">5.1.</span> <span class="nav-text">顶级类组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接器类组件"><span class="nav-number">5.2.</span> <span class="nav-text">连接器类组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器类组件"><span class="nav-number">5.3.</span> <span class="nav-text">容器类组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#被嵌套类组件"><span class="nav-number">5.4.</span> <span class="nav-text">被嵌套类组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接器协议"><span class="nav-number">6.</span> <span class="nav-text">连接器协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装jdk和tomcat"><span class="nav-number">7.</span> <span class="nav-text">安装jdk和tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rpm安装jdk"><span class="nav-number">7.1.</span> <span class="nav-text">rpm安装jdk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装二进制版本tomcat"><span class="nav-number">7.2.</span> <span class="nav-text">安装二进制版本tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加环境变量"><span class="nav-number">7.3.</span> <span class="nav-text">添加环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#openjdk-devel安装"><span class="nav-number">7.4.</span> <span class="nav-text">openjdk-devel安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat目录结构"><span class="nav-number">8.</span> <span class="nav-text">tomcat目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webapps目录结构"><span class="nav-number">9.</span> <span class="nav-text">webapps目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docs帮助文档"><span class="nav-number">10.</span> <span class="nav-text">docs帮助文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat的配置文件"><span class="nav-number">11.</span> <span class="nav-text">Tomcat的配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#server-xml"><span class="nav-number">12.</span> <span class="nav-text">server.xml</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Server组件"><span class="nav-number">12.1.</span> <span class="nav-text">Server组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service组件"><span class="nav-number">12.2.</span> <span class="nav-text">Service组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connector组件"><span class="nav-number">12.3.</span> <span class="nav-text">Connector组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Engine组件"><span class="nav-number">12.4.</span> <span class="nav-text">Engine组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Host组件"><span class="nav-number">12.5.</span> <span class="nav-text">Host组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Context组件"><span class="nav-number">12.6.</span> <span class="nav-text">Context组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Realm组件"><span class="nav-number">12.7.</span> <span class="nav-text">Realm组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Valve组件"><span class="nav-number">12.8.</span> <span class="nav-text">Valve组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GlobalNamingResources"><span class="nav-number">12.9.</span> <span class="nav-text">GlobalNamingResources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WatchedResource"><span class="nav-number">12.10.</span> <span class="nav-text">WatchedResource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Listener"><span class="nav-number">12.11.</span> <span class="nav-text">Listener</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loader"><span class="nav-number">12.12.</span> <span class="nav-text">Loader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Manager"><span class="nav-number">12.13.</span> <span class="nav-text">Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stores"><span class="nav-number">12.14.</span> <span class="nav-text">Stores</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resources"><span class="nav-number">12.15.</span> <span class="nav-text">Resources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster"><span class="nav-number">12.16.</span> <span class="nav-text">Cluster</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web-xml文件"><span class="nav-number">13.</span> <span class="nav-text">web.xml文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat-users-xml"><span class="nav-number">14.</span> <span class="nav-text">tomcat-users.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#manager"><span class="nav-number">15.</span> <span class="nav-text">manager</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装manager"><span class="nav-number">15.1.</span> <span class="nav-text">安装manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置管理用户"><span class="nav-number">15.2.</span> <span class="nav-text">配置管理用户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置虚拟主机"><span class="nav-number">16.</span> <span class="nav-text">配置虚拟主机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署deployment"><span class="nav-number">17.</span> <span class="nav-text">部署deployment</span></a></li></ol></div>
             
 
           </div>
@@ -913,7 +1007,7 @@
     var isfetched = false;
     var isXml = true;
     // Search DB path;
-    var search_path = "";
+    var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
     } else if (/json$/i.test(search_path)) {
