@@ -1,0 +1,51 @@
+
+
+redis 
+
+    nosqldatabases网站排名
+
+
+
+redis配置
+
+    /etc/redis.conf 
+
+        INCLUDES
+            daemonize
+            databases
+
+        NETWORK
+
+        GENERAL
+
+        SNAPSHOTTING
+
+        REPLICATION
+
+        SECURITY
+            # requirepass foobared
+
+        LIMITS
+            maxclients 10000    # 最大连接并发数
+            maxmemory           # 使用多大内存
+            maxmemory-policy    # 淘汰算法
+                volatile-lru        淘汰设定缓存时间的，没设缓存时间的不淘汰
+                volatile-random     随机淘汰
+                volatile-ttl        淘汰设置了生存时间，快要到期的
+                noeviction          不淘汰，不让写
+            maxmemory-samples   # 采样比例：淘汰时，采用多少个对比，看淘汰谁
+
+
+
+        REDIS CLUSTER
+
+        SLOW LOG
+
+
+    
+
+    sentinel
+        监控、通知、自动故障转移
+
+        
+

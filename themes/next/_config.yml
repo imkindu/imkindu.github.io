@@ -90,11 +90,13 @@ menu:
   #categories: /categories/ || th
   archives: /archives/ || archive
   linux : /categories/linux/
-  php : /categories/php/ || heartbeat
   java : /categories/java/ || calendar
-  mysql : /categories/mysql/ || sitemap
   git : /categories/git/
   nginx : /categories/nginx/ || heartbeat
+  数据库 : /categories/database || sitemap
+  开发编程 : /categories/program || archive
+  运维工具 : /categories/devops || calendar
+  个人简介 : /about 
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat

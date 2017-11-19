@@ -2,7 +2,9 @@
 title: 编译安装mariadb-5.5.57
 date: 2017-09-21 20:00:00
 author: imkindu
-categories: mysql
+categories: 
+- mysql
+- database
 tags:
 - 编译安装mariadb
 ---

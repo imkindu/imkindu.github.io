@@ -1,0 +1,184 @@
+
+
+
+问题：
+    mysql读写分离器
+
+
+    切片？？
+
+
+    keepalived
+
+
+    Percona XtraDB Cluster
+
+percona.com 非权威Mysql技术网站
+
+
+知识点：
+
+    drbd
+        分布式
+
+        跨主机做镜像
+
+
+    mha
+        master high
+        监控mysql集群复制事务，当主节点挂了，将所有节点事务同步到离主节点最近的节点
+        保证最近节点的事务最全
+
+
+    半同步化复制
+        主节点和最近从节点采用同步复制，其他子节点采用异步复制
+
+
+
+    Percona XtraDB Cluster
+        多主高可用解决方案
+
+
+
+半同步复制
+
+    查看插件
+        MariaDB [(none)]> show plugins;
+
+    安装插件
+        MariaDB [(none)]> help install
+        Name: 'INSTALL PLUGIN'
+        Description:
+        Syntax:
+        INSTALL PLUGIN plugin_name SONAME 'shared_library_name'
+
+    [root@centos20 plugin]# ll /usr/lib64/mysql/plugin/
+    total 5016
+    -rwxr-xr-x. 1 root root   11632 Nov 15  2016 adt_null.so
+    -rwxr-xr-x. 1 root root    7336 Nov 15  2016 auth_0x0100.so
+    -rwxr-xr-x. 1 root root   11536 Nov 15  2016 auth_pam.so
+    -rwxr-xr-x. 1 root root    7568 Nov 15  2016 auth_socket.so
+    -rwxr-xr-x. 1 root root   11720 Nov 15  2016 auth_test_plugin.so
+    -rw-r--r--. 1 root root     227 Sep 12  2016 daemon_example.ini
+    -rwxr-xr-x. 1 root root    7504 Nov 15  2016 dialog_examples.so
+    -rwxr-xr-x. 1 root root   11288 Nov 15  2016 dialog.so
+    -rwxr-xr-x. 1 root root 1644528 Nov 15  2016 ha_innodb.so
+    -rwxr-xr-x. 1 root root  169576 Nov 15  2016 handlersocket.so
+    -rwxr-xr-x. 1 root root  106248 Nov 15  2016 ha_sphinx.so
+    -rwxr-xr-x. 1 root root   11720 Nov 15  2016 libdaemon_example.so
+    -rwxr-xr-x. 1 root root   12208 Nov 15  2016 mypluglib.so
+    -rwxr-xr-x. 1 root root    7184 Nov 15  2016 mysql_clear_password.so
+    -rwxr-xr-x. 1 root root    7168 Nov 15  2016 qa_auth_client.so
+    -rwxr-xr-x. 1 root root   11568 Nov 15  2016 qa_auth_interface.so
+    -rwxr-xr-x. 1 root root    7336 Nov 15  2016 qa_auth_server.so
+    -rwxr-xr-x. 1 root root   11736 Nov 15  2016 query_cache_info.so
+    -rwxr-xr-x. 1 root root   41336 Nov 15  2016 semisync_master.so         #
+    -rwxr-xr-x. 1 root root   15984 Nov 15  2016 semisync_slave.so          #
+    -rwxr-xr-x. 1 root root   61184 Nov 15  2016 server_audit.so
+    -rwxr-xr-x. 1 root root 2922944 Nov 15  2016 sphinx.so
+    -rwxr-xr-x. 1 root root   12152 Nov 15  2016 sql_errlog.so
+
+
+
+    # change master
+    install plugin rpl_semi_sync_
+
+    show global status like '%rpm%';
+
+
+
+
+复制过滤器：
+    
+    仅复制有限一个或几个数据库相关的数据，而非所有；由复制过滤器进行；
+    
+    有两种实现思路：
+    
+    (1) 主服务器
+        主服务器仅向二进制日志中记录有关特定数据库相关的写操作；
+        问题：其它库的time-point recovery将无从实现； 
+        
+            binlog_do_db= 逗号分隔的数据库名称列表
+            binlog_ignore_db=
+    
+    (2) 从服务器
+        从服务器的SQL THREAD仅重放关注的数据库或表相关的事件，并将其应用于本地；
+        问题：网络IO和磁盘IO；
+        
+            Replicate_Do_DB=
+            Replicate_Ignore_DB=
+            
+            Replicate_Do_Table=
+            Replicate_Ignore_Table=
+            # wild 通配符  prl*
+            Replicate_Wild_Do_Table= 
+            Replicate_Wild_Ignore_Table=	
+
+
+
+读写分离
+
+    mysql_proxy
+
+    amoeba -> cobar
+
+    OneProxy
+
+    ProxySQL
+
+    MaxScale
+        MariaDB
+
+    
+
+
+    ProxySQL
+
+        代理 69
+        主   67
+        从   68
+
+        配置
+            /etc/proxysql.cnf 
+
+
+
+
+
+
+
+mysql 优化
+
+    索引
+
+    查询缓存 query cache
+
+    MariaDB [(none)]> show global variables like '%cache%';
++-------------------------------+----------------------+
+| Variable_name                 | Value                |
++-------------------------------+----------------------+
+| aria_pagecache_age_threshold  | 300                  |
+| aria_pagecache_buffer_size    | 134217728            |
+| aria_pagecache_division_limit | 100                  |
+| binlog_cache_size             | 32768                |
+| binlog_stmt_cache_size        | 32768                |
+| have_query_cache              | YES                  |
+| join_cache_level              | 2                    |
+| key_cache_age_threshold       | 300                  |
+| key_cache_block_size          | 1024                 |
+| key_cache_division_limit      | 100                  |
+| key_cache_segments            | 0                    |
+| max_binlog_cache_size         | 18446744073709547520 |
+| max_binlog_stmt_cache_size    | 18446744073709547520 |
+| metadata_locks_cache_size     | 1024                 |
+| query_cache_limit             | 1048576              |
+| query_cache_min_res_unit      | 4096                 |
+| query_cache_size              | 0                    |
+| query_cache_strip_comments    | OFF                  |
+| query_cache_type              | ON                   |
+| query_cache_wlock_invalidate  | OFF                  |
+| stored_program_cache          | 256                  |
+| table_definition_cache        | 400                  |
+| table_open_cache              | 400                  |
+| thread_cache_size             | 0                    |
++-------------------------------+----------------------+

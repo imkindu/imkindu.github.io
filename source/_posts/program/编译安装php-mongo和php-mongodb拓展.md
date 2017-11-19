@@ -2,7 +2,7 @@
 title: php-mongo和php-mongodb扩展
 date: 2017-10-11 20:00:00
 author: imkindu
-categories: php
+categories: program
 tags:
 - php-mongo
 - php-mongodb

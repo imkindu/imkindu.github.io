@@ -2,7 +2,7 @@
 title: mysql_secure_installation
 date: 2017-09-22 09:00:00
 author: imkindu
-categories: mysql
+categories: database
 tags:
 - mysql安全
 - mysql初始化

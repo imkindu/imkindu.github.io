@@ -2,7 +2,7 @@
 title: 二进制安装mariadb-5.5.57
 date: 2017-09-21 20:00:00
 author: imkindu
-categories: mysql
+categories: database
 tags:
 - mysql二进制安装
 ---
