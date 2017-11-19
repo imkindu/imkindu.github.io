@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ansible,playbook," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前面使用ansible每次都是命令行指定使用什么模块，使用什么参数，只是一次性的，如果需要执行多次，还是要写入文件，方便多次执行。这就是playbook. 　　Playbook是Ansible的配置，部署，编排语言。他们可以被描述为一个需要希望远程主机执行命令的方案，或者一组IT程序运行的命令集合。">
+<meta name="keywords" content="ansible,playbook">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ansible第五篇：playbook">
+<meta property="og:url" content="http://yoursite.com/2017/11/17/devops/playbook/index.html">
+<meta property="og:site_name" content="阿杜-开发博客">
+<meta property="og:description" content="前面使用ansible每次都是命令行指定使用什么模块，使用什么参数，只是一次性的，如果需要执行多次，还是要写入文件，方便多次执行。这就是playbook. 　　Playbook是Ansible的配置，部署，编排语言。他们可以被描述为一个需要希望远程主机执行命令的方案，或者一组IT程序运行的命令集合。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/ansible/03.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/03.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/04.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/05.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/06.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/07.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/10.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/11.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/12.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/13.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/14.jpg">
+<meta property="og:image" content="http://yoursite.com/images/ansible/15.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/20.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/21.png">
+<meta property="og:image" content="http://yoursite.com/images/ansible/22.png">
+<meta property="og:updated_time" content="2017-11-18T03:16:41.488Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ansible第五篇：playbook">
+<meta name="twitter:description" content="前面使用ansible每次都是命令行指定使用什么模块，使用什么参数，只是一次性的，如果需要执行多次，还是要写入文件，方便多次执行。这就是playbook. 　　Playbook是Ansible的配置，部署，编排语言。他们可以被描述为一个需要希望远程主机执行命令的方案，或者一组IT程序运行的命令集合。">
+<meta name="twitter:image" content="http://yoursite.com/images/ansible/03.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/17/devops/playbook/"/>
+
+
+
+
+
+  <title>ansible第五篇：playbook | 阿杜-开发博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">阿杜-开发博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-linux">
+          <a href="/categories/linux/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            linux
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-java">
+          <a href="/categories/java/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            java
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-git">
+          <a href="/categories/git/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            git
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-nginx">
+          <a href="/categories/nginx/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            nginx
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-数据库">
+          <a href="/categories/database" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            数据库
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-开发编程">
+          <a href="/categories/program" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            开发编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-运维工具">
+          <a href="/categories/devops" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            运维工具
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-个人简介">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            个人简介
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/17/devops/playbook/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="imkindu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿杜-开发博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ansible第五篇：playbook</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-17T22:00:00+08:00">
+                2017-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/devops/" itemprop="url" rel="index">
+                    <span itemprop="name">devops</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/devops/ansible/" itemprop="url" rel="index">
+                    <span itemprop="name">ansible</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　前面使用ansible每次都是命令行指定使用什么模块，使用什么参数，只是一次性的，如果需要执行多次，还是要写入文件，方便多次执行。这就是playbook.</p>
+<p>　　Playbook是Ansible的配置，部署，编排语言。他们可以被描述为一个需要希望远程主机执行命令的方案，或者一组IT程序运行的命令集合。</p>
+<a id="more"></a>
+<h2 id="关于Playbooks"><a href="#关于Playbooks" class="headerlink" title="关于Playbooks"></a>关于Playbooks</h2><p>Playbook是一种与adhoc任务执行模式完全不同的方式，而且特别强大。</p>
+<p>简单地说，Playbooks是一个非常简单的配置管理和多机器部署系统的基础，不像任何已经存在的那样，而且非常适合部署复杂的应用程序。</p>
+<p>Playbook可以声明配置，但它们也可以协调任何手动订购过程的步骤，即使不同的步骤必须在特定订单的机器组之间来回弹起。 他们可以同步或异步地启动任务。</p>
+<p>虽然您可以运行主/usr/bin/ansible程序来进行自组织任务，但是Playbook更有可能被保留在源代码管理中，并用于推出配置或确保远程系统的配置符合规范。</p>
+<h2 id="ansible-playbook命令"><a href="#ansible-playbook命令" class="headerlink" title="ansible-playbook命令"></a>ansible-playbook命令</h2><p>　　使用Playbook时通过<code>ansible-playbook</code>命令使用，它的参数和ansible命令类似，如参数-k(–ask-pass) 和-K (–ask-sudo) 来询问ssh密码和sudo密码，-u指定用户，这些指令也可以通过规定的单元写在playbook里。ansible-playbook的简单使用方法：</p>
+<blockquote>
+<p>ansible-playbook /etc/ansible/roles/redis.yml</p>
+</blockquote>
+<p>　　可以使用 <code>-C</code> 先测试一遍</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ansible]# ansible-playbook --help</div><div class="line">Usage: ansible-playbook playbook.yml</div><div class="line"></div><div class="line">Options:</div><div class="line">  --ask-vault-pass      ask for vault password</div><div class="line">  -C, --check           don't make any changes; instead, try to predict some</div><div class="line">                        of the changes that may occur</div><div class="line">  -D, --diff            when changing (small) files and templates, show the</div><div class="line">                        differences in those files; works great with --check</div><div class="line">  -e EXTRA_VARS, --extra-vars=EXTRA_VARS</div><div class="line">                        set additional variables as key=value or YAML/JSON</div><div class="line">  --flush-cache         clear the fact cache</div><div class="line">  --force-handlers      run handlers even if a task fails</div><div class="line">  -f FORKS, --forks=FORKS</div><div class="line">                        specify number of parallel processes to use</div><div class="line">                        (default=5)</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -i INVENTORY, --inventory-file=INVENTORY</div><div class="line">                        specify inventory host path</div><div class="line">                        (default=/etc/ansible/hosts) or comma separated host</div><div class="line">                        list.</div><div class="line">  -l SUBSET, --limit=SUBSET</div><div class="line">                        further limit selected hosts to an additional pattern</div><div class="line">  --list-hosts          outputs a list of matching hosts; does not execute</div><div class="line">                        anything else</div><div class="line">  --list-tags           list all available tags</div><div class="line">  --list-tasks          list all tasks that would be executed</div><div class="line">  -M MODULE_PATH, --module-path=MODULE_PATH</div><div class="line">                        specify path(s) to module library (default=None)</div><div class="line">  --new-vault-password-file=NEW_VAULT_PASSWORD_FILE</div><div class="line">                        new vault password file for rekey</div><div class="line">  --output=OUTPUT_FILE  output file name for encrypt or decrypt; use - for</div><div class="line">                        stdout</div><div class="line">  --skip-tags=SKIP_TAGS</div><div class="line">                        only run plays and tasks whose tags do not match these</div><div class="line">                        values</div><div class="line">  --start-at-task=START_AT_TASK</div><div class="line">                        start the playbook at the task matching this name</div><div class="line">  --step                one-step-at-a-time: confirm each task before running</div><div class="line">  --syntax-check        perform a syntax check on the playbook, but do not</div><div class="line">                        execute it</div><div class="line">  -t TAGS, --tags=TAGS  only run plays and tasks tagged with these values</div><div class="line">  --vault-password-file=VAULT_PASSWORD_FILE</div><div class="line">                        vault password file</div><div class="line">  -v, --verbose         verbose mode (-vvv for more, -vvvv to enable</div><div class="line">                        connection debugging)</div><div class="line">  --version             show program's version number and exit</div><div class="line"></div><div class="line">  Connection Options:</div><div class="line">    control as whom and how to connect to hosts</div><div class="line"></div><div class="line">    -k, --ask-pass      ask for connection password</div><div class="line">    --private-key=PRIVATE_KEY_FILE, --key-file=PRIVATE_KEY_FILE</div><div class="line">                        use this file to authenticate the connection</div><div class="line">    -u REMOTE_USER, --user=REMOTE_USER</div><div class="line">                        connect as this user (default=None)</div><div class="line">    -c CONNECTION, --connection=CONNECTION</div><div class="line">                        connection type to use (default=smart)</div><div class="line">    -T TIMEOUT, --timeout=TIMEOUT</div><div class="line">                        override the connection timeout in seconds</div><div class="line">                        (default=10)</div><div class="line">    --ssh-common-args=SSH_COMMON_ARGS</div><div class="line">                        specify common arguments to pass to sftp/scp/ssh (e.g.</div><div class="line">                        ProxyCommand)</div><div class="line">    --sftp-extra-args=SFTP_EXTRA_ARGS</div><div class="line">                        specify extra arguments to pass to sftp only (e.g. -f,</div><div class="line">                        -l)</div><div class="line">    --scp-extra-args=SCP_EXTRA_ARGS</div><div class="line">                        specify extra arguments to pass to scp only (e.g. -l)</div><div class="line">    --ssh-extra-args=SSH_EXTRA_ARGS</div><div class="line">                        specify extra arguments to pass to ssh only (e.g. -R)</div><div class="line"></div><div class="line">  Privilege Escalation Options:</div><div class="line">    control how and which user you become as on target hosts</div><div class="line"></div><div class="line">    -s, --sudo          run operations with sudo (nopasswd) (deprecated, use</div><div class="line">                        become)</div><div class="line">    -U SUDO_USER, --sudo-user=SUDO_USER</div><div class="line">                        desired sudo user (default=root) (deprecated, use</div><div class="line">                        become)</div><div class="line">    -S, --su            run operations with su (deprecated, use become)</div><div class="line">    -R SU_USER, --su-user=SU_USER</div><div class="line">                        run operations with su as this user (default=root)</div><div class="line">                        (deprecated, use become)</div><div class="line">    -b, --become        run operations with become (does not imply password</div><div class="line">                        prompting)</div><div class="line">    --become-method=BECOME_METHOD</div><div class="line">                        privilege escalation method to use (default=sudo),</div><div class="line">                        valid choices: [ sudo | su | pbrun | pfexec | doas |</div><div class="line">                        dzdo | ksu ]</div><div class="line">    --become-user=BECOME_USER</div><div class="line">                        run operations as this user (default=root)</div><div class="line">    --ask-sudo-pass     ask for sudo password (deprecated, use become)</div><div class="line">    --ask-su-pass       ask for su password (deprecated, use become)</div><div class="line">    -K, --ask-become-pass</div><div class="line">                        ask for privilege escalation password</div></pre></td></tr></table></figure>
+<h2 id="playbook组成结构"><a href="#playbook组成结构" class="headerlink" title="playbook组成结构"></a>playbook组成结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Inventory</div><div class="line">Modules</div><div class="line">Ad Hot Commands</div><div class="line">Playbooks</div><div class="line">  Variables      #变量元素,可传递给Tasks/Templates使用;</div><div class="line">  Tasks          #任务元素,即调用模块完成任务;</div><div class="line">  Templates      #模板元素,可根据变量动态生成配置文件;</div><div class="line">  Hadlers        #处理器元素,通常指在某事件满足时触发的操作;</div><div class="line">  Roles          #角色元素</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">---                                 # YAML语法注释，类似shell的#</div><div class="line">- hosts: webservers                 # 告诉ansible具体要在哪些主机上运行</div><div class="line">  vars:                             # 变量</div><div class="line">    http_port: 80</div><div class="line">    max_clients: 200</div><div class="line">  remote_user: root                 # 远程连接用户</div><div class="line">  tasks:                            # 具体任务</div><div class="line">  - name: ensure apache is at the latest version</div><div class="line">    yum: pkg=httpd state=latest</div><div class="line">  - name: write the apache config file</div><div class="line">    template: src=/srv/httpd.j2 dest=/etc/httpd.conf</div><div class="line">    notify:</div><div class="line">    - restart apache</div><div class="line">  - name: ensure apache is running</div><div class="line">    service: name=httpd state=started</div><div class="line">  handlers:</div><div class="line">    - name: restart apache</div><div class="line">      service: name=httpd state=restarted</div></pre></td></tr></table></figure>
+<p>　　简单示例：利用ansible-playbook停止redis服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ansible]# cat redis.yml </div><div class="line">---</div><div class="line">- hosts: 192.168.56.81</div><div class="line">  vars:</div><div class="line">    port: 6379</div><div class="line">    name: redis</div><div class="line">  tasks:</div><div class="line">  - name: stop &#123;&#123; name &#125;&#125;</div><div class="line">    service: name=&#123;&#123; name &#125;&#125; state=stopped</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/ansible/03.png" alt=""><br></div>
+
+<h2 id="提示技巧"><a href="#提示技巧" class="headerlink" title="提示技巧"></a>提示技巧</h2><div align="center"><br><img src="/images/ansible/03.png" alt=""><br></div>
+
+<ul>
+<li><p><code>ok</code>：表示执行成功但没有做过任何变动的任务。</p>
+</li>
+<li><p><code>changed</code>：表示执行成功但做过变动的任务。</p>
+</li>
+<li><p><code>unreachable</code>：表示无法到达的任务。</p>
+</li>
+<li><p><code>failed</code>：表示失败的任务</p>
+</li>
+</ul>
+<h2 id="主机hosts和用户users"><a href="#主机hosts和用户users" class="headerlink" title="主机hosts和用户users"></a>主机hosts和用户users</h2><p>　　Playbook中的每一个paly的目的都是为了让某个或某些主机以某个指定的用户的身份执行任务，hosts用于指定要执行任务的主机，其可以是一个或多个由冒号分隔主机组，这和前面章节ansible命令提到的的hosts使用一样的语法。remote_user则用于指定远程主机上的执行任务的户。</p>
+<div align="center"><br><img src="/images/ansible/04.png" alt=""><br></div>
+
+<p>　　如果你需要在使用sudo时指定密码，可在运行ansible-playbook命令时加上选项 <code>--ask-sudo-pass(-K)</code>。如果使用sudo时，playbook疑似被挂起，可能是在sudo prompt处被卡住，这时可执行Control-C杀死卡住的任务，再重新运行一次。</p>
+<h2 id="task列表"><a href="#task列表" class="headerlink" title="task列表"></a>task列表</h2><p>　　Play的主体部分是task列表，task列表中的各任务按次序逐个在hosts中指定的主机上执行，即在所有主机上完成第一个任务后再开始第二个任务。在运行playbook 时（从上到下执行），如果一个host执行task失败，这个host将会从整个playbook的rotation中移除，如果发生执行失败的情况，请修正playbook 中的错误，然后重新执行即可。</p>
+<p>　　Task的目的是使用指定的参数执行模块，而在模块参数中可以使用变量，模块执行时幂等的，这意味着多次执行是安全的，因为其结果一致。</p>
+<p>　　对于command module和shell module，重复执行playbook，实际上是重复运行同样的命令。如果执行的命令类似于‘chmod’ 或者‘setsebool’这种命令，这没有任何问题，也可以使用一个叫做‘creates’的flag使得这两个module变得具有”幂等”特性 （不是必要的）。</p>
+<p>　　每一个task必须有一个名称name，这样在运行playbook时，从其输出的任务执行信息中可以很好的辨别出是属于哪一个task的。如果没有定义name，‘action’的值将会用作输出信息中标记特定的task。</p>
+<p>　　定义一个task，以前有一种格式: <code>action: module options</code> （可能在一些老的playbooks中还能见到），现在推荐使用更常见的格式:<code>module: options</code>，本文档使用的就是这种格式。</p>
+<div align="center"><br><img src="/images/ansible/05.png" alt=""><br></div>
+
+
+<p>　　在使用command和shell模块时，我们需要关心返回码信息，如果有一条命令，它的成功执行的返回码不是0（ansible可能会终止运行），我们可以使用如下方式替代，强制返回成功：</p>
+<div align="center"><br><img src="/images/ansible/06.png" alt=""><br></div>
+
+<p>　　或者使用ignore_error来忽略错误信息：</p>
+<div align="center"><br><img src="/images/ansible/07.png" alt=""><br></div>
+
+<h2 id="变量variables"><a href="#变量variables" class="headerlink" title="变量variables"></a>变量variables</h2><p>　　在playbook中可以直接定义变量，也可以在inventory中添加变量</p>
+<div align="center"><br><img src="/images/ansible/10.png" alt=""><br></div>
+
+<p>　　其中vars是固定格式，而package就是变量名，httpd就是变量值。</p>
+<p>　　但在定义变量名时有一些规范，也就是合法的变量名。在使用变量之前最好先知道什么是合法的变量名，变量名可以为字母，数字以及下划线。变量始终应该以字母开头，“foo_port”是个合法的变量名。”foo5”也是， “foo-port”， “foo port”，“foo.port” 和“12”则不是合法的变量名。</p>
+<p><strong>变量使用</strong></p>
+<p>　　在task或template中引用变量都是使用双花括号中间引入变量名即可，如 <code>\{\{ VAR_NAME \}\}</code>。</p>
+<div align="center"><br><img src="/images/ansible/11.png" alt=""><br></div>
+
+<p><strong>setup模块</strong></p>
+<p>　　Ansible中有一个setup模块，就是用来获取客户端所有信息的，如内存、CPU、IP、主机名、磁盘等等信息，这些信息都是key-value格式的。每当我们执行playbook时首先会需要执行setup模块。</p>
+<div align="center"><br><img src="/images/ansible/12.png" alt=""><br></div>
+
+<p>　　当我执行playbook时，其实是可以在task或template中去引用setup模块输出的变量。有哪些变量可用，你可以执行ansible命令看看输出结果：</p>
+<div align="center"><br><img src="/images/ansible/13.png" alt=""><br></div>
+
+
+
+<h2 id="handlers"><a href="#handlers" class="headerlink" title="handlers"></a>handlers</h2><p>　　Handlers其实挺好理解的，就是在发生改变时执行提前定义好的操作。</p>
+<p>　　模块具有”幂等”性，所以当远端系统被人改动时，可以重放playbook达到恢复的目的。playbook本身可以识别这种改动，并且有一个基本的event system（事件系统），可以响应这种改动。（当发生改动时）’notify’actions会在playbook的每一个task结束时被触发，而且即使有多个不同的task通知改动的发生，’notify’ actions只会被触发一次。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ansible]# cat redis.yml </div><div class="line">---</div><div class="line">- hosts: 192.168.56.81</div><div class="line">  vars:</div><div class="line">    port: 6379</div><div class="line">    name: redis</div><div class="line">  tasks:</div><div class="line">  - name: install &#123;&#123; name &#125;&#125;</div><div class="line">    yum : name=&#123;&#123; name &#125;&#125; state=latest</div><div class="line">  - name: redis.conf</div><div class="line">    copy: src=/app/ansible/redis.conf dest=/etc/redis.conf</div><div class="line">    notify: </div><div class="line">      - restart redis                   # 定义handlers,这里的name和下面的handlers要相同</div><div class="line">  - name: start &#123;&#123; name &#125;&#125;</div><div class="line">    service: name=&#123;&#123; name &#125;&#125; state=started</div><div class="line">  handlers:</div><div class="line">    - name: restart &#123;&#123; name &#125;&#125;</div><div class="line">      service: name=&#123;&#123; name &#125;&#125; state=restarted</div></pre></td></tr></table></figure>
+<p>　　Handlers也是一些task的列表，通过名字来引用，它们和一般的task并没有什么区别。Handlers是由通知者进行notify，如果没有被 notify，handlers不会执行。不管有多少个通知者进行了notify，等到play中的所有task执行完成之后，handlers也只会被执行一次。</p>
+<p><strong>注意</strong>：notify定义的restart httpd必须与handlers定义的name名称相同，不然就会报：not found in any of the known handlers</p>
+<div align="center"><br><img src="/images/ansible/14.jpg" alt=""><br></div>
+
+
+<h2 id="条件测试when"><a href="#条件测试when" class="headerlink" title="条件测试when"></a>条件测试when</h2><p>如果需要根据变量、facts（setup）或此前任务的执行结果来作为某task执行与否的前提时要用到条件测试。在Playbook中条件测试使用when子句。在task后添加when子句即可使用条件测试：when子句支持jinjia2表达式或语法</p>
+<div align="center"><br><img src="/images/ansible/15.png" alt=""><br></div>
+
+<p>如果是ubuntu系统，就进行关机。</p>
+<h2 id="迭代循环with-items"><a href="#迭代循环with-items" class="headerlink" title="迭代循环with_items"></a>迭代循环with_items</h2><p>　　有时需要重复执行多个一样的任务时，需要使用迭代机制。相当于一个for循环，执行多次，其使用格式为定义要迭代的内容为<code>item</code>变量，并通过<code>with_items</code>语句指明迭代的元素列表。</p>
+<div align="center"><br><img src="/images/ansible/20.png" alt=""><br></div>
+
+<div align="center"><br><img src="/images/ansible/21.png" alt=""><br></div>
+
+
+<h2 id="tags标签"><a href="#tags标签" class="headerlink" title="tags标签"></a>tags标签</h2><p>　　在一个playbook中，我们可以定义多个task任务，但是如果我们只希望执行其中一个，不要按顺序执行，这时就需要使用tags标签指明play那个任务了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ansible]# cat redis.yml </div><div class="line">---</div><div class="line">- hosts: 192.168.56.81</div><div class="line">  vars:</div><div class="line">    port: 6379</div><div class="line">    name: redis</div><div class="line">  tasks:</div><div class="line">  - name: install &#123;&#123; name &#125;&#125;</div><div class="line">    yum : name=&#123;&#123; name &#125;&#125; state=latest</div><div class="line">  - name: redis.conf</div><div class="line">    copy: src=/app/ansible/redis.conf dest=/etc/redis.conf</div><div class="line">    tags:</div><div class="line">    - redis.conf                                # 打上一个标签</div><div class="line">    notify: </div><div class="line">      - restart redis</div><div class="line">  - name: start &#123;&#123; name &#125;&#125;</div><div class="line">    service: name=&#123;&#123; name &#125;&#125; state=started</div><div class="line">  handlers:</div><div class="line">    - name: restart &#123;&#123; name &#125;&#125;</div><div class="line">      service: name=&#123;&#123; name &#125;&#125; state=restarted</div></pre></td></tr></table></figure>
+<p>　　使用<code>--tags</code>指明执行哪些标签任务</p>
+<div align="center"><br><img src="/images/ansible/22.png" alt=""><br></div>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ansible/" rel="tag"># ansible</a>
+          
+            <a href="/tags/playbook/" rel="tag"># playbook</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/17/devops/YAML/" rel="next" title="ansible第四篇 ：YAML">
+                <i class="fa fa-chevron-left"></i> ansible第四篇 ：YAML
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/18/devops/ansible-role/" rel="prev" title="ansible第六篇：roles角色">
+                ansible第六篇：roles角色 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">imkindu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Playbooks"><span class="nav-number">1.</span> <span class="nav-text">关于Playbooks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ansible-playbook命令"><span class="nav-number">2.</span> <span class="nav-text">ansible-playbook命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#playbook组成结构"><span class="nav-number">3.</span> <span class="nav-text">playbook组成结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提示技巧"><span class="nav-number">4.</span> <span class="nav-text">提示技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主机hosts和用户users"><span class="nav-number">5.</span> <span class="nav-text">主机hosts和用户users</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#task列表"><span class="nav-number">6.</span> <span class="nav-text">task列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量variables"><span class="nav-number">7.</span> <span class="nav-text">变量variables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#handlers"><span class="nav-number">8.</span> <span class="nav-text">handlers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件测试when"><span class="nav-number">9.</span> <span class="nav-text">条件测试when</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代循环with-items"><span class="nav-number">10.</span> <span class="nav-text">迭代循环with_items</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tags标签"><span class="nav-number">11.</span> <span class="nav-text">tags标签</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">imkindu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

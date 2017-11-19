@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="mysql日志">
+<meta name="description" content="日志文件对于一个服务器来说是非常重要的，它记录着服务器的运行信息，许多操作都会写日到日志文件，通过日志文件可以监视服务器的运行状态及查看服务器的性能，还能对服务器进行排错与故障处理，MySQl中有六种不同类型的日志。">
 <meta name="keywords" content="mysql日志">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql日志">
 <meta property="og:url" content="http://yoursite.com/2017/11/10/mysql/mysql日志/index.html">
 <meta property="og:site_name" content="阿杜-开发博客">
-<meta property="og:description" content="mysql日志">
+<meta property="og:description" content="日志文件对于一个服务器来说是非常重要的，它记录着服务器的运行信息，许多操作都会写日到日志文件，通过日志文件可以监视服务器的运行状态及查看服务器的性能，还能对服务器进行排错与故障处理，MySQl中有六种不同类型的日志。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-10T01:34:20.360Z">
+<meta property="og:updated_time" content="2017-11-17T13:50:54.866Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql日志">
-<meta name="twitter:description" content="mysql日志">
+<meta name="twitter:description" content="日志文件对于一个服务器来说是非常重要的，它记录着服务器的运行信息，许多操作都会写日到日志文件，通过日志文件可以监视服务器的运行状态及查看服务器的性能，还能对服务器进行排错与故障处理，MySQl中有六种不同类型的日志。">
 
 
 
@@ -211,32 +211,12 @@
         </li>
       
         
-        <li class="menu-item menu-item-php">
-          <a href="/categories/php/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
-            
-            php
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-java">
           <a href="/categories/java/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
             
             java
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-mysql">
-          <a href="/categories/mysql/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
-            
-            mysql
           </a>
         </li>
       
@@ -257,6 +237,36 @@
               <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
             
             nginx
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-数据库">
+          <a href="/categories/database" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            数据库
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-开发编程">
+          <a href="/categories/program" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            开发编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-运维工具">
+          <a href="/categories/devops" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            运维工具
           </a>
         </li>
       
@@ -396,6 +406,17 @@
 
                 
                 
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
               
             </span>
           
@@ -426,105 +447,70 @@
       
 
       
-        <p>　　mysql日志</p>
+        <p>　　日志文件对于一个服务器来说是非常重要的，它记录着服务器的运行信息，许多操作都会写日到日志文件，通过日志文件可以监视服务器的运行状态及查看服务器的性能，还能对服务器进行排错与故障处理，MySQl中有六种不同类型的日志。</p>
 <a id="more"></a>
-<p>日志<br>    查询日志：general_log<br>    慢查询日志：log_show_queries<br>    错误日志：log_error，log_warings<br>    二进制日志：binlog<br>    中继日志：relay_log<br>    事务日志：innodb_log</p>
-<pre><code>1、日志查询
-    记录查询语句，日志存储位置
-        文件：file
-        表：table（mysql.general_log）
+<h2 id="日志分类"><a href="#日志分类" class="headerlink" title="日志分类"></a>日志分类</h2><p>　　mysql日子主要有以下几种类型：</p>
+<blockquote>
+<p>1、查询日志 general_log<br>2、错误日志 log_error，log_warings<br>3、慢查询日志 log_show_queries<br>4、二进制日志 binary log<br>5、中继日志 relay_log<br>6、事务日志 transaction log</p>
+</blockquote>
+<h2 id="查询日志"><a href="#查询日志" class="headerlink" title="查询日志"></a>查询日志</h2><p>　　说明：对除了慢查日志中记录的查询信息都将记录下来,这将对服务器主机产生大量的压力，所以对于繁忙的服务器应该关闭这个日志</p>
+<p>记录查询语句，日志存储位置</p>
+<ul>
+<li>文件：file</li>
+<li>表：table（mysql.general_log）</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">general_log=(on|off)                # 开启查询日志，默认是关闭的</div><div class="line">general_log_file=HOSTNAME.log       # /mydata/data/mysql.log 指定查询日志的位置，默认在数据目录下</div><div class="line">log_output=&#123;FILE|TABLE|NONE&#125;        # 指定存放查询日志的位置，可以放在文件中，也可以放在数据库的表中，放在表中比放在文件中更容易查看</div></pre></td></tr></table></figure>
+<p><strong>a) 查询日志查询记录是否开启</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; show global variables like 'general%';</div><div class="line">+<span class="comment">------------------+--------------+</span></div><div class="line">| Variable_name    | Value        |</div><div class="line">+<span class="comment">------------------+--------------+</span></div><div class="line">| general_log      | OFF          |</div><div class="line">| general_log_file | centos20.log |</div><div class="line">+<span class="comment">------------------+--------------+</span></div><div class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p><strong>b) 开启日志查询记录</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; set @@global.general_log=on;</div></pre></td></tr></table></figure></p>
+<h2 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h2><p>慢查询：运行时间超出指定时长的查询</p>
+<blockquote>
+<p>long_query_time</p>
+</blockquote>
+<h3 id="存储位置"><a href="#存储位置" class="headerlink" title="存储位置"></a>存储位置</h3><blockquote>
+<p>文件：FILE<br>表：TABLE，mysql.slow_log</p>
+</blockquote>
+<h3 id="相关配置选项"><a href="#相关配置选项" class="headerlink" title="相关配置选项"></a>相关配置选项</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">log_slow_queries=&#123;ON|OFF&#125;           # 是否记录慢查询日志</div><div class="line">slow_query_log=&#123;ON|OFF&#125;</div><div class="line">slow_query_log_file=                # 慢查询日志文件名</div><div class="line">log_output=&#123;FILE|TABLE|NONE&#125;</div><div class="line">log_slow_filter=                    # 慢查询过滤器</div><div class="line">    admin,filesort,filesort_on_disk,full_join,full_scan,</div><div class="line">    query_cache,query_cache_miss,tmp_table,tmp_table_on_disk</div><div class="line">log_slow_rate_limit = 1             # 指明记录的速率（默认每秒记录一次）</div><div class="line">log_slow_verbosity                  # 日志记录详细与否</div></pre></td></tr></table></figure>
+<h3 id="查询慢查询时间定义"><a href="#查询慢查询时间定义" class="headerlink" title="查询慢查询时间定义"></a>查询慢查询时间定义</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; show global variables like 'long_query_time'\G</div><div class="line">*************************** 1. row ***************************</div><div class="line">Variable_name: long_query_time</div><div class="line">        Value: 10.000000</div><div class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<h3 id="设置慢查询时间"><a href="#设置慢查询时间" class="headerlink" title="设置慢查询时间"></a>设置慢查询时间</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># MYSQL的用户变量(@)和系统变量(@@)</div><div class="line"></div><div class="line">MariaDB [(none)]&gt; set @@GLOBAL.long_query_time=5;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div><div class="line"></div><div class="line">MariaDB [(none)]&gt; show global variables like 'long_query_time';</div><div class="line">+<span class="comment">-----------------+----------+</span></div><div class="line">| Variable_name   | Value    |</div><div class="line">+<span class="comment">-----------------+----------+</span></div><div class="line">| long_query_time | 5.000000 |</div><div class="line">+<span class="comment">-----------------+----------+</span></div><div class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<h3 id="slow相关全局变量"><a href="#slow相关全局变量" class="headerlink" title="slow相关全局变量"></a>slow相关全局变量</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; show global variables like '%slow%'\G</div><div class="line">*************************** 1. row ***************************</div><div class="line">Variable_name: log_slow_filter              #</div><div class="line">        Value: admin,filesort,filesort_on_disk,full_join,full_scan,</div><div class="line">        query_cache,query_cache_miss,tmp_table,tmp_table_on_disk</div><div class="line">*************************** 2. row ***************************</div><div class="line">Variable_name: log_slow_queries</div><div class="line">        Value: OFF</div><div class="line">*************************** 3. row ***************************</div><div class="line">Variable_name: log_slow_rate_limit</div><div class="line">        Value: 1</div><div class="line">*************************** 4. row ***************************</div><div class="line">Variable_name: log_slow_verbosity</div><div class="line">        Value: </div><div class="line">*************************** 5. row ***************************</div><div class="line">Variable_name: slow_launch_time</div><div class="line">        Value: 2</div><div class="line">*************************** 6. row ***************************</div><div class="line">Variable_name: slow_query_log               # 开启关闭慢查询日志</div><div class="line">        Value: OFF</div><div class="line">*************************** 7. row ***************************</div><div class="line">Variable_name: slow_query_log_file          # 日志保存位置</div><div class="line">        Value: centos20-slow.log</div><div class="line">7 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<h3 id="配置文件永久配置"><a href="#配置文件永久配置" class="headerlink" title="配置文件永久配置"></a>配置文件永久配置</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[root@localhost my.cnf.d]# cat server.cnf</div><div class="line"></div><div class="line">[mysqld]</div><div class="line"># 域名反解析和INNODB单表记录</div><div class="line">skip_name_resolve</div><div class="line">innodb_file_per_table = ON</div><div class="line"># 日志相关配置</div><div class="line">slow_query_log = ON</div><div class="line">log_output = TABLE</div><div class="line">log_slow_queries = ON</div><div class="line">long_query_time = 1</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">MariaDB [mysql]&gt; desc mysql.slow_log;</div><div class="line">+<span class="comment">----------------+------------------+------+-----+-------------------+-----------------------------+</span></div><div class="line">| Field          | Type             | Null | Key | Default           | Extra                       |</div><div class="line">+<span class="comment">----------------+------------------+------+-----+-------------------+-----------------------------+</span></div><div class="line">| start_time     | timestamp(6)     | NO   |     | CURRENT_TIMESTAMP | on <span class="keyword">update</span> <span class="keyword">CURRENT_TIMESTAMP</span> |</div><div class="line">| user_host      | mediumtext       | <span class="keyword">NO</span>   |     | <span class="literal">NULL</span>              |                             |</div><div class="line">| query_time     | <span class="keyword">time</span>(<span class="number">6</span>)          | <span class="keyword">NO</span>   |     | <span class="literal">NULL</span>              |                             |</div><div class="line">| lock_time      | <span class="keyword">time</span>(<span class="number">6</span>)          | <span class="keyword">NO</span>   |     | <span class="literal">NULL</span>              |                             |</div><div class="line">| rows_sent      | <span class="built_in">int</span>(<span class="number">11</span>)          | <span class="keyword">NO</span>   |     | <span class="literal">NULL</span>              |                             |</div><div class="line">| rows_examined  | <span class="built_in">int</span>(<span class="number">11</span>)          | <span class="keyword">NO</span>   |     | <span class="literal">NULL</span>              |                             |</div><div class="line">| db             | <span class="built_in">varchar</span>(<span class="number">512</span>)     | <span class="keyword">NO</span>   |     | <span class="literal">NULL</span>              |                             |</div><div class="line">| <span class="keyword">last_insert_id</span> | <span class="built_in">int</span>(<span class="number">11</span>)          | <span class="keyword">NO</span>   |     | <span class="literal">NULL</span>              |                             |</div><div class="line">| insert_id      | <span class="built_in">int</span>(<span class="number">11</span>)          | <span class="keyword">NO</span>   |     | <span class="literal">NULL</span>              |                             |</div><div class="line">| server_id      | <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> | <span class="keyword">NO</span>   |     | <span class="literal">NULL</span>              |                             |</div><div class="line">| sql_text       | mediumtext       | <span class="keyword">NO</span>   |     | <span class="literal">NULL</span>              |                             |</div><div class="line">+<span class="comment">----------------+------------------+------+-----+-------------------+-----------------------------+</span></div><div class="line"><span class="number">11</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<h2 id="错误日志"><a href="#错误日志" class="headerlink" title="错误日志"></a>错误日志</h2><p>记录如下几类信息：</p>
+<blockquote>
+<p>(1) mysqld启动和关闭过程中输出的信息；<br>(2) mysqld运行中产生的错误信息；<br>(3) event scheduler运行时产生的信息；<br>(4) 主从复制架构中，从服务器复制线程启动时产生的日志；</p>
+</blockquote>
+<h3 id="错误日志配置参数"><a href="#错误日志配置参数" class="headerlink" title="错误日志配置参数"></a>错误日志配置参数</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">log_error=/var/log/mariadb/mariadb.log | OFF</div><div class="line">log_warnings=&#123;ON|OFF&#125;       # 是否记录警告信息至错误日志文件中</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[root@centos80 mariadb]# cat /var/log/mariadb/mariadb.log </div><div class="line">171113 20:10:03 mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql</div><div class="line">171113 20:10:03 [Note] /usr/libexec/mysqld (mysqld 5.5.52-MariaDB) starting as process 10200 ...</div><div class="line">171113 20:10:03 InnoDB: The InnoDB memory heap is disabled</div><div class="line">171113 20:10:03 InnoDB: Mutexes and rw_locks use GCC atomic builtins</div><div class="line">171113 20:10:03 InnoDB: Compressed tables use zlib 1.2.7</div><div class="line">171113 20:10:03 InnoDB: Using Linux native AIO</div><div class="line">171113 20:10:03 InnoDB: Initializing buffer pool, size = 128.0M</div><div class="line">171113 20:10:03 InnoDB: Completed initialization of buffer pool</div><div class="line">InnoDB: The first specified data file ./ibdata1 did not exist:</div><div class="line">InnoDB: a new database to be created!</div><div class="line">171113 20:10:03  InnoDB: Setting file ./ibdata1 size to 10 MB</div></pre></td></tr></table></figure>
+<h2 id="二进制日志"><a href="#二进制日志" class="headerlink" title="二进制日志"></a>二进制日志</h2><p>　　用于记录引起数据改变或存在引起数据改变的潜在可能性的语句（STATEMENT）或改变后的结果（ROW），也可能是二者混合；主要作用：“重放”</p>
+<h3 id="开启二进制日志"><a href="#开启二进制日志" class="headerlink" title="开启二进制日志"></a>开启二进制日志</h3><p>在/etc/my.cnf文件中【mysqld】下加上</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">server-id = 1 （在整个Mysql集群中保证唯一）</div><div class="line">log-bin = binlog </div><div class="line">log-bin-index = binlog.index</div></pre></td></tr></table></figure>
+<h3 id="配置文件永久开启二进制日志"><a href="#配置文件永久开启二进制日志" class="headerlink" title="配置文件永久开启二进制日志"></a>配置文件永久开启二进制日志</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 二进制日志</div><div class="line">[mysqld]</div><div class="line">server-id = 80</div><div class="line">log-bin = binlog</div><div class="line">log-bin-index = binlog.index</div></pre></td></tr></table></figure>
+<h3 id="查看二进制日志"><a href="#查看二进制日志" class="headerlink" title="查看二进制日志"></a>查看二进制日志</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 在数据目录会出现binlog.00000x和binlog.index两个和二进制日志相关文件</div><div class="line">[root@centos80 mysql]# ls</div><div class="line">aria_log.00000001  binlog.000001  ibdata1      ib_logfile1  mysql       ON                  test</div><div class="line">aria_log_control   binlog.index   ib_logfile0  imkindu      mysql.sock  performance_schema</div><div class="line"><span class="meta">#</span> 日志文件类型</div><div class="line">[root@centos80 mysql]# file binlog.000001 </div><div class="line">binlog.000001: MySQL replication log</div></pre></td></tr></table></figure>
+<h3 id="二进制日志查看工具"><a href="#二进制日志查看工具" class="headerlink" title="二进制日志查看工具"></a>二进制日志查看工具</h3><p><strong>查看当前系统管理的二进制日志文件列表</strong></p>
+<p>SHOW MASTER|BINARY LOGS;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; SHOW BINARY LOGS;</div><div class="line">+<span class="comment">---------------+-----------+</span></div><div class="line">| Log_name      | File_size |</div><div class="line">+<span class="comment">---------------+-----------+</span></div><div class="line">| binlog.000001 |       245 |</div><div class="line">+<span class="comment">---------------+-----------+</span></div><div class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>正在使用的是编号最大的那个文件，Mysql重启，编号会自动滚动加1.</p>
+<p><strong>查看正在使用的二进制文件</strong></p>
+<p>SHOW MASTER STATUS；</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; show master status;</div><div class="line">+<span class="comment">---------------+----------+--------------+------------------+</span></div><div class="line">| File          | Position | Binlog_Do_DB | Binlog_Ignore_DB |</div><div class="line">+<span class="comment">---------------+----------+--------------+------------------+</span></div><div class="line">| binlog.000001 |      245 |              |                  |</div><div class="line">+<span class="comment">---------------+----------+--------------+------------------+</span></div><div class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p><strong>查询日志详细信息</strong></p>
+<p>SHOW BINLOG EVENTS     [IN ‘log_name’] [FROM pos] [LIMIT [offset,] row_count]</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; show BINLOG EVENTS IN 'binlog.000001';</div><div class="line">+<span class="comment">---------------+-----+-------------+-----------+-------------+---------------------------------------------------------------------------------------------------------+</span></div><div class="line">| Log_name      | Pos | Event_type  | Server_id | End_log_pos | Info                                                                                                    |</div><div class="line">+<span class="comment">---------------+-----+-------------+-----------+-------------+---------------------------------------------------------------------------------------------------------+</span></div><div class="line">| binlog.000001 |   4 | Format_desc |        81 |         245 | Server ver: 5.5.52-MariaDB, Binlog ver: 4                                                               |</div><div class="line">| binlog.000001 | 245 | Query       |        81 |         423 | <span class="keyword">GRANT</span> <span class="keyword">REPLICATION</span> <span class="keyword">CLIENT</span>,<span class="keyword">REPLICATION</span> <span class="keyword">SLAVE</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'repluser'</span>@<span class="string">'192.168.56.%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'replpass'</span> |</div><div class="line">| <span class="keyword">binlog</span><span class="number">.000001</span> | <span class="number">423</span> | <span class="keyword">Query</span>       |        <span class="number">81</span> |         <span class="number">498</span> | <span class="keyword">flush</span> <span class="keyword">privileges</span>                                                                                        |</div><div class="line">| <span class="keyword">binlog</span><span class="number">.000001</span> | <span class="number">498</span> | <span class="keyword">Query</span>       |        <span class="number">81</span> |         <span class="number">562</span> | <span class="keyword">BEGIN</span>                                                                                                   |</div><div class="line">| <span class="keyword">binlog</span><span class="number">.000001</span> | <span class="number">562</span> | <span class="keyword">Query</span>       |        <span class="number">81</span> |         <span class="number">665</span> | <span class="keyword">insert</span> <span class="keyword">into</span> imkindu.user <span class="keyword">values</span> (<span class="number">4</span>,<span class="string">'dongge'</span>)                                                            |</div><div class="line">| <span class="keyword">binlog</span><span class="number">.000001</span> | <span class="number">665</span> | Xid         |        <span class="number">81</span> |         <span class="number">692</span> | <span class="keyword">COMMIT</span> <span class="comment">/* xid=36 */</span>                                                                                     |</div><div class="line">| <span class="keyword">binlog</span><span class="number">.000001</span> | <span class="number">692</span> | <span class="keyword">Query</span>       |        <span class="number">81</span> |         <span class="number">756</span> | <span class="keyword">BEGIN</span>                                                                                                   |</div><div class="line">| <span class="keyword">binlog</span><span class="number">.000001</span> | <span class="number">756</span> | <span class="keyword">Query</span>       |        <span class="number">81</span> |         <span class="number">860</span> | <span class="keyword">insert</span> <span class="keyword">into</span> imkindu.user <span class="keyword">values</span> (<span class="number">5</span>,<span class="string">'aoteman'</span>)                                                           |</div><div class="line">| <span class="keyword">binlog</span><span class="number">.000001</span> | <span class="number">860</span> | Xid         |        <span class="number">81</span> |         <span class="number">887</span> | <span class="keyword">COMMIT</span> <span class="comment">/* xid=47 */</span>                                                                                     |</div><div class="line">+<span class="comment">---------------+-----+-------------+-----------+-------------+---------------------------------------------------------------------------------------------------------+</span></div><div class="line"><span class="number">9</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p><code>Log_name</code>： 日志文件名<br><code>Pos position</code> ： 当前事件在日志文件第几位（二进制文件）<br><code>Event_type</code> ： 事件类型<br><code>Server_id</code> ： 服务器编号<br><code>End_log_pos</code> ： 下一个事件开始为止</p>
+<h3 id="mysqlbinlog"><a href="#mysqlbinlog" class="headerlink" title="mysqlbinlog"></a>mysqlbinlog</h3><p>shell&gt; mysqlbinlog [options] log_file …</p>
+<p>用于查看二进制日志内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">YYYY-MM-DD hh:mm:ss</div><div class="line"></div><div class="line">--start-datetime=</div><div class="line">--stop-datetime=</div><div class="line"></div><div class="line">-j, --start-position=#</div><div class="line">--stop-position=#</div><div class="line"></div><div class="line">--user, --host, --password</div></pre></td></tr></table></figure>
+<h3 id="二进制格式"><a href="#二进制格式" class="headerlink" title="二进制格式"></a>二进制格式</h3><p>binlog_format={STATEMENT|ROW|MIXED}</p>
+<blockquote>
+<p>STATEMENT：语句；记录执行的sql语句<br>ROW：行；记录执行sql语句前后修改行的数据（修改前和修改后），而不是记录sql语句<br>MIXED：混编；由数据库自行决定</p>
+</blockquote>
+<h3 id="服务器变量"><a href="#服务器变量" class="headerlink" title="服务器变量"></a>服务器变量</h3><p>sql_log_bin = ON | OFF ： 是否记录二进制日志<br>log_bin=/PATH/TO/BIN_LOG_FILE ：记录的文件位置，通常为OFF<br>session.sql_log_bin={ON|OFF} ： 控制某会话中的“写”操作语句是否会被记录于日志文件中；<br>max_binlog_size=1073741824     : 字节 1G<br>sync_binlog={1|0}             : 是否启动二进制日志同步功能（每句sql）</p>
+<h3 id="二进制日志事件格式"><a href="#二进制日志事件格式" class="headerlink" title="二进制日志事件格式"></a>二进制日志事件格式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"># at 553</div><div class="line">#160831  9:56:08 server id 1  end_log_pos 624   Query   thread_id=2     exec_time=0     error_code=0</div><div class="line">SET TIMESTAMP=1472608568/*!*/;</div><div class="line">BEGIN (例如：CREATE TABLE tb1 (id int, name char(30))) </div><div class="line">/*!*/;</div><div class="line"></div><div class="line">事件的起始位置：# at 553</div><div class="line">事件发生的日期时间：#160831  9:56:08</div><div class="line">事件发生的服务器id：server id 1</div><div class="line">事件的结束位置：end_log_pos 624</div><div class="line">事件的类型：Query</div><div class="line">事件发生时所在服务器执行此事件的线程的ID： thread_id=2 </div><div class="line">语句的时间戳与将其写入二进制日志文件中的时间差：exec_time=0</div><div class="line">错误代码：error_code=0</div><div class="line">设定事件发生时的时间戳：SET TIMESTAMP=1472608568/*!*/;</div><div class="line">事件内容：BEGIN</div></pre></td></tr></table></figure>
+<h2 id="中继日志"><a href="#中继日志" class="headerlink" title="中继日志"></a>中继日志</h2><p>relay_log 从服务器上记录下来从主服务器的二进制日志文件同步过来的事件；</p>
+<h2 id="事务日志"><a href="#事务日志" class="headerlink" title="事务日志"></a>事务日志</h2><p>事务型存储引擎innodb用于保证事务特性的日志文件：</p>
+<p>redo log<br>undo log </p>
 
-    general_log=(on|off)
-    general_log_file=HOSTNAME.log 
-    log_output={FILE|TABLE|NONE}
-
-
-    # 查询日志查询记录是否开启
-
-    MariaDB [(none)]&gt; show global variables like &apos;general%&apos;;
-    +------------------+--------------+
-    | Variable_name    | Value        |
-    +------------------+--------------+
-    | general_log      | OFF          |
-    | general_log_file | centos20.log |
-    +------------------+--------------+
-    2 rows in set (0.00 sec)
-
-    # 开启日志查询记录
-    MariaDB [(none)]&gt; set @@global.general_log=on;
-
-
-2、慢查询日志
-    慢查询：运行时间超出指定时长的查询
-        long_query_time
-    存储位置
-        文件：FILE
-        表：TABLE，mysql.slow_log
-
-    log_slow_queries={ON|OFF}
-    slow_query_log={ON|OFF}
-    slow_query_log_file=
-    log_output={FILE|TABLE|NONE}
-    log_slow_filter=                    # 慢查询过滤器
-        admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-    log_slow_rate_limit
-    log_slow_verbosity
-
-
-    MariaDB [(none)]&gt; show global variables like &apos;%slow%&apos;\G
-    *************************** 1. row ***************************
-    Variable_name: log_slow_filter
-            Value: admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-    *************************** 2. row ***************************
-    Variable_name: log_slow_queries
-            Value: OFF
-    *************************** 3. row ***************************
-    Variable_name: log_slow_rate_limit
-            Value: 1
-    *************************** 4. row ***************************
-    Variable_name: log_slow_verbosity
-            Value: 
-    *************************** 5. row ***************************
-    Variable_name: slow_launch_time
-            Value: 2
-    *************************** 6. row ***************************
-    Variable_name: slow_query_log
-            Value: OFF
-    *************************** 7. row ***************************
-    Variable_name: slow_query_log_file
-            Value: centos20-slow.log
-    7 rows in set (0.00 sec)
-
-
-
-
-    a) 查询慢查询时间定义
-
-        MariaDB [(none)]&gt; show global variables like &apos;long_query_time&apos;\G
-        *************************** 1. row ***************************
-        Variable_name: long_query_time
-                Value: 10.000000
-        1 row in set (0.00 sec)
-
-    b) 
-
-
-3、错误日志
-    记录如下几类信息：
-        (1) mysqld启动和关闭过程中输出的信息； 
-        (2) mysqld运行中产生的错误信息； 
-        (3) event scheduler运行时产生的信息；
-        (4) 主从复制架构中，从服务器复制线程启动时产生的日志；
-
-    log_error=
-        /var/log/mariadb/mariadb.log|OFF
-    log_warnings={ON|OFF}
-
-
-4、二进制日志
-    用于记录引起数据改变或存在引起数据改变的潜在可能性的语句（STATEMENT）或改变后的结果（ROW），也可能是二者混合；
-    功用：“重放”
-</code></pre>
       
     </div>
     
@@ -618,8 +604,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -634,7 +629,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -645,7 +640,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -656,7 +651,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -681,6 +676,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#日志分类"><span class="nav-number">1.</span> <span class="nav-text">日志分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询日志"><span class="nav-number">2.</span> <span class="nav-text">查询日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#慢查询日志"><span class="nav-number">3.</span> <span class="nav-text">慢查询日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#存储位置"><span class="nav-number">3.1.</span> <span class="nav-text">存储位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关配置选项"><span class="nav-number">3.2.</span> <span class="nav-text">相关配置选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询慢查询时间定义"><span class="nav-number">3.3.</span> <span class="nav-text">查询慢查询时间定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置慢查询时间"><span class="nav-number">3.4.</span> <span class="nav-text">设置慢查询时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#slow相关全局变量"><span class="nav-number">3.5.</span> <span class="nav-text">slow相关全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件永久配置"><span class="nav-number">3.6.</span> <span class="nav-text">配置文件永久配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误日志"><span class="nav-number">4.</span> <span class="nav-text">错误日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#错误日志配置参数"><span class="nav-number">4.1.</span> <span class="nav-text">错误日志配置参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二进制日志"><span class="nav-number">5.</span> <span class="nav-text">二进制日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开启二进制日志"><span class="nav-number">5.1.</span> <span class="nav-text">开启二进制日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件永久开启二进制日志"><span class="nav-number">5.2.</span> <span class="nav-text">配置文件永久开启二进制日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看二进制日志"><span class="nav-number">5.3.</span> <span class="nav-text">查看二进制日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制日志查看工具"><span class="nav-number">5.4.</span> <span class="nav-text">二进制日志查看工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysqlbinlog"><span class="nav-number">5.5.</span> <span class="nav-text">mysqlbinlog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制格式"><span class="nav-number">5.6.</span> <span class="nav-text">二进制格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器变量"><span class="nav-number">5.7.</span> <span class="nav-text">服务器变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制日志事件格式"><span class="nav-number">5.8.</span> <span class="nav-text">二进制日志事件格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中继日志"><span class="nav-number">6.</span> <span class="nav-text">中继日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务日志"><span class="nav-number">7.</span> <span class="nav-text">事务日志</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

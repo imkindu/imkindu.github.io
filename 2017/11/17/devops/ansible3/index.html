@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ansible," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ansible主要使用的就是各个模块，主要分为：核心模块和自定义模块。代码托管在 https://github.com/ansible">
+<meta name="keywords" content="ansible">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ansible第三篇：核心模块">
+<meta property="og:url" content="http://yoursite.com/2017/11/17/devops/ansible3/index.html">
+<meta property="og:site_name" content="阿杜-开发博客">
+<meta property="og:description" content="ansible主要使用的就是各个模块，主要分为：核心模块和自定义模块。代码托管在 https://github.com/ansible">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-17T13:43:40.300Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ansible第三篇：核心模块">
+<meta name="twitter:description" content="ansible主要使用的就是各个模块，主要分为：核心模块和自定义模块。代码托管在 https://github.com/ansible">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/17/devops/ansible3/"/>
+
+
+
+
+
+  <title>ansible第三篇：核心模块 | 阿杜-开发博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">阿杜-开发博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-linux">
+          <a href="/categories/linux/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            linux
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-java">
+          <a href="/categories/java/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            java
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-git">
+          <a href="/categories/git/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            git
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-nginx">
+          <a href="/categories/nginx/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            nginx
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-数据库">
+          <a href="/categories/database" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            数据库
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-开发编程">
+          <a href="/categories/program" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            开发编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-运维工具">
+          <a href="/categories/devops" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            运维工具
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-个人简介">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            个人简介
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/17/devops/ansible3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="imkindu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿杜-开发博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ansible第三篇：核心模块</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-17T20:50:00+08:00">
+                2017-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/devops/" itemprop="url" rel="index">
+                    <span itemprop="name">devops</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　ansible主要使用的就是各个模块，主要分为：核心模块和自定义模块。代码托管在 <a href="https://github.com/ansible" target="_blank" rel="external">https://github.com/ansible</a></p>
+<a id="more"></a>
+<p>　　核心模块主要分为：云模块、命令模块、数据库模块、文件模块、资产模块、消息模块、监控模块、网络模块、通知模块、包管理模块、源码控制模块、系统模块、单元模块、web设施模块、windows模块等。</p>
+<h2 id="ansible-doc帮助文档"><a href="#ansible-doc帮助文档" class="headerlink" title="ansible-doc帮助文档"></a>ansible-doc帮助文档</h2><p>　　所有模块帮助文档，整个ansible的核心模块使用基本都需要查找此帮助。尤其是<code>-s</code>查看具体模块使用语法。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible-doc --help</div><div class="line">Usage: ansible-doc [options] [module...]</div><div class="line"></div><div class="line">Options:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -l, --list            List available modules</div><div class="line">  -M MODULE_PATH, --module-path=MODULE_PATH</div><div class="line">                        specify path(s) to module library (default=None)</div><div class="line">  -s, --snippet         Show playbook snippet for specified module(s)</div><div class="line">  -v, --verbose         verbose mode (-vvv for more, -vvvv to enable</div><div class="line">                        connection debugging)</div><div class="line">  --version             show program's version number and exit</div></pre></td></tr></table></figure>
+<h2 id="模块列表"><a href="#模块列表" class="headerlink" title="模块列表"></a>模块列表</h2><p>　　模块不要太多，主要语法是python开发的模块，所以可以直接查看python文件查看源码。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">ansible-doc --list            List available modules</div><div class="line">[root@centos80 ~]# ansible-doc --list</div><div class="line">a10_server                         Manage A10 Networks AX/SoftAX/Thunder/vThunder devices                                         </div><div class="line">a10_service_group                  Manage A10 Networks devices' service groups                                                    </div><div class="line">a10_virtual_server                 Manage A10 Networks devices' virtual servers                                                   </div><div class="line">acl                                Sets and retrieves file ACL information.                                                       </div><div class="line">add_host                           add a host (and alternatively a group) to the ansible-playbook in-memory inventory             </div><div class="line">airbrake_deployment                Notify airbrake about app deployments      </div><div class="line">......</div><div class="line">......</div></pre></td></tr></table></figure>
+<h2 id="常用模块介绍"><a href="#常用模块介绍" class="headerlink" title="常用模块介绍"></a>常用模块介绍</h2><p>　　模块太多，先熟悉一下常用核心模块基本使用。</p>
+<h2 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h2><p>　　测试主机是否是通的，用法比较简单，不涉及参数，只需指明测试哪些主机。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible-doc  -s ping</div><div class="line">- name: Try to connect to host, verify a usable python and return `pong' on success.</div><div class="line">  action: ping</div><div class="line"></div><div class="line"></div><div class="line">[root@centos80 ansible]# ansible all -m ping</div><div class="line">192.168.56.81 | SUCCESS =&gt; &#123;</div><div class="line">    "changed": false, </div><div class="line">    "ping": "pong"</div><div class="line">&#125;</div><div class="line">192.168.56.82 | SUCCESS =&gt; &#123;</div><div class="line">    "changed": false, </div><div class="line">    "ping": "pong"</div><div class="line">&#125;</div><div class="line">192.168.56.83 | SUCCESS =&gt; &#123;</div><div class="line">    "changed": false, </div><div class="line">    "ping": "pong"</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="user"><a href="#user" class="headerlink" title="user"></a>user</h2><p>　　用户模块，主要用户用户管理</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible-doc -s user</div><div class="line">- name: Manage user accounts</div><div class="line">  action: user</div><div class="line">      append                 # If `yes', will only add groups, not set them to just the list in `groups'.</div><div class="line">      comment                # Optionally sets the description (aka `GECOS') of user account.</div><div class="line">      createhome             # Unless set to `no', a home directory will be made for the user when the account is created or if the</div><div class="line">                               home directory does not exist.</div><div class="line">      expires                # An expiry time for the user in epoch, it will be ignored on platforms that do not support this.</div><div class="line">                               Currently supported on Linux and FreeBSD.</div><div class="line">      force                  # When used with `state=absent', behavior is as with `userdel --force'.</div><div class="line">      generate_ssh_key       # Whether to generate a SSH key for the user in question. This will *not* overwrite an existing SSH key.</div><div class="line">      group                  # Optionally sets the user's primary group (takes a group name).</div><div class="line">      groups                 # Puts the user in this comma-delimited list of groups. When set to the empty string ('groups='), the</div><div class="line">                               user is removed from all groups except the primary group.</div><div class="line">      home                   # Optionally set the user's home directory.</div><div class="line">      login_class            # Optionally sets the user's login class for FreeBSD, OpenBSD and NetBSD systems.</div><div class="line">      move_home              # If set to `yes' when used with `home=', attempt to move the user's home directory to the specified</div><div class="line">                               directory if it isn't there already.</div><div class="line">      name=                  # Name of the user to create, remove or modify.</div><div class="line">      non_unique             # Optionally when used with the -u option, this option allows to change the user ID to a non-unique</div><div class="line">                               value.</div><div class="line">      password               # Optionally set the user's password to this crypted value.  See the user example in the github examples</div><div class="line">                               directory for what this looks like in a playbook. See</div><div class="line">                               http://docs.ansible.com/ansible/faq.html#how-do-i-generate-crypted-</div><div class="line">                               passwords-for-the-user-module for details on various ways to generate</div><div class="line">                               these password values. Note on Darwin system, this value has to be</div><div class="line">                               cleartext. Beware of security issues.</div><div class="line">      remove                 # When used with `state=absent', behavior is as with `userdel --remove'.</div><div class="line">      seuser                 # Optionally sets the seuser type (user_u) on selinux enabled systems.</div><div class="line">      shell                  # Optionally set the user's shell.</div><div class="line">      skeleton               # Optionally set a home skeleton directory. Requires createhome option!</div><div class="line">      ssh_key_bits           # Optionally specify number of bits in SSH key to create.</div><div class="line">      ssh_key_comment        # Optionally define the comment for the SSH key.</div><div class="line">      ssh_key_file           # Optionally specify the SSH key filename. If this is a relative filename then it will be relative to the</div><div class="line">                               user's home directory.</div><div class="line">      ssh_key_passphrase     # Set a passphrase for the SSH key.  If no passphrase is provided, the SSH key will default to having no</div><div class="line">                               passphrase.</div><div class="line">      ssh_key_type           # Optionally specify the type of SSH key to generate. Available SSH key types will depend on</div><div class="line">                               implementation present on target host.</div><div class="line">      state                  # Whether the account should exist or not, taking action if the state is different from what is stated.</div><div class="line">      system                 # When creating an account, setting this to `yes' makes the user a system account.  This setting cannot</div><div class="line">                               be changed on existing users.</div><div class="line">      uid                    # Optionally sets the `UID' of the user.</div><div class="line">      update_password        # `always' will update passwords if they differ.  `on_create' will only set the password for newly</div><div class="line">                               created users.</div></pre></td></tr></table></figure>
+<p>常用参数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">home        #指定用户的家目录，需要与createhome配合使用;</div><div class="line">groups      #指定用户的属组;</div><div class="line">uid         #指定用的uid;</div><div class="line">password    #指定用户的密码;</div><div class="line">name        #指定用户名;</div><div class="line">createhome  #是否创建家目录yes|no;</div><div class="line">system      #是否为系统用户;</div><div class="line">remove      #当state=absent时，remove=yes则表示连同家目录一起删除，等价于userdel -r;</div><div class="line">state       #是创建还是删除;</div><div class="line">shell       #指定用户的shell环境;</div></pre></td></tr></table></figure>
+<p>示例</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible all -m user -a "name=dandan group=dandan shell=/bin/bash state=present"</div><div class="line">192.168.56.81 | SUCCESS =&gt; &#123;</div><div class="line">    "changed": true, </div><div class="line">    "comment": "", </div><div class="line">    "createhome": true, </div><div class="line">    "group": 1000, </div><div class="line">    "home": "/home/dandan", </div><div class="line">    "name": "dandan", </div><div class="line">    "shell": "/bin/bash", </div><div class="line">    "state": "present", </div><div class="line">    "system": false, </div><div class="line">    "uid": 1000</div><div class="line">&#125;</div><div class="line">192.168.56.82 | SUCCESS =&gt; &#123;</div><div class="line">    "changed": true, </div><div class="line">    "comment": "", </div><div class="line">    "createhome": true, </div><div class="line">    "group": 1000, </div><div class="line">    "home": "/home/dandan", </div><div class="line">    "name": "dandan", </div><div class="line">    "shell": "/bin/bash", </div><div class="line">    "state": "present", </div><div class="line">    "system": false, </div><div class="line">    "uid": 1000</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="group"><a href="#group" class="headerlink" title="group"></a>group</h2><p>　　用户组管理</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible-doc -s group</div><div class="line">- name: Add or remove groups</div><div class="line">  action: group</div><div class="line">      gid                    # Optional `GID' to set for the group.</div><div class="line">      name=                  # Name of the group to manage.</div><div class="line">      state                  # Whether the group should be present or not on the remote host.</div><div class="line">      system                 # If `yes', indicates that the group created is a system group.</div></pre></td></tr></table></figure>
+<p>添加用户组<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible all -m group -a "name=dandan state=present system=no"</div><div class="line">192.168.56.82 | SUCCESS =&gt; &#123;</div><div class="line">    "changed": true, </div><div class="line">    "gid": 1000, </div><div class="line">    "name": "dandan", </div><div class="line">    "state": "present", </div><div class="line">    "system": false</div><div class="line">&#125;</div><div class="line">192.168.56.81 | SUCCESS =&gt; &#123;</div><div class="line">    "changed": true, </div><div class="line">    "gid": 1000, </div><div class="line">    "name": "dandan", </div><div class="line">    "state": "present", </div><div class="line">    "system": false</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>删除用户组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible all -m group -a "name=dandan state=absent "</div></pre></td></tr></table></figure>
+<h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h2><p>　　复制文件管理</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ansible]# ansible-doc -s copy</div><div class="line">- name: Copies files to remote locations.</div><div class="line">  action: copy</div><div class="line">      backup                 # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.</div><div class="line">      content                # When used instead of 'src', sets the contents of a file directly to the specified value. This is for simple values, for anything complex or with</div><div class="line">                               formatting please switch to the template module.</div><div class="line">      dest=                  # Remote absolute path where the file should be copied to. If src is a directory, this must be a directory too.</div><div class="line">      directory_mode         # When doing a recursive copy set the mode for the directories. If this is not set we will use the system defaults. The mode is only set on</div><div class="line">                               directories which are newly created, and will not affect those that already existed.</div><div class="line">      follow                 # This flag indicates that filesystem links, if they exist, should be followed.</div><div class="line">      force                  # the default is `yes', which will replace the remote file when contents are different than the source. If `no', the file will only be transferred</div><div class="line">                               if the destination does not exist.</div><div class="line">      group                  # name of the group that should own the file/directory, as would be fed to `chown'</div><div class="line">      mode                   # mode the file or directory should be. For those used to `/usr/bin/chmod' remember that modes are actually octal numbers (like 0644). Leaving off</div><div class="line">                               the leading zero will likely have unexpected results. As of version 1.8, the mode may be specified as a symbolic</div><div class="line">                               mode (for example, `u+rwx' or `u=rw,g=r,o=r').</div><div class="line">      owner                  # name of the user that should own the file/directory, as would be fed to `chown'</div><div class="line">      remote_src             # If False, it will search for src at originating/master machine, if True it will go to the remote/target machine for the src. Default is False.</div><div class="line">                               Currently remote_src does not support recursive copying.</div><div class="line">      selevel                # level part of the SELinux file context. This is the MLS/MCS attribute, sometimes known as the `range'. `_default' feature works as for `seuser'.</div><div class="line">      serole                 # role part of SELinux file context, `_default' feature works as for `seuser'.</div><div class="line">      setype                 # type part of SELinux file context, `_default' feature works as for `seuser'.</div><div class="line">      seuser                 # user part of SELinux file context. Will default to system policy, if applicable. If set to `_default', it will use the `user' portion of the</div><div class="line">                               policy if available</div><div class="line">      src                    # Local path to a file to copy to the remote server; can be absolute or relative. If path is a directory, it is copied recursively. In this case, if</div><div class="line">                               path ends with "/", only inside contents of that directory are copied to destination. Otherwise, if it does not end</div><div class="line">                               with "/", the directory itself with all contents is copied. This behavior is similar to Rsync.</div><div class="line">      unsafe_writes          # Normally this module uses atomic operations to prevent data corruption or inconsistent reads from the target files, sometimes systems are</div><div class="line">                               configured or just broken in ways that prevent this. One example are docker mounted files, they cannot be updated</div><div class="line">                               atomically and can only be done in an unsafe manner. This boolean option allows ansible to fall back to unsafe</div><div class="line">                               methods of updating files for those cases in which you do not have any other choice. Be aware that this is subject</div><div class="line">                               to race conditions and can lead to data corruption.</div><div class="line">      validate               # The validation command to run before copying into place. The path to the file to validate is passed in via '%s' which must be present as in the</div><div class="line">                               example below. The command is passed securely so shell features like expansion and pipes won't work.</div></pre></td></tr></table></figure>
+<p>拷贝hosts文件到目标主机</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ansible]# ansible webserver -m copy -a &quot;src=hosts dest=/app/ owner=nobody mode=664&quot;</div><div class="line">192.168.56.82 | SUCCESS =&gt; &#123;</div><div class="line">    &quot;changed&quot;: true, </div><div class="line">    &quot;checksum&quot;: &quot;49c073032d2e377dc43cf78fdc785a2c0c9f9afb&quot;, </div><div class="line">    &quot;dest&quot;: &quot;/app/hosts&quot;, </div><div class="line">    &quot;gid&quot;: 0, </div><div class="line">    &quot;group&quot;: &quot;root&quot;, </div><div class="line">    &quot;md5sum&quot;: &quot;8a8ee6929aff9d2c04bdf4c9172a82f0&quot;, </div><div class="line">    &quot;mode&quot;: &quot;0664&quot;, </div><div class="line">    &quot;owner&quot;: &quot;nobody&quot;, </div><div class="line">    &quot;size&quot;: 1085, </div><div class="line">    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1510890819.67-105660654269079/source&quot;, </div><div class="line">    &quot;state&quot;: &quot;file&quot;, </div><div class="line">    &quot;uid&quot;: 99</div><div class="line">&#125;</div><div class="line">192.168.56.81 | SUCCESS =&gt; &#123;</div><div class="line">    &quot;changed&quot;: true, </div><div class="line">    &quot;checksum&quot;: &quot;49c073032d2e377dc43cf78fdc785a2c0c9f9afb&quot;, </div><div class="line">    &quot;dest&quot;: &quot;/app/hosts&quot;, </div><div class="line">    &quot;gid&quot;: 0, </div><div class="line">    &quot;group&quot;: &quot;root&quot;, </div><div class="line">    &quot;md5sum&quot;: &quot;8a8ee6929aff9d2c04bdf4c9172a82f0&quot;, </div><div class="line">    &quot;mode&quot;: &quot;0664&quot;, </div><div class="line">    &quot;owner&quot;: &quot;nobody&quot;, </div><div class="line">    &quot;size&quot;: 1085, </div><div class="line">    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1510890819.69-125724656278827/source&quot;, </div><div class="line">    &quot;state&quot;: &quot;file&quot;, </div><div class="line">    &quot;uid&quot;: 99</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@centos81 ~]# ll /app/</div><div class="line">total 4</div><div class="line">drwxr-xr-x 2 root   root    6 Nov 16 20:43 ansible</div><div class="line">-rw-rw-r-- 1 nobody root 1085 Nov 17 11:53 hosts        # 拷贝过来hosts文件</div><div class="line">drwxr-xr-x 3 root   root   20 Nov 14 16:24 mysql</div></pre></td></tr></table></figure>
+<h2 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h2><p>　　从远程复制文件到本地，不能指定多个远程主机（多个主机如果都存在这个文件？？？怎么复制）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible-doc -s fetch</div><div class="line">- name: Fetches a file from remote nodes</div><div class="line">  action: fetch</div><div class="line">      dest=                  # A directory to save the file into. For example, if the `dest' directory is `/backup' a `src' file named</div><div class="line">                               `/etc/profile' on host `host.example.com', would be saved into</div><div class="line">                               `/backup/host.example.com/etc/profile'</div><div class="line">      fail_on_missing        # When set to 'yes', the task will fail if the source file is missing.</div><div class="line">      flat                   # Allows you to override the default behavior of appending hostname/path/to/file to the destination.  If</div><div class="line">                               dest ends with '/', it will use the basename of the source file, similar</div><div class="line">                               to the copy module. Obviously this is only handy if the filenames are</div><div class="line">                               unique.</div><div class="line">      src=                   # The file on the remote system to fetch. This `must' be a file, not a directory. Recursive fetching may</div><div class="line">                               be supported in a later release.</div><div class="line">      validate_checksum      # Verify that the source and destination checksums match after the files are fetched.</div></pre></td></tr></table></figure>
+<h2 id="file"><a href="#file" class="headerlink" title="file"></a>file</h2><p>　　创建文件  设置文件属性</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible all -m file -a "path=/app/ansible state=directory"</div><div class="line">192.168.56.81 | SUCCESS =&gt; &#123;</div><div class="line">    "changed": true, </div><div class="line">    "gid": 0, </div><div class="line">    "group": "root", </div><div class="line">    "mode": "0755", </div><div class="line">    "owner": "root", </div><div class="line">    "path": "/app/ansible", </div><div class="line">    "size": 6, </div><div class="line">    "state": "directory", </div><div class="line">    "uid": 0</div><div class="line">&#125;</div><div class="line">192.168.56.82 | SUCCESS =&gt; &#123;</div><div class="line">    "changed": true, </div><div class="line">    "gid": 0, </div><div class="line">    "group": "root", </div><div class="line">    "mode": "0755", </div><div class="line">    "owner": "root", </div><div class="line">    "path": "/app/ansible", </div><div class="line">    "size": 6, </div><div class="line">    "state": "directory", </div><div class="line">    "uid": 0</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是不能创建空文件，如果要创建一个空文件，可以使用copy一个文件，content为空</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible all -m file -a "path=/app/ansible.txt state=file"</div><div class="line">192.168.56.81 | FAILED! =&gt; &#123;</div><div class="line">    "changed": false, </div><div class="line">    "failed": true,             # 创建失败</div><div class="line">    "msg": "file (/app/ansible.txt) is absent, cannot continue", </div><div class="line">    "path": "/app/ansible.txt", </div><div class="line">    "state": "absent"</div><div class="line">&#125;</div><div class="line">192.168.56.82 | FAILED! =&gt; &#123;</div><div class="line">    "changed": false, </div><div class="line">    "failed": true, </div><div class="line">    "msg": "file (/app/ansible.txt) is absent, cannot continue", </div><div class="line">    "path": "/app/ansible.txt", </div><div class="line">    "state": "absent"</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="get-url"><a href="#get-url" class="headerlink" title="get_url"></a>get_url</h2><p>　　下载指定url文件到目标主机，主要用于从http、ftp、https服务器上下载文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible-doc  -s get_url</div><div class="line">Usage: ansible-doc [options] [module...]</div><div class="line"></div><div class="line">Options:</div><div class="line">url=                        #下载的URL;</div><div class="line">dest=                       # 指明下载到什么位置</div><div class="line">sha256sum                   #下载完成后进行sha256 check;</div><div class="line">timeout                     #下载超时时间，默认10s;</div><div class="line">url_password、url_username  #主要用于需要用户名密码进行验证的情况;</div><div class="line">use_proxy                   #使用代理,代理需事先在环境变更中定义;</div></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ansible test -m filesystem -a 'url=http://example.com/path/file.conf dest=/etc/foo.conf mode=0440'</div></pre></td></tr></table></figure>
+<h2 id="command"><a href="#command" class="headerlink" title="command"></a>command</h2><p>　　在远程主机执行命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible-doc -s command</div><div class="line">- name: Executes a command on a remote node</div><div class="line">  action: command</div><div class="line">      chdir                  # 切换目录执行  cd into this directory before running the command</div><div class="line">      creates                # 指定文件或目录存在则不执行  a filename or (since 2.0) glob pattern, when it already exists, this step will *not* be run.</div><div class="line">      executable             # change the shell used to execute the command. Should be an absolute path to the executable.</div><div class="line">      free_form=             # the command module takes a free form command to run.  There is no parameter actually named 'free form'. See the examples!</div><div class="line">      removes                # 如果文件不存在则不执行 a filename or (since 2.0) glob pattern, when it does not exist, this step will *not* be run.</div><div class="line">      warn                   # if command warnings are on in ansible.cfg, do not warn about this particular line if set to no/false.</div></pre></td></tr></table></figure>
+<p><strong>远程执行命令</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ansible]# ansible all -m command -a hostname</div><div class="line">192.168.56.81 | SUCCESS | rc=0 &gt;&gt;</div><div class="line">centos81</div><div class="line"></div><div class="line">192.168.56.83 | SUCCESS | rc=0 &gt;&gt;</div><div class="line">centos83</div><div class="line"></div><div class="line">192.168.56.82 | SUCCESS | rc=0 &gt;&gt;</div><div class="line">centos82</div></pre></td></tr></table></figure>
+<p><strong>问题：</strong></p>
+<p>这里使用管道修改密码，直接打印了出来，并未真正执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible all -m command -a "echo dandan | passwd --stdin dandan"</div><div class="line">192.168.56.81 | SUCCESS | rc=0 &gt;&gt;</div><div class="line">dandan | passwd --stdin dandan</div><div class="line"></div><div class="line">192.168.56.82 | SUCCESS | rc=0 &gt;&gt;</div><div class="line">dandan | passwd --stdin dandan</div></pre></td></tr></table></figure>
+<h2 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h2><p>　　上述问题使用shell模块即可，可是使用管道等shell命令特性</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible all -m shell -a "echo dandan | passwd --stdin dandan"</div><div class="line">192.168.56.81 | SUCCESS | rc=0 &gt;&gt;</div><div class="line">Changing password for user dandan.</div><div class="line">passwd: all authentication tokens updated successfully.</div><div class="line"></div><div class="line">192.168.56.82 | SUCCESS | rc=0 &gt;&gt;</div><div class="line">Changing password for user dandan.</div><div class="line">passwd: all authentication tokens updated successfully.</div></pre></td></tr></table></figure>
+<h2 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h2><p>　　计划任务管理</p>
+<p><strong>常用参数</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">name          #该任务的描述;</div><div class="line">backup        #对远程主机上的原任务计划内容修改之前做备份;</div><div class="line">cron_file     #如果指定该选项，则用该文件替换远程主机上的cron.d目录下的用户的任务计划;</div><div class="line">day           #日（1-31，，/2,……）;</div><div class="line">hour          #小时（0-23，，/2，……）;</div><div class="line">minute        #分钟（0-59，，/2，……）;</div><div class="line">month         #月（1-12，，/2，……）;</div><div class="line">weekday       #周（0-7，*，……）;</div><div class="line">job           #要执行的任务,依赖于state=present;</div><div class="line">special_time  #指定什么时候执行，参数：reboot(重启时),yearly(每年),annually,monthly,weekly,daily,hourly;</div><div class="line">state         #确认该任务计划是创建还是删除;</div><div class="line">user          #以哪个用户的身份执行;</div></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> ansible test -m cron -a 'name="a job for reboot" special_time=reboot job="/some/job.sh"'</div><div class="line"><span class="meta">$</span> ansible test -m cron -a 'name="yum autoupdate" minute=*/1 hour=* day=* month=* weekday=* user="root" job="date&gt;&gt;/tmp/1.txt"'</div><div class="line"><span class="meta">$</span> ansible test -m cron -a 'name="yum autoupdate" minute=1 hour=*/1 day=* month=* weekday=* user="root" job="date&gt;&gt;/tmp/1.txt"'</div><div class="line"><span class="meta">$</span> ansible test -m cron -a 'backup="True" name="test" minute="0" hour="5,2" job="ls -alh &gt; /dev/null"'</div><div class="line"><span class="meta">$</span> ansilbe test -m cron -a 'cron_file=ansible_yum-autoupdate state=absent'</div></pre></td></tr></table></figure>
+<h2 id="yum"><a href="#yum" class="headerlink" title="yum"></a>yum</h2><p>　　使用yum包管理器来管理软件包</p>
+<p><strong>常用参数</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">name               #要进行操作的软件包的名字，也可以传递一个url或者一个本地的rpm包的路径;</div><div class="line">config_file        #yum的配置文件;</div><div class="line">disable_gpg_check  #关闭gpg_check;</div><div class="line">disablerepo        #不启用某个源;</div><div class="line">enablerepo         #启用某个源;</div><div class="line">state              #用于描述安装包最终状态，&lt;em&gt;present/latest&lt;/em&gt;用于安装包，&lt;em&gt;absent&lt;/em&gt;用于卸载安装包;</div></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 安装最新版本的apache;</div><div class="line"><span class="meta">$</span> ansible test -m yum -a 'name=httpd state=latest'</div><div class="line"> </div><div class="line"><span class="meta">#</span> 移除apache;</div><div class="line"><span class="meta">$</span> ansible test -m yum -a 'name=httpd state=absent'</div><div class="line"> </div><div class="line"><span class="meta">#</span> 升级所有的软件包;</div><div class="line"><span class="meta">$</span> ansible test -m yum -a 'name=* state=latest '</div><div class="line"> </div><div class="line"><span class="meta">#</span> 安装整个Development tools相关的软件包;</div><div class="line"><span class="meta">$</span> ansible test -m yum -a 'name="@Development tools" state=present'</div><div class="line"> </div><div class="line"><span class="meta">#</span> 从本地仓库安装nginx;</div><div class="line"><span class="meta">$</span> ansible test -m yum -a 'name=/usr/local/src/nginx-release-centos-6-0.el6.ngx.noarch.rpm state=present'</div><div class="line"> </div><div class="line"><span class="meta">#</span> 从一个远程yum仓库安装nginx;</div><div class="line"><span class="meta">$</span> ansible test -m yum -a 'name=http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm state=present'</div></pre></td></tr></table></figure>
+<h2 id="service"><a href="#service" class="headerlink" title="service"></a>service</h2><p>　　主要用于管理主机服务</p>
+<p><strong>常用参数</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">name        #必选项,服务名称;</div><div class="line">state       #对当前服务执行启动，停止、重启、重新加载等操作（started, stopped, restarted, reloaded）;</div><div class="line">enabled     #是否开机启动yes|no;</div><div class="line">pattern     #定义一个模式，如果通过status指令来查看服务的状态时，没有响应，就会通过ps指令在进程中根据该模式进行查找，如果匹配到，则认为该服务依然在运行;</div><div class="line">runlevel    #运行级别;</div><div class="line">arguments   #给命令行提供一些选项;</div><div class="line">sleep       #如果执行了restarted，在则stop和start之间沉睡几秒钟;</div><div class="line">``` </div><div class="line"></div><div class="line">**示例**</div><div class="line"></div><div class="line">``` shell</div><div class="line"><span class="meta">$</span> ansible test -m service -a "name=httpd state=started enabled=yes"</div><div class="line"><span class="meta">$</span> ansible test -m service -a "name=foo pattern=/usr/bin/foo state=started"</div><div class="line"><span class="meta">$</span> ansible test -m service -a "name=network state=restarted args=eth0"</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div></pre></td><td class="code"><pre><div class="line">[root@centos80 ~]# ansible all -m service -a "name=mariadb state=started"</div><div class="line">192.168.56.82 | SUCCESS =&gt; &#123;</div><div class="line">    "changed": true, </div><div class="line">    "name": "mariadb", </div><div class="line">    "state": "started", </div><div class="line">    "status": &#123;</div><div class="line">        "ActiveEnterTimestamp": "Wed 2017-11-15 20:55:42 CST", </div><div class="line">        "ActiveEnterTimestampMonotonic": "2716911810", </div><div class="line">        "ActiveExitTimestamp": "Thu 2017-11-16 21:04:11 CST", </div><div class="line">        "ActiveExitTimestampMonotonic": "51948886270", </div><div class="line">        "ActiveState": "inactive", </div><div class="line">        "After": "systemd-journald.socket basic.target -.mount syslog.target network.target tmp.mount system.slice", </div><div class="line">        "AllowIsolate": "no", </div><div class="line">        "AssertResult": "yes", </div><div class="line">        "AssertTimestamp": "Wed 2017-11-15 20:55:39 CST", </div><div class="line">        "AssertTimestampMonotonic": "2713474837", </div><div class="line">        "Before": "shutdown.target multi-user.target", </div><div class="line">        "BlockIOAccounting": "no", </div><div class="line">        "BlockIOWeight": "18446744073709551615", </div><div class="line">        "CPUAccounting": "no", </div><div class="line">        "CPUQuotaPerSecUSec": "infinity", </div><div class="line">        "CPUSchedulingPolicy": "0", </div><div class="line">        "CPUSchedulingPriority": "0", </div><div class="line">        "CPUSchedulingResetOnFork": "no", </div><div class="line">        "CPUShares": "18446744073709551615", </div><div class="line">        "CanIsolate": "no", </div><div class="line">        "CanReload": "no", </div><div class="line">        "CanStart": "yes", </div><div class="line">        "CanStop": "yes", </div><div class="line">        "CapabilityBoundingSet": "18446744073709551615", </div><div class="line">        "ConditionResult": "yes", </div><div class="line">        "ConditionTimestamp": "Wed 2017-11-15 20:55:39 CST", </div><div class="line">        "ConditionTimestampMonotonic": "2713474836", </div><div class="line">        "Conflicts": "shutdown.target", </div><div class="line">        "ControlPID": "0", </div><div class="line">        "DefaultDependencies": "yes", </div><div class="line">        "Delegate": "no", </div><div class="line">        "Description": "MariaDB database server", </div><div class="line">        "DevicePolicy": "auto", </div><div class="line">        "ExecMainCode": "1", </div><div class="line">        "ExecMainExitTimestamp": "Thu 2017-11-16 21:04:12 CST", </div><div class="line">        "ExecMainExitTimestampMonotonic": "51949781779", </div><div class="line">        "ExecMainPID": "9883", </div><div class="line">        "ExecMainStartTimestamp": "Wed 2017-11-15 20:55:39 CST", </div><div class="line">        "ExecMainStartTimestampMonotonic": "2713725424", </div><div class="line">        "ExecMainStatus": "0", </div><div class="line">        "ExecStart": "&#123; path=/usr/bin/mysqld_safe ; argv[]=/usr/bin/mysqld_safe --basedir=/usr ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 &#125;", </div><div class="line">        "ExecStartPost": "&#123; path=/usr/libexec/mariadb-wait-ready ; argv[]=/usr/libexec/mariadb-wait-ready $MAINPID ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 &#125;", </div><div class="line">        "ExecStartPre": "&#123; path=/usr/libexec/mariadb-prepare-db-dir ; argv[]=/usr/libexec/mariadb-prepare-db-dir %n ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 &#125;", </div><div class="line">        "FailureAction": "none", </div><div class="line">        "FileDescriptorStoreMax": "0", </div><div class="line">        "FragmentPath": "/usr/lib/systemd/system/mariadb.service", </div><div class="line">        "Group": "mysql", </div><div class="line">        "GuessMainPID": "yes", </div><div class="line">        "IOScheduling": "0", </div><div class="line">        "Id": "mariadb.service", </div><div class="line">        "IgnoreOnIsolate": "no", </div><div class="line">        "IgnoreOnSnapshot": "no", </div><div class="line">        "IgnoreSIGPIPE": "yes", </div><div class="line">        "InactiveEnterTimestamp": "Thu 2017-11-16 21:04:12 CST", </div><div class="line">        "InactiveEnterTimestampMonotonic": "51949781892", </div><div class="line">        "InactiveExitTimestamp": "Wed 2017-11-15 20:55:39 CST", </div><div class="line">        "InactiveExitTimestampMonotonic": "2713476218", </div><div class="line">        "JobTimeoutAction": "none", </div><div class="line">        "JobTimeoutUSec": "0", </div><div class="line">        "KillMode": "control-group", </div><div class="line">        "KillSignal": "15", </div><div class="line">        "LimitAS": "18446744073709551615", </div><div class="line">        "LimitCORE": "18446744073709551615", </div><div class="line">        "LimitCPU": "18446744073709551615", </div><div class="line">        "LimitDATA": "18446744073709551615", </div><div class="line">        "LimitFSIZE": "18446744073709551615", </div><div class="line">        "LimitLOCKS": "18446744073709551615", </div><div class="line">        "LimitMEMLOCK": "65536", </div><div class="line">        "LimitMSGQUEUE": "819200", </div><div class="line">        "LimitNICE": "0", </div><div class="line">        "LimitNOFILE": "4096", </div><div class="line">        "LimitNPROC": "5701", </div><div class="line">        "LimitRSS": "18446744073709551615", </div><div class="line">        "LimitRTPRIO": "0", </div><div class="line">        "LimitRTTIME": "18446744073709551615", </div><div class="line">        "LimitSIGPENDING": "5701", </div><div class="line">        "LimitSTACK": "18446744073709551615", </div><div class="line">        "LoadState": "loaded", </div><div class="line">        "MainPID": "0", </div><div class="line">        "MemoryAccounting": "no", </div><div class="line">        "MemoryCurrent": "18446744073709551615", </div><div class="line">        "MemoryLimit": "18446744073709551615", </div><div class="line">        "MountFlags": "0", </div><div class="line">        "Names": "mariadb.service", </div><div class="line">        "NeedDaemonReload": "no", </div><div class="line">        "Nice": "0", </div><div class="line">        "NoNewPrivileges": "no", </div><div class="line">        "NonBlocking": "no", </div><div class="line">        "NotifyAccess": "none", </div><div class="line">        "OOMScoreAdjust": "0", </div><div class="line">        "OnFailureJobMode": "replace", </div><div class="line">        "PermissionsStartOnly": "no", </div><div class="line">        "PrivateDevices": "no", </div><div class="line">        "PrivateNetwork": "no", </div><div class="line">        "PrivateTmp": "yes", </div><div class="line">        "ProtectHome": "no", </div><div class="line">        "ProtectSystem": "no", </div><div class="line">        "RefuseManualStart": "no", </div><div class="line">        "RefuseManualStop": "no", </div><div class="line">        "RemainAfterExit": "no", </div><div class="line">        "Requires": "basic.target -.mount", </div><div class="line">        "RequiresMountsFor": "/var/tmp", </div><div class="line">        "Restart": "no", </div><div class="line">        "RestartUSec": "100ms", </div><div class="line">        "Result": "success", </div><div class="line">        "RootDirectoryStartOnly": "no", </div><div class="line">        "RuntimeDirectoryMode": "0755", </div><div class="line">        "SameProcessGroup": "no", </div><div class="line">        "SecureBits": "0", </div><div class="line">        "SendSIGHUP": "no", </div><div class="line">        "SendSIGKILL": "yes", </div><div class="line">        "Slice": "system.slice", </div><div class="line">        "StandardError": "inherit", </div><div class="line">        "StandardInput": "null", </div><div class="line">        "StandardOutput": "journal", </div><div class="line">        "StartLimitAction": "none", </div><div class="line">        "StartLimitBurst": "5", </div><div class="line">        "StartLimitInterval": "10000000", </div><div class="line">        "StartupBlockIOWeight": "18446744073709551615", </div><div class="line">        "StartupCPUShares": "18446744073709551615", </div><div class="line">        "StatusErrno": "0", </div><div class="line">        "StopWhenUnneeded": "no", </div><div class="line">        "SubState": "dead", </div><div class="line">        "SyslogLevelPrefix": "yes", </div><div class="line">        "SyslogPriority": "30", </div><div class="line">        "SystemCallErrorNumber": "0", </div><div class="line">        "TTYReset": "no", </div><div class="line">        "TTYVHangup": "no", </div><div class="line">        "TTYVTDisallocate": "no", </div><div class="line">        "TimeoutStartUSec": "5min", </div><div class="line">        "TimeoutStopUSec": "5min", </div><div class="line">        "TimerSlackNSec": "50000", </div><div class="line">        "Transient": "no", </div><div class="line">        "Type": "simple", </div><div class="line">        "UMask": "0022", </div><div class="line">        "UnitFilePreset": "disabled", </div><div class="line">        "UnitFileState": "enabled", </div><div class="line">        "User": "mysql", </div><div class="line">        "WantedBy": "multi-user.target", </div><div class="line">        "Wants": "system.slice", </div><div class="line">        "WatchdogTimestampMonotonic": "0", </div><div class="line">        "WatchdogUSec": "0"</div><div class="line">    &#125;, </div><div class="line">    "warnings": []</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ansible/" rel="tag"># ansible</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/17/devops/ansible2/" rel="next" title="ansible第二篇：简单使用">
+                <i class="fa fa-chevron-left"></i> ansible第二篇：简单使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/17/devops/YAML/" rel="prev" title="ansible第四篇 ：YAML">
+                ansible第四篇 ：YAML <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">imkindu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ansible-doc帮助文档"><span class="nav-number">1.</span> <span class="nav-text">ansible-doc帮助文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块列表"><span class="nav-number">2.</span> <span class="nav-text">模块列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用模块介绍"><span class="nav-number">3.</span> <span class="nav-text">常用模块介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ping"><span class="nav-number">4.</span> <span class="nav-text">ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#user"><span class="nav-number">5.</span> <span class="nav-text">user</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group"><span class="nav-number">6.</span> <span class="nav-text">group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#copy"><span class="nav-number">7.</span> <span class="nav-text">copy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fetch"><span class="nav-number">8.</span> <span class="nav-text">fetch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#file"><span class="nav-number">9.</span> <span class="nav-text">file</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get-url"><span class="nav-number">10.</span> <span class="nav-text">get_url</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#command"><span class="nav-number">11.</span> <span class="nav-text">command</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell"><span class="nav-number">12.</span> <span class="nav-text">shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cron"><span class="nav-number">13.</span> <span class="nav-text">cron</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yum"><span class="nav-number">14.</span> <span class="nav-text">yum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#service"><span class="nav-number">15.</span> <span class="nav-text">service</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">imkindu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

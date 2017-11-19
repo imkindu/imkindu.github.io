@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="mysqldump," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="mysqldump命令将数据库中的数据备份成一个文本文件。表的结构和表中的数据将存储在生成的文本文件中。 　　mysqldump命令的工作原理很简单。它先查出需要备份的表的结构，再在文本文件中生成一个CREATE语句。然后，将表中的所有记录转换成一条INSERT语句。然后通过这些语句，就能够创建表并插入数据。">
+<meta name="keywords" content="mysqldump">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysqldump选项">
+<meta property="og:url" content="http://yoursite.com/2017/09/21/mysql/mysqldump选项/index.html">
+<meta property="og:site_name" content="阿杜-开发博客">
+<meta property="og:description" content="mysqldump命令将数据库中的数据备份成一个文本文件。表的结构和表中的数据将存储在生成的文本文件中。 　　mysqldump命令的工作原理很简单。它先查出需要备份的表的结构，再在文本文件中生成一个CREATE语句。然后，将表中的所有记录转换成一条INSERT语句。然后通过这些语句，就能够创建表并插入数据。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-17T13:50:23.009Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysqldump选项">
+<meta name="twitter:description" content="mysqldump命令将数据库中的数据备份成一个文本文件。表的结构和表中的数据将存储在生成的文本文件中。 　　mysqldump命令的工作原理很简单。它先查出需要备份的表的结构，再在文本文件中生成一个CREATE语句。然后，将表中的所有记录转换成一条INSERT语句。然后通过这些语句，就能够创建表并插入数据。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/21/mysql/mysqldump选项/"/>
+
+
+
+
+
+  <title>mysqldump选项 | 阿杜-开发博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">阿杜-开发博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-linux">
+          <a href="/categories/linux/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            linux
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-java">
+          <a href="/categories/java/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            java
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-git">
+          <a href="/categories/git/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            git
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-nginx">
+          <a href="/categories/nginx/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            nginx
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-数据库">
+          <a href="/categories/database" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            数据库
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-开发编程">
+          <a href="/categories/program" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            开发编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-运维工具">
+          <a href="/categories/devops" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            运维工具
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-个人简介">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            个人简介
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/mysql/mysqldump选项/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="imkindu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿杜-开发博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysqldump选项</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-21T19:00:00+08:00">
+                2017-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　mysqldump命令将数据库中的数据备份成一个文本文件。表的结构和表中的数据将存储在生成的文本文件中。</p>
+<p>　　mysqldump命令的工作原理很简单。它先查出需要备份的表的结构，再在文本文件中生成一个CREATE语句。然后，将表中的所有记录转换成一条INSERT语句。然后通过这些语句，就能够创建表并插入数据。</p>
+<a id="more"></a>
+<hr>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><blockquote>
+<p>mysqldump [options] [db_name [tbl_name …]]</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shell&gt; mysqldump [options] db_name [tbl_name ...]</div><div class="line">shell&gt; mysqldump [options] --databases db_name ...</div><div class="line">shell&gt; mysqldump [options] --all-databases</div></pre></td></tr></table></figure>
+<h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><h3 id="备份单个库"><a href="#备份单个库" class="headerlink" title="备份单个库"></a>备份单个库</h3><blockquote>
+<p>mysqldump [options] db_name </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@ubuntu:/var/mysql/back# mysqldump -uroot -p123456 magedu &gt; /var/mysql/magedu.sql</div></pre></td></tr></table></figure>
+<h3 id="备份单个表"><a href="#备份单个表" class="headerlink" title="备份单个表"></a>备份单个表</h3><blockquote>
+<p>mysqldump [options] db_name tbl_name …</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">root@ubuntu:/var/mysql# mysqldump -uroot -p123456  --compact db2 b2;</div><div class="line">mysqldump: [Warning] Using a password on the command line interface can be insecure.</div><div class="line">/*!40101 SET @saved_cs_client     = @@character_set_client */;</div><div class="line">/*!40101 SET character_set_client = utf8 */;</div><div class="line">CREATE TABLE `b2` (</div><div class="line">  `id` int(11) DEFAULT NULL</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</div><div class="line">/*!40101 SET character_set_client = @saved_cs_client */;</div><div class="line">INSERT INTO `b2` VALUES (2);</div></pre></td></tr></table></figure>
+<h3 id="分库备份"><a href="#分库备份" class="headerlink" title="分库备份"></a>分库备份</h3><p> 　　分库备份使用原理：先查询数据库里有哪些库，分别使用Mysqldump命令就行备份。</p>
+<blockquote>
+<p><code>mysql -u root -p -e &quot;show databases;&quot; | egrep -vi &quot;databases|infor|perfor&quot; | sed &quot;s#^#mysqldump -r root -p -B#g&quot;</code></p>
+</blockquote>
+<hr>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><blockquote>
+<p>–all-databases  , -A</p>
+</blockquote>
+<p>导出全部数据库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqldump  -uroot -p --all-databases</div></pre></td></tr></table></figure>
+<blockquote>
+<p>–compact</p>
+</blockquote>
+<p>导出更少的输出信息(用于调试)。去掉注释和头尾等结构。可以使用选项：–skip-add-drop-table  –skip-add-locks –skip-comments –skip-disable-keys<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqldump  -uroot -p --all-databases --compact</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>–databases,  -B</p>
+</blockquote>
+<p>导出几个数据库。参数后面所有名字参量都被看作数据库名。-B 会添加create databases和use database语句，导入数据时，不用建库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqldump  -uroot -p --databases test mysql</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>–default-character-set</p>
+</blockquote>
+<p>设置默认字符集，默认值为utf8<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqldump  -uroot -p --all-databases --default-character-set=latin1</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>–single-transaction             #innodb事务备份</p>
+</blockquote>
+<p>该选项在导出数据之前提交一个BEGIN SQL语句，BEGIN 不会阻塞任何应用程序且能保证导出时数据库的一致性状态。它只适用于多版本存储引擎，仅InnoDB。本选项和–lock-tables 选项是互斥的，因为LOCK  TABLES 会使任何挂起的事务隐含提交。要想导出大表的话，应结合使用–quick 选项。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqldump  -uroot -p --host=localhost --all-databases --single-transaction</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>–all-tablespaces  , -Y</p>
+</blockquote>
+<p>导出全部表空间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqldump  -uroot -p --all-databases --all-tablespaces</div></pre></td></tr></table></figure>
+<blockquote>
+<p>–no-tablespaces  , -y</p>
+</blockquote>
+<p>不导出任何表空间信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqldump  -uroot -p --all-databases --no-tablespaces</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>| gzip 管道压缩,备份成gz压缩文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqldump -uroot -p123456 --all-databases | gzip &gt; back.sql.gz</div></pre></td></tr></table></figure>
+<hr>
+<p>–add-drop-database</p>
+<p>每个数据库创建之前添加drop数据库语句。</p>
+<p>mysqldump  -uroot -p –all-databases –add-drop-database</p>
+<p>–add-drop-table</p>
+<p>每个数据表创建之前添加drop数据表语句。(默认为打开状态，使用–skip-add-drop-table取消选项)</p>
+<p>mysqldump  -uroot -p –all-databases  (默认添加drop语句)</p>
+<p>mysqldump  -uroot -p –all-databases –skip-add-drop-table  (取消drop语句)</p>
+<p>–add-locks</p>
+<p>在每个表导出之前增加LOCK TABLES并且之后UNLOCK  TABLE。(默认为打开状态，使用–skip-add-locks取消选项)</p>
+<p>mysqldump  -uroot -p –all-databases  (默认添加LOCK语句)</p>
+<p>mysqldump  -uroot -p –all-databases –skip-add-locks   (取消LOCK语句)</p>
+<p>–allow-keywords</p>
+<p>允许创建是关键词的列名字。这由表名前缀于每个列名做到。</p>
+<p>mysqldump  -uroot -p –all-databases –allow-keywords</p>
+<p>–apply-slave-statements</p>
+<p>在’CHANGE MASTER’前添加’STOP SLAVE’，并且在导出的最后添加’START SLAVE’。</p>
+<p>mysqldump  -uroot -p –all-databases –apply-slave-statements</p>
+<p>–character-sets-dir</p>
+<p>字符集文件的目录</p>
+<p>mysqldump  -uroot -p –all-databases  –character-sets-dir=/usr/local/mysql/share/mysql/charsets</p>
+<p>–comments</p>
+<p>附加注释信息。默认为打开，可以用–skip-comments取消</p>
+<p>mysqldump  -uroot -p –all-databases  (默认记录注释)</p>
+<p>mysqldump  -uroot -p –all-databases –skip-comments   (取消注释)</p>
+<p>–compatible</p>
+<p>导出的数据将和其它数据库或旧版本的MySQL 相兼容。值可以为ansi、mysql323、mysql40、postgresql、oracle、mssql、db2、maxdb、no_key_options、no_tables_options、no_field_options等，</p>
+<p>要使用几个值，用逗号将它们隔开。它并不保证能完全兼容，而是尽量兼容。</p>
+<p>mysqldump  -uroot -p –all-databases –compatible=ansi</p>
+<p>–complete-insert,  -c</p>
+<p>使用完整的insert语句(包含列名称)。这么做能提高插入效率，但是可能会受到max_allowed_packet参数的影响而导致插入失败。</p>
+<p>mysqldump  -uroot -p –all-databases –complete-insert</p>
+<p>–compress, -C</p>
+<p>在客户端和服务器之间启用压缩传递所有信息</p>
+<p>mysqldump  -uroot -p –all-databases –compress</p>
+<p>–create-options,  -a</p>
+<p>在CREATE TABLE语句中包括所有MySQL特性选项。(默认为打开状态)</p>
+<p>mysqldump  -uroot -p –all-databases</p>
+<p>–debug</p>
+<p>输出debug信息，用于调试。默认值为：d:t:o,/tmp/mysqldump.trace</p>
+<p>mysqldump  -uroot -p –all-databases –debug</p>
+<p>mysqldump  -uroot -p –all-databases –debug=” d:t:o,/tmp/debug.trace”</p>
+<p>–debug-check</p>
+<p>检查内存和打开文件使用说明并退出。</p>
+<p>mysqldump  -uroot -p –all-databases –debug-check</p>
+<p>–debug-info</p>
+<p>输出调试信息并退出</p>
+<p>mysqldump  -uroot -p –all-databases –debug-info</p>
+<p>–delayed-insert</p>
+<p>采用延时插入方式（INSERT DELAYED）导出数据</p>
+<p>mysqldump  -uroot -p –all-databases –delayed-insert</p>
+<p>–delete-master-logs</p>
+<p>master备份后删除日志. 这个参数将自动激活–master-data。</p>
+<p>mysqldump  -uroot -p –all-databases –delete-master-logs</p>
+<p>–disable-keys</p>
+<p>对于每个表，用/<em>!40000 ALTER TABLE tbl_name DISABLE KEYS </em>/;和/<em>!40000 ALTER TABLE tbl_name ENABLE KEYS </em>/;语句引用INSERT语句。这样可以更快地导入dump出来的文件，因为它是在插入所有行后创建索引的。该选项只适合MyISAM表，默认为打开状态。</p>
+<p>mysqldump  -uroot -p –all-databases </p>
+<p>–dump-slave</p>
+<p>该选项将导致主的binlog位置和文件名追加到导出数据的文件中。设置为1时，将会以CHANGE MASTER命令输出到数据文件；设置为2时，在命令前增加说明信息。该选项将会打开–lock-all-tables，除非–single-transaction被指定。该选项会自动关闭–lock-tables选项。默认值为0。</p>
+<p>mysqldump  -uroot -p –all-databases –dump-slave=1</p>
+<p>mysqldump  -uroot -p –all-databases –dump-slave=2</p>
+<p>–events, -E</p>
+<p>导出事件。</p>
+<p>mysqldump  -uroot -p –all-databases –events</p>
+<p>–extended-insert,  -e</p>
+<p>使用具有多个VALUES列的INSERT语法。这样使导出文件更小，并加速导入时的速度。默认为打开状态，使用–skip-extended-insert取消选项。</p>
+<p>mysqldump  -uroot -p –all-databases</p>
+<p>mysqldump  -uroot -p –all-databases–skip-extended-insert   (取消选项)</p>
+<p>–fields-terminated-by</p>
+<p>导出文件中忽略给定字段。与–tab选项一起使用，不能用于–databases和–all-databases选项</p>
+<p>mysqldump  -uroot -p test test –tab=”/home/mysql” –fields-terminated-by=”#”</p>
+<p>–fields-enclosed-by</p>
+<p>输出文件中的各个字段用给定字符包裹。与–tab选项一起使用，不能用于–databases和–all-databases选项</p>
+<p>mysqldump  -uroot -p test test –tab=”/home/mysql” –fields-enclosed-by=”#”</p>
+<p>–fields-optionally-enclosed-by</p>
+<p>输出文件中的各个字段用给定字符选择性包裹。与–tab选项一起使用，不能用于–databases和–all-databases选项</p>
+<p>mysqldump  -uroot -p test test –tab=”/home/mysql”  –fields-enclosed-by=”#” –fields-optionally-enclosed-by  =”#”</p>
+<p>–fields-escaped-by</p>
+<p>输出文件中的各个字段忽略给定字符。与–tab选项一起使用，不能用于–databases和–all-databases选项</p>
+<p>mysqldump  -uroot -p mysql user –tab=”/home/mysql” –fields-escaped-by=”#”</p>
+<p>–flush-logs</p>
+<p>开始导出之前刷新日志。</p>
+<p>请注意：假如一次导出多个数据库(使用选项–databases或者–all-databases)，将会逐个数据库刷新日志。除使用–lock-all-tables或者–master-data外。在这种情况下，日志将会被刷新一次，相应的所以表同时被锁定。因此，如果打算同时导出和刷新日志应该使用–lock-all-tables 或者–master-data 和–flush-logs。</p>
+<p>mysqldump  -uroot -p –all-databases –flush-logs</p>
+<p>–flush-privileges</p>
+<p>在导出mysql数据库之后，发出一条FLUSH  PRIVILEGES 语句。为了正确恢复，该选项应该用于导出mysql数据库和依赖mysql数据库数据的任何时候。</p>
+<p>mysqldump  -uroot -p –all-databases –flush-privileges</p>
+<p>–force</p>
+<p>在导出过程中忽略出现的SQL错误。</p>
+<p>mysqldump  -uroot -p –all-databases –force</p>
+<p>–help</p>
+<p>显示帮助信息并退出。</p>
+<p>mysqldump  –help</p>
+<p>–hex-blob</p>
+<p>使用十六进制格式导出二进制字符串字段。如果有二进制数据就必须使用该选项。影响到的字段类型有BINARY、VARBINARY、BLOB。</p>
+<p>mysqldump  -uroot -p –all-databases –hex-blob</p>
+<p>–host, -h</p>
+<p>需要导出的主机信息</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases</p>
+<p>–ignore-table</p>
+<p>不导出指定表。指定忽略多个表时，需要重复多次，每次一个表。每个表必须同时指定数据库和表名。例如：–ignore-table=database.table1 –ignore-table=database.table2 ……</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –ignore-table=mysql.user</p>
+<p>–include-master-host-port</p>
+<p>在–dump-slave产生的’CHANGE  MASTER TO..’语句中增加’MASTER_HOST=<host>，MASTER_PORT=<port>‘  </port></host></p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –include-master-host-port</p>
+<p>–insert-ignore</p>
+<p>在插入行时使用INSERT IGNORE语句.</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –insert-ignore</p>
+<p>–lines-terminated-by</p>
+<p>输出文件的每行用给定字符串划分。与–tab选项一起使用，不能用于–databases和–all-databases选项。</p>
+<p>mysqldump  -uroot -p –host=localhost test test –tab=”/tmp/mysql”  –lines-terminated-by=”##”</p>
+<p>–lock-all-tables,  -x</p>
+<p>提交请求锁定所有数据库中的所有表，以保证数据的一致性。这是一个全局读锁，并且自动关闭–single-transaction 和–lock-tables 选项。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –lock-all-tables</p>
+<p>–lock-tables,  -l</p>
+<p>开始导出前，锁定所有表。用READ  LOCAL锁定表以允许MyISAM表并行插入。对于支持事务的表例如InnoDB和BDB，–single-transaction是一个更好的选择，因为它根本不需要锁定表。</p>
+<p>请注意当导出多个数据库时，–lock-tables分别为每个数据库锁定表。因此，该选项不能保证导出文件中的表在数据库之间的逻辑一致性。不同数据库表的导出状态可以完全不同。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –lock-tables</p>
+<p>–log-error</p>
+<p>附加警告和错误信息到给定文件</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases  –log-error=/tmp/mysqldump_error_log.err</p>
+<p>–master-data</p>
+<p>该选项将binlog的位置和文件名追加到输出文件中。如果为1，将会输出CHANGE MASTER 命令；如果为2，输出的CHANGE  MASTER命令前添加注释信息。该选项将打开–lock-all-tables 选项，除非–single-transaction也被指定（在这种情况下，全局读锁在开始导出时获得很短的时间；其他内容参考下面的–single-transaction选项）。该选项自动关闭–lock-tables选项。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –master-data=1;</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –master-data=2;</p>
+<p>–max_allowed_packet</p>
+<p>服务器发送和接受的最大包长度。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –max_allowed_packet=10240</p>
+<p>–net_buffer_length</p>
+<p>TCP/IP和socket连接的缓存大小。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –net_buffer_length=1024</p>
+<p>–no-autocommit</p>
+<p>使用autocommit/commit 语句包裹表。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –no-autocommit</p>
+<p>–no-create-db,  -n</p>
+<p>只导出数据，而不添加CREATE DATABASE 语句。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –no-create-db</p>
+<p>–no-create-info,  -t</p>
+<p>只导出数据，而不添加CREATE TABLE 语句。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –no-create-info</p>
+<p>–no-data, -d</p>
+<p>不导出任何数据，只导出数据库表结构。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –no-data</p>
+<p>–no-set-names,  -N</p>
+<p>等同于–skip-set-charset</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –no-set-names</p>
+<p>–opt</p>
+<p>等同于–add-drop-table,  –add-locks, –create-options, –quick, –extended-insert, –lock-tables,  –set-charset, –disable-keys 该选项默认开启,  可以用–skip-opt禁用.</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –opt</p>
+<p>–order-by-primary</p>
+<p>如果存在主键，或者第一个唯一键，对每个表的记录进行排序。在导出MyISAM表到InnoDB表时有效，但会使得导出工作花费很长时间。 </p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –order-by-primary</p>
+<p>–password, -p</p>
+<p>连接数据库密码</p>
+<p>–pipe(windows系统可用)</p>
+<p>使用命名管道连接mysql</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –pipe</p>
+<p>–port, -P</p>
+<p>连接数据库端口号</p>
+<p>–protocol</p>
+<p>使用的连接协议，包括：tcp, socket, pipe, memory.</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –protocol=tcp</p>
+<p>–quick, -q</p>
+<p>不缓冲查询，直接导出到标准输出。默认为打开状态，使用–skip-quick取消该选项。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases </p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –skip-quick</p>
+<p>–quote-names,-Q</p>
+<p>使用（`）引起表和列名。默认为打开状态，使用–skip-quote-names取消该选项。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –skip-quote-names</p>
+<p>–replace</p>
+<p>使用REPLACE INTO 取代INSERT INTO.</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –replace</p>
+<p>–result-file,  -r</p>
+<p>直接输出到指定文件中。该选项应该用在使用回车换行对（\r\n）换行的系统上（例如：DOS，Windows）。该选项确保只有一行被使用。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –result-file=/tmp/mysqldump_result_file.txt</p>
+<p>–routines, -R</p>
+<p>导出存储过程以及自定义函数。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –routines</p>
+<p>–set-charset</p>
+<p>添加’SET NAMES  default_character_set’到输出文件。默认为打开状态，使用–skip-set-charset关闭选项。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases </p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –skip-set-charset</p>
+<p>–dump-date</p>
+<p>将导出时间添加到输出文件中。默认为打开状态，使用–skip-dump-date关闭选项。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –skip-dump-date</p>
+<p>–skip-opt</p>
+<p>禁用–opt选项.</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –skip-opt</p>
+<p>–socket,-S</p>
+<p>指定连接mysql的socket文件位置，默认路径/tmp/mysql.sock</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –socket=/tmp/mysqld.sock</p>
+<p>–tab,-T</p>
+<p>为每个表在给定路径创建tab分割的文本文件。注意：仅仅用于mysqldump和mysqld服务器运行在相同机器上。</p>
+<p>mysqldump  -uroot -p –host=localhost test test –tab=”/home/mysql”</p>
+<p>–tables</p>
+<p>覆盖–databases (-B)参数，指定需要导出的表名。</p>
+<p>mysqldump  -uroot -p –host=localhost –databases test –tables test</p>
+<p>–triggers</p>
+<p>导出触发器。该选项默认启用，用–skip-triggers禁用它。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –triggers</p>
+<p>–tz-utc</p>
+<p>在导出顶部设置时区TIME_ZONE=’+00:00’ ，以保证在不同时区导出的TIMESTAMP 数据或者数据被移动其他时区时的正确性。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –tz-utc</p>
+<p>–user, -u</p>
+<p>指定连接的用户名。</p>
+<p>–verbose, –v</p>
+<p>输出多种平台信息。</p>
+<p>–version, -V</p>
+<p>输出mysqldump版本信息并退出</p>
+<p>–where, -w</p>
+<p>只转储给定的WHERE条件选择的记录。请注意如果条件包含命令解释符专用空格或字符，一定要将条件引用起来。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –where=” user=’root’”</p>
+<p>–xml, -X</p>
+<p>导出XML格式.</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –xml</p>
+<p>–plugin_dir</p>
+<p>客户端插件的目录，用于兼容不同的插件版本。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –plugin_dir=”/usr/local/lib/plugin”</p>
+<p>–default_auth</p>
+<p>客户端插件默认使用权限。</p>
+<p>mysqldump  -uroot -p –host=localhost –all-databases –default-auth=”/usr/local/lib/plugin/<plugin>”</plugin></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysqldump/" rel="tag"># mysqldump</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/16/linux/DHCP/" rel="next" title="DHCP">
+                <i class="fa fa-chevron-left"></i> DHCP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/21/mysql/存储引擎/" rel="prev" title="存储引擎">
+                存储引擎 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">imkindu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备份"><span class="nav-number">2.</span> <span class="nav-text">备份</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#备份单个库"><span class="nav-number">2.1.</span> <span class="nav-text">备份单个库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份单个表"><span class="nav-number">2.2.</span> <span class="nav-text">备份单个表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分库备份"><span class="nav-number">2.3.</span> <span class="nav-text">分库备份</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">3.</span> <span class="nav-text">参数</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">imkindu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

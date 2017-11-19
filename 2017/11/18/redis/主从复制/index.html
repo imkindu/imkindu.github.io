@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="redis sentinel 监控、通知、自动故障转移  选举：流言协议  quorum机制（投票） 独立服务">
+<meta property="og:type" content="article">
 <meta property="og:title" content="阿杜-开发博客">
-<meta property="og:url" content="http://yoursite.com/categories/php/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/11/18/redis/主从复制/index.html">
 <meta property="og:site_name" content="阿杜-开发博客">
+<meta property="og:description" content="redis sentinel 监控、通知、自动故障转移  选举：流言协议  quorum机制（投票） 独立服务">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-18T12:14:23.523Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="阿杜-开发博客">
+<meta name="twitter:description" content="redis sentinel 监控、通知、自动故障转移  选举：流言协议  quorum机制（投票） 独立服务">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/php/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/18/redis/主从复制/"/>
 
 
 
 
 
-  <title>分类: php | 阿杜-开发博客</title>
+  <title> | 阿杜-开发博客</title>
   
 
 
@@ -140,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -206,32 +210,12 @@
         </li>
       
         
-        <li class="menu-item menu-item-php">
-          <a href="/categories/php/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
-            
-            php
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-java">
           <a href="/categories/java/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
             
             java
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-mysql">
-          <a href="/categories/mysql/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
-            
-            mysql
           </a>
         </li>
       
@@ -252,6 +236,36 @@
               <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
             
             nginx
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-数据库">
+          <a href="/categories/database" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            数据库
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-开发编程">
+          <a href="/categories/program" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            开发编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-运维工具">
+          <a href="/categories/devops" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            运维工具
           </a>
         </li>
       
@@ -318,55 +332,145 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>php<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/18/redis/主从复制/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="imkindu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿杜-开发博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/10/11/php/编译安装php-mongo和php-mongodb拓展/" itemprop="url">
-              
-                <span itemprop="name">php-mongo和php-mongodb扩展</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-11T20:00:00+08:00"
-              content="2017-10-11" >
-          10-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-18T17:48:05+08:00">
+                2017-11-18
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>redis sentinel</p>
+<pre><code>监控、通知、自动故障转移
+
+选举：流言协议  quorum机制（投票）
+</code></pre><p>独立服务</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/18/devops/template/" rel="next" title="ansible第七篇：template模板">
+                <i class="fa fa-chevron-left"></i> ansible第七篇：template模板
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -374,6 +478,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -410,7 +518,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -421,7 +529,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -432,7 +540,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -591,6 +699,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
